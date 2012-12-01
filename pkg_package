@@ -1,8 +1,18 @@
 #!/bin/bash
 
-processors=$(cat /proc/cpuinfo | grep "processor" | wc -l)
+processors=$processors
 tmpdir=$(mktemp -d)
-destfile=${1//\//_}.tar.xz
+destfile=$2
+
+if [ -z "$destfile" ]
+then
+	destfile=${1//\//_}.tar.xz
+fi
+
+if [ -z "$processors" ]
+then
+	processors=$(cat /proc/cpuinfo | grep "processor" | wc -l)
+fi
 
 make -j $processors -C $1 DESTDIR=$tmpdir install
 tar -C $tmpdir --anchored -c ./ | xz > $destfile
