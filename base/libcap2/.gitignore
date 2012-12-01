@@ -1,0 +1,4 @@
+prepare
+build/
+libcap2_*
+libcap-*

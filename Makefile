@@ -1,0 +1,7 @@
+PACKAGES := base kernel
+.PHONY: $(PACKAGES)
+
+$(MAKECMDGOALS): $(PACKAGES)
+
+$(PACKAGES):
+	-$(MAKE) -C $@ $(MAKECMDGOALS)

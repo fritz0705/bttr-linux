@@ -1,0 +1,30 @@
+#!/bin/sh
+# pkg_create NAME
+
+mkdir -p $1
+cd $1
+cat > Makefile <<MAKEFILE
+PREFIX=/usr
+DESTDIR=
+
+all: prepare
+	# Build instructions
+
+prepare:
+	# Prepare instructions
+	mkdir -p build
+	touch prepare
+
+install: all
+	# Installation instructions
+
+clean:
+	rm -rf build/
+	rm -f prepare
+MAKEFILE
+
+cat > .gitignore <<GITIGNORE
+prepare
+build/
+GITIGNORE
+

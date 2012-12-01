@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ -f $1 ]
+then
+	if [ -z "$DESTDIR" ]
+	then
+		DESTDIR="/"
+	fi
+	xz -cd $1 | tar -x -C $DESTDIR
+else
+	make -C $1 -j $(cat /proc/cpuinfo | grep "processor" | wc -l) install
+fi
