@@ -1,6 +1,12 @@
 PREFIX=/usr
 DESTDIR=
 
+ifeq ($(shell id -u),0)
+	RAISE_SETFCAP=yes
+else
+	RAISE_SETFCAP=no
+endif
+
 all: prepare
 	$(MAKE) -C libcap-2.22/ all
 
@@ -14,7 +20,7 @@ libcap2_2.22.orig.tar.gz:
 	wget ftp://ftp.de.debian.org/debian/pool/main/libc/libcap2/libcap2_2.22.orig.tar.gz
 
 install: all
-	$(MAKE) -C libcap-2.22/ install DESTDIR=$(DESTDIR)
+	$(MAKE) -C libcap-2.22/ install DESTDIR=$(DESTDIR) RAISE_SETFCAP=$(RAISE_SETFCAP)
 
 clean:
 	rm -rf build/

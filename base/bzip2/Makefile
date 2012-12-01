@@ -35,6 +35,6 @@ install: all
 
 clean:
 	rm -f prepare
-	rm -rf bzip-1.0.6
-	rm -f bzip-1.0.6.tar.gz
+	rm -rf bzip2-1.0.6
+	rm -f bzip2-1.0.6.tar.gz
 

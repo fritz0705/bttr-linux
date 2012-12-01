@@ -1,8 +1,10 @@
 PREFIX=/usr
 DESTDIR=
+LANGUAGES=c,c++
 
 all: prepare
-	cd build && ../gcc-4.7.2/configure --prefix=$(PREFIX)
+	cd build && ../gcc-4.7.2/configure --prefix=$(PREFIX) \
+		--enable-languages=$(LANGUAGES)
 	$(MAKE) -C build all-gcc
 
 prepare: gcc-4.7.2.tar.gz
