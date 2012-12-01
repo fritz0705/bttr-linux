@@ -2,7 +2,7 @@
 
 processors=$(cat /proc/cpuinfo | grep "processor" | wc -l)
 tmpdir=$(mktemp -d)
-destfile=${1/\//_}.tar.xz
+destfile=${1//\//_}.tar.xz
 
 make -j $processors -C $1 DESTDIR=$tmpdir install
 tar -C $tmpdir --anchored -c ./ | xz > $destfile
