@@ -1,3 +1,5 @@
+# You should not change any directories for this package, it could break your
+# system and thus you will need a Live CD (confer Murphy's law)
 PREFIX=/usr
 DESTDIR=
 
@@ -25,8 +27,7 @@ glibc-2.16.0.tar.gz:
 	wget ftp://ftp.gnu.org/gnu/glibc/glibc-2.16.0.tar.gz
 
 install: all
-	ln -sf usr/lib $(DESTDIR)/lib64
-	ln -sf usr/lib $(DESTDIR)/lib
+	ln -sf lib64 $(DESTDIR)/lib
 	$(MAKE) -C build install_root=$(DESTDIR) install
 
 clean:
@@ -34,5 +35,4 @@ clean:
 	rm -f glibc-2.16.0.tar.gz
 	rm -rf glibc-2.16.0
 	rm -f prepare
-
 
