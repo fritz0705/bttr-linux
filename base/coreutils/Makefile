@@ -1,8 +1,10 @@
 PREFIX=/usr
 DESTDIR=
+BINDIR:=/bin
 
 all: prepare
-	cd build && ../coreutils-8.20/configure --prefix=$(PREFIX)
+	cd build && ../coreutils-8.20/configure --prefix=$(PREFIX) \
+		--bindir=$(BINDIR)
 	$(MAKE) -C build/ all
 
 prepare: coreutils-8.20.tar.xz
