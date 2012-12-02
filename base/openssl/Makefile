@@ -20,7 +20,8 @@ prepare: openssl-1.0.1c.tar.gz
 	touch prepare
 
 openssl-1.0.1c.tar.gz:
-	wget https://www.openssl.org/source/openssl-1.0.1c.tar.gz
+	# --no-check-certificate is important
+	wget --no-check-certificate https://www.openssl.org/source/openssl-1.0.1c.tar.gz
 
 install: all
 	$(MAKE) -C openssl-1.0.1c install INSTALL_PREFIX=$(DESTDIR)
