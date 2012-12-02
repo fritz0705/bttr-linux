@@ -1,0 +1,15 @@
+                           Uranium Linux Distribution
+
+  Uranium Linux is a source-based Linux Distribution, which is similar to other
+source-based Linux Distributions like Gentoo[1] or Exherbo[2], but also to
+BSD operating systems like FreeBSD[3] and NetBSD[4]. It tries to use Makefiles
+as a package build system like BSD ports does, in addition to the effort to
+compile mostly without patches.
+
+[1] Gentoo Linux <http://www.gentoo.org/>
+[2] Exherbo <http://exherbo.org/>
+[3] FreeBSD <http://www.freebsd.org/>
+[4] NetBSD <http://netbsd.org/>
+
+  vim:sw=2:ts=2:sts=2:et:tw=80:
+
