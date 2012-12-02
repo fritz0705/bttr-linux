@@ -3,7 +3,7 @@ DESTDIR=
 
 all: prepare
 	cd build && ../ncurses-5.9/configure --prefix=$(PREFIX) \
-		--enable-widec \
+		--with-termlib \
 		--with-normal \
 		--with-shared
 	$(MAKE) -C build all
