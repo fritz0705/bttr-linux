@@ -1,8 +1,13 @@
 PREFIX=/usr
 DESTDIR=
 
+LIBDIR:=$(PREFIX)/lib
+LIBEXECDIR:=$(PREFIX)/lib
+
 all: prepare
 	cd build && ../glibc-2.16.0/configure --prefix=$(PREFIX) \
+		--libdir=$(LIBDIR) \
+		--libexecdir=$(LIBEXECDIR) \
 		--enable-add-ons=nptl,libidn \
 		--enable-obsolete-rpc \
 		--enable-kernel=2.6.32 \
@@ -20,6 +25,8 @@ glibc-2.16.0.tar.gz:
 	wget ftp://ftp.gnu.org/gnu/glibc/glibc-2.16.0.tar.gz
 
 install: all
+	ln -sf usr/lib $(DESTDIR)/lib64
+	ln -sf usr/lib $(DESTDIR)/lib
 	$(MAKE) -C build install_root=$(DESTDIR) install
 
 clean:
