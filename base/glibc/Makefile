@@ -28,7 +28,10 @@ glibc-2.16.0.tar.gz:
 
 install: all
 	ln -sf lib64 $(DESTDIR)/lib
-	$(MAKE) -C build install_root=$(DESTDIR) install
+	# We disable perl installation tests because it's broken and it's not my
+	# problem because it's the Glibc! Piss o your lovely Glibc Maintainer
+	# Ulrich Drepper if you can.
+	$(MAKE) -C build install_root=$(DESTDIR) PERL=no install
 
 clean:
 	rm -rf build/
