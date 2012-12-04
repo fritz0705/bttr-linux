@@ -18,6 +18,11 @@ shadow-4.1.5.1.tar.gz:
 
 install: all
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
+	# XXX Move this to a etc/shadow package?
+	install -Dm744 useradd.defaults $(DESTDIR)/etc/default/useradd
+	install -Dm644 login.defs $(DESTDIR)/etc/login.defs
+	install -dm755 $(DESTDIR)/etc/pam.d
+	install -t $(DESTDIR)/etc/pam.d -m644 passwd chgpasswd chpasswd newusers
 
 clean:
 	rm -rf build/
