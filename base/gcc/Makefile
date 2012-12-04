@@ -4,7 +4,7 @@ LANGUAGES=c,c++
 
 all: prepare
 	cd build && ../gcc-4.7.2/configure --prefix=$(PREFIX) \
-		--enable-languages=$(LANGUAGES)
+		--enable-languages=$(LANGUAGES) --disable-multilib
 	$(MAKE) -C build all
 
 prepare: gcc-4.7.2.tar.gz
