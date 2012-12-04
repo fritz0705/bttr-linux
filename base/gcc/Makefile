@@ -17,6 +17,7 @@ gcc-4.7.2.tar.gz:
 
 install: all
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
+	ln -sf gcc $(DESTDIR)/$(PREFIX)/bin/cc
 
 clean:
 	rm -rf build/
