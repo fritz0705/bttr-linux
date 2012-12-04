@@ -2,7 +2,8 @@ PREFIX=/usr
 DESTDIR=
 
 all: prepare
-	cd build && ../gmp-5.0.5/configure --prefix=$(PREFIX)
+	cd build && ../gmp-5.0.5/configure --prefix=$(PREFIX) \
+		--enable-cxx
 	$(MAKE) -C build
 
 prepare: gmp-5.0.5.tar.bz2
