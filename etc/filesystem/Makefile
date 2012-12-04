@@ -8,7 +8,8 @@ clean:
 install:
 	# /
 	install -dm755 $(DESTDIR)/boot $(DESTDIR)/dev $(DESTDIR)/etc $(DESTDIR)/home \
-		$(DESTDIR)/mnt $(DESTDIR)/usr $(DESTDIR)/var $(DESTDIR)/opt $(DESTDIR)/opt
+		$(DESTDIR)/mnt $(DESTDIR)/usr $(DESTDIR)/var $(DESTDIR)/opt $(DESTDIR)/opt \
+		$(DESTDIR)/bin $(DESTDIR)/sbin
 	install -dm555 $(DESTDIR)/proc $(DESTDIR)/sys
 	install -dm0750 $(DESTDIR)/root
 	install -dm1777 $(DESTDIR)/tmp
