@@ -2,19 +2,27 @@
 
 processors=$processors
 tmpdir=$(mktemp -d)
-destfile=$2
+destfile=${2:-${1//\//_}.tar.xz}
+processors=${processors:-$(cat /proc/cpuinfo | grep "processor" | wc -l)}
+package=$1
 
-if [ -z "$destfile" ]
-then
-	destfile=${1//\//_}.tar.xz
-fi
+[ -z "$package" ] && echo "Usage: pkg_package PACKAGE [DEST]" && exit 2
 
-if [ -z "$processors" ]
+if [ ! -d "$package" ]
 then
-	processors=$(cat /proc/cpuinfo | grep "processor" | wc -l)
+	echo "$package not found" 2>/dev/null
+	exit 1
 fi
 
 make -j $processors -C $1 DESTDIR=$tmpdir install
+if [ $? != 0 ]
+then
+	echo "Failure" 2>/dev/null
+	rm -rf $tmpdir
+	make -C $1 clean
+	exit 1
+fi
+
 tar -C $tmpdir --anchored -c ./ | xz > $destfile
 
 rm -rf $tmpdir
