@@ -17,6 +17,7 @@ coreutils-8.20.tar.xz:
 
 install: all
 	$(MAKE) -C build/ DESTDIR=$(DESTDIR) install
+	ln -sf $(BINDIR)/env $(DESTDIR)/$(PREFIX)/bin/env
 
 clean:
 	rm -rf build/
