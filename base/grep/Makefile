@@ -1,8 +1,13 @@
 PREFIX=/usr
 DESTDIR=
 
+CONFIGURE_FLAGS = 
+ifneq ($(WITH_PCRE),yes)
+	CONFIGURE_FLAGS += --disable-perl-regexp
+endif
+
 all: prepare
-	cd build && ../grep-2.14/configure --prefix=$(PREFIX)
+	cd build && ../grep-2.14/configure --prefix=$(PREFIX) $(CONFIGURE_FLAGS)
 	$(MAKE) -C build
 
 prepare: grep-2.14.tar.xz
