@@ -21,7 +21,7 @@ install:
 	install -dm1777 $(DESTDIR)/var/tmp $(DESTDIR)/var/spool $(DESTDIR)/var/mail
 	# /usr
 	install -dm755 $(DESTDIR)/usr/bin $(DESTDIR)/usr/include $(DESTDIR)/usr/sbin \
-		$(DESTDIR)/usr/share $(DESTDIR)/usr/src
+		$(DESTDIR)/usr/share $(DESTDIR)/usr/src $(DESTDIR)/usr/lib $(DESTDIR)/usr/lib64
 	# /usr/local
 	install -dm755 $(DESTDIR)/usr/local/bin $(DESTDIR)/usr/local/games \
 		$(DESTDIR)/usr/local/etc $(DESTDIR)/usr/local/include \
