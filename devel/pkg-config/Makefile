@@ -1,6 +1,12 @@
 PREFIX=/usr
 DESTDIR=
 
+configure_flags =
+
+ifeq ($(HAVE_NO_GLIB),yes)
+	configure_flags += --with-internal-glib
+endif
+
 all: prepare
 	cd build && ../pkg-config-0.27.1/configure --prefix=$(PREFIX)
 	$(MAKE) -C build
