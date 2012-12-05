@@ -1,0 +1,4 @@
+prepare
+build/
+fonts-*-misc-*.tar.bz2
+fonts-*-misc-*/
