@@ -11,7 +11,7 @@ prepare: intltool-0.50.2.tar.gz
 	touch prepare
 
 intltool-0.50.2.tar.gz:
-	wget http://edge.launchpad.net/intltool/trunk/0.50.2/+download/intltool-0.50.2.tar.gz
+	wget --no-check-certificate http://edge.launchpad.net/intltool/trunk/0.50.2/+download/intltool-0.50.2.tar.gz
 
 install: all
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
