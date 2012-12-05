@@ -1,9 +1,11 @@
 PREFIX=/usr
+SYSCONFDIR=/etc
 DESTDIR=
 
 all: prepare
 	cd build && ../shadow-4.1.5.1/configure \
 		--prefix=$(PREFIX) \
+		--sysconfdir=$(SYSCONFDIR) \
 		--with-libpam \
 		--without-selinux
 	$(MAKE) -C build
