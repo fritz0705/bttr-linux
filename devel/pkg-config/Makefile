@@ -21,6 +21,7 @@ pkg-config-0.27.1.tar.gz:
 
 install: all
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
+	ln -sf /usr/lib/pkgconfig $(DESTDIR)/lib/pkgconfig
 
 clean:
 	rm -rf build/
