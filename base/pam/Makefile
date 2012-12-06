@@ -15,7 +15,8 @@ Linux-PAM-1.1.6.tar.gz:
 
 install: all
 	mkdir -p $(DESTDIR)/etc/security
-	$(MAKE) -C build install DESTDIR=$(DESTDIR) SCONFIGDIR=$(DESTDIR)/etc/security
+	sed -i -e 's/mkdir -p $$(namespaceddir)/mkdir -p $$(DESTDIR)$$(namespaceddir)/' build/modules/pam_namespace/Makefile
+	$(MAKE) -C build install DESTDIR=$(DESTDIR) SCONFIGDIR=/etc/security
 
 clean:
 	rm -rf build/
