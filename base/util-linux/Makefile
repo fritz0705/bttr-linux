@@ -11,6 +11,8 @@ all: prepare
 		--enable-write \
 		--enable-mesg \
 		--enable-socket-activation
+	# XXX Horrible fix to build util-linux into a package without root
+	sed -i -e 's/\tchgrp/\t-chgrp/' build/Makefile
 	$(MAKE) -C build
 
 prepare: util-linux-2.22.tar.gz
