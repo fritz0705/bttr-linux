@@ -5,7 +5,7 @@ DESTDIR=
 all: prepare
 	cd build && ../wget-1.14/configure --prefix=$(PREFIX) \
 		--with-ssl=openssl \
-		--with-sysconfdir=$(SYSCONFDIR)
+		--sysconfdir=$(SYSCONFDIR)
 	$(MAKE) -C build
 
 prepare: wget-1.14.tar.gz
