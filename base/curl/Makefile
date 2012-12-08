@@ -9,7 +9,8 @@ all: prepare
 		--enable-manual \
 		--enable-versioned-symbols \
 		--enable-threaded-resolver \
-		--with-random=/dev/urandom
+		--with-random=/dev/urandom \
+		--without-librtmp
 	$(MAKE) -C build
 
 prepare: curl-7.28.1.tar.gz
