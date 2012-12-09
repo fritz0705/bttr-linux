@@ -1,3 +1,4 @@
 build/
-prepare
+configure
 make-*
+prepare

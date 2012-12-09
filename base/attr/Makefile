@@ -1,22 +1,30 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd attr-2.4.46 && ./configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C attr-2.4.46
+
+configure: prepare
+	cd attr-2.4.46 && ./configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: attr-2.4.46.src.tar.gz
 	tar xzf attr-2.4.46.src.tar.gz
-	touch prepare
+	@touch prepare
 
 attr-2.4.46.src.tar.gz:
 	wget http://mirror3.layerjet.com/nongnu//attr/attr-2.4.46.src.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C attr-2.4.46 install install-lib install-dev DIST_ROOT=$(DESTDIR)
 
 clean:
-	rm -f prepare
-	rm -f attr-2.4.46.src.tar.gz
-	rm -rf attr-2.4.46/
+	-rm prepare
+	-rm configure
+	-rm attr-2.4.46.src.tar.gz
+	-rm -r attr-2.4.46/
 

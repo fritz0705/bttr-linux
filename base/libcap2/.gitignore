@@ -1,4 +1,5 @@
-prepare
 build/
-libcap2_*
+configure
 libcap-*
+libcap2_*
+prepare

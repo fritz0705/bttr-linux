@@ -1,18 +1,26 @@
+.PHONY: all build install clean
+
 ZONEINFO=/usr/share/zoneinfo
 DESTDIR=
 
 TIMEZONES = africa antarctica asia australasia europe northamerica southamerica pacificnew etcetera backward systemv factory solar87 solar88 solar89
 
-all: prepare
+all: build
+
+build: configure
+
+configure: prepare
+	@touch configure
+
 prepare: tzdata2012j.tar.gz
-	mkdir -p build
+	@mkdir build
 	cd build && tar xzf ../tzdata2012j.tar.gz
-	touch prepare
+	@touch prepare
 
 tzdata2012j.tar.gz:
 	wget http://www.iana.org/time-zones/repository/releases/tzdata2012j.tar.gz
 
-install: all
+install: build
 	install -dm755 $(DESTDIR)/$(ZONEINFO)
 	cd build; \
 		zic -y ./yearistype -d $(DESTDIR)/$(ZONEINFO) $(TIMEZONES); \
@@ -22,7 +30,7 @@ install: all
 		cp -v zone.tab iso3166.tab $(DESTDIR)/$(ZONEINFO)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f tzdata2012j.tar.gz
-
+	-rm prepare
+	-rm configure
+	-rm tzdata2012j.tar.gz
+	-rm -r build/

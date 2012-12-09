@@ -1,27 +1,35 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 SYSCONFDIR=/etc
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build
+
+configure: prepare
 	cd build && ../wget-1.14/configure --prefix=$(PREFIX) \
 		--with-ssl=openssl \
 		--sysconfdir=$(SYSCONFDIR)
-	$(MAKE) -C build
+	@touch configure
 
 prepare: wget-1.14.tar.gz
 	tar xzf wget-1.14.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 wget-1.14.tar.gz:
 	wget ftp://ftp.gnu.org/gnu/wget/wget-1.14.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -rf wget-1.14
-	rm -f wget-1.14.tar.gz
+	-rm prepare
+	-rm configure
+	-rm wget-1.14.tar.gz
+	-rm -r build/
+	-rm -r wget-1.14/
 

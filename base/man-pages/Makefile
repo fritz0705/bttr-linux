@@ -1,22 +1,30 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
+all: build
 
-prepare: man-pages-3.44.tar.gz
+build: configure
+
+configure: prepare
+	@touch configure
+
+prepare:
 	tar xzf man-pages-3.44.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 man-pages-3.44.tar.gz:
 	wget http://www.kernel.org/pub/linux/docs/man-pages/man-pages-3.44.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C man-pages-3.44 install prefix=$(PREFIX) DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -rf man-pages-3.44
-	rm -f man-pages-3.44.tar.gz
+	-rm prepare
+	-rm configure
+	-rm man-pages-3.44.tar.gz
+	-rm -r build/
+	-rm -r man-pages-3.44/
 

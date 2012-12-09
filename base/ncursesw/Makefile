@@ -1,28 +1,36 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build all
+
+configure: prepare
 	cd build && ../ncurses-5.9/configure --prefix=$(PREFIX) \
 		--with-termlib \
 		--enable-widec \
 		--with-normal \
 		--with-shared
-	$(MAKE) -C build all
+	@touch configure
 
 prepare: ncurses-5.9.tar.gz
 	tar xaf ncurses-5.9.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 ncurses-5.9.tar.gz:
 	wget ftp://ftp.gnu.org/gnu/ncurses/ncurses-5.9.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build DESTDIR=$(DESTDIR) install
 
 clean:
-	rm -rf build/
-	rm -f ncurses-5.9.tar.gz
-	rm -rf ncurses-5.9/
-	rm -f prepare
+	-rm prepare
+	-rm configure
+	-rm ncurses-5.9.tar.gz
+	-rm -r build/
+	-rm -r ncurses-5.9/
 

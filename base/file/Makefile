@@ -1,23 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../file-5.11/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../file-5.11/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: file-5.11.tar.gz
 	tar xzf file-5.11.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 file-5.11.tar.gz:
 	wget ftp://ftp.astron.com/pub/file/file-5.11.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f file-5.11.tar.gz
-	rm -rf file-5.11
+	-rm prepare
+	-rm configure
+	-rm file-5.11.tar.gz
+	-rm -r build/
+	-rm -r file-5.11/
+

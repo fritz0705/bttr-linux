@@ -1,26 +1,33 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
-EXECPREFIX=
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build
+
+configure: prepare
 	cd procps-procps && ./autogen.sh
 	cd build && ../procps-procps/configure --prefix=$(PREFIX) --exec-prefix=$(EXECPREFIX)
-	$(MAKE) -C build
+	@touch configure
 
 prepare: procps-ng-3.3.5.tar.gz
 	tar xzf procps-ng-3.3.5.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 procps-ng-3.3.5.tar.gz:
 	wget -O $@ http://gitorious.org/procps/procps/archive-tarball/v3.3.5
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -rf procps-procps
-	rm -f procps-ng-3.3.5.tar.gz
+	-rm prepare
+	-rm configure
+	-rm procps-ng-3.3.5.tar.gz
+	-rm -r build/
+	-rm -r procps-ng-3.3.5/
 

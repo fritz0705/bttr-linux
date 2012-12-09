@@ -1,7 +1,14 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build
+
+configure: prepare
 	cd build && ../util-linux-2.22/configure --prefix=$(PREFIX) \
 		--enable-fs-paths-extra=/usr/bin:/usr/sbin \
 		--enable-raw \
@@ -11,24 +18,24 @@ all: prepare
 		--enable-write \
 		--enable-mesg \
 		--enable-socket-activation
-	# XXX Horrible fix to build util-linux into a package without root
-	sed -i -e 's/\tchgrp/\t-chgrp/' build/Makefile
-	$(MAKE) -C build
+	@touch configure
 
 prepare: util-linux-2.22.tar.gz
 	tar xzf util-linux-2.22.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 util-linux-2.22.tar.gz:
 	wget ftp://ftp.kernel.org/pub/linux/utils/util-linux/v2.22/util-linux-2.22.tar.gz
 
-install: all
+install: build
+	sed -i -e 's/\tchgrp/\t-chgrp/' build/Makefile
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f util-linux-2.22.tar.gz
-	rm -rf util-linux-2.22
+	-rm prepare
+	-rm configure
+	-rm util-linux-2.22.tar.gz
+	-rm -r build/
+	-rm -r util-linux-2.22/
 

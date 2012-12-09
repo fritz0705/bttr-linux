@@ -1,3 +1,5 @@
-prepare
+
 build/
+configure
+prepare
 tar-*

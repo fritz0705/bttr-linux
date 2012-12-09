@@ -1,26 +1,34 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build
+
+configure: prepare
 	cd build && ../pcre-8.32/configure --prefix=$(PREFIX) \
 		--enable-pcre16 --enable-pcre32 --enable-jit \
 		--enable-utf --enable-unicode-properties
-	$(MAKE) -C build
+	@touch configure
 
 prepare: pcre-8.32.tar.gz
 	tar xzf pcre-8.32.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 pcre-8.32.tar.gz:
 	wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.32.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f pcre-8.32.tar.gz
-	rm -rf pcre-8.32
+	-rm prepare
+	-rm configure
+	-rm pcre-8.32.tar.gz
+	-rm -r build/
+	-rm -r pcre-8.32/
 

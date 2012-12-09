@@ -1,3 +1,4 @@
-prepare
-build/
 bison-*
+build/
+configure
+prepare

@@ -1,25 +1,33 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build
+
+configure: prepare
 	cd build && ../gmp-5.0.5/configure --prefix=$(PREFIX) \
 		--enable-cxx
-	$(MAKE) -C build
+	@touch configure
 
 prepare: gmp-5.0.5.tar.bz2
 	tar xjf gmp-5.0.5.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 gmp-5.0.5.tar.bz2:
 	wget ftp://ftp.gmplib.org/pub/gmp-5.0.5/gmp-5.0.5.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f gmp-5.0.5.tar.bz2
-	rm -rf gmp-5.0.5
+	-rm prepare
+	-rm configure
+	-rm gmp-5.0.5.tar.bz2
+	-rm -r build/
+	-rm -r gmp-5.0.5/
 

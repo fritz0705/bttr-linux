@@ -1,3 +1,4 @@
-build/
-prepare
 binutils-*
+build/
+configure
+prepare

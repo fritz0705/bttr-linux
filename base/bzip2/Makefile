@@ -1,18 +1,26 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
 	make -C bzip2-1.0.6 -f Makefile-libbz2_so
 	make -C bzip2-1.0.6 bzip2 bzip2recover libbz2.a
 
+configure: prepare
+	@touch configure
+
 prepare: bzip2-1.0.6.tar.gz
 	tar xzf bzip2-1.0.6.tar.gz
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 bzip2-1.0.6.tar.gz:
 	wget http://bzip.org/1.0.6/bzip2-1.0.6.tar.gz
 
-install: all
+install: build
 	install -dm755 $(DESTDIR)/usr/{bin,lib,include,share/man/man1}
 
 	install -m755 bzip2-1.0.6/bzip2-shared $(DESTDIR)/usr/bin/bzip2
@@ -34,7 +42,9 @@ install: all
 	ln -sf bzip2.1 $(DESTDIR)/usr/share/man/man1/bzip2recover.1
 
 clean:
-	rm -f prepare
-	rm -rf bzip2-1.0.6
-	rm -f bzip2-1.0.6.tar.gz
+	-rm prepare
+	-rm configure
+	-rm bzip2-1.0.6.tar.gz
+	-rm -r build/
+	-rm -r bzip2-1.0.6/
 

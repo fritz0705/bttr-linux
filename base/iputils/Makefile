@@ -1,23 +1,31 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
 	$(MAKE) -C iputils-s20121126
+
+configure: prepare
+	@touch configure
 
 prepare: iputils-s20121126.tar.bz2
 	tar xjf iputils-s20121126.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 iputils-s20121126.tar.bz2:
 	wget http://www.skbuff.net/iputils/iputils-s20121126.tar.bz2
 
-install: all
+install: build
 	./install.sh iputils-s20121126 "$(DESTDIR)" $(PREFIX)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f iputils-s20121126.tar.bz2
-	rm -rf iputils-s20121126
+	-rm prepare
+	-rm configure
+	-rm iputils-s20121126.tar.bz2
+	-rm -r build/
+	-rm -r iputils-s20121126
 

@@ -1,24 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../mpc-1.0.1/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../mpc-1.0.1/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: mpc-1.0.1.tar.gz
 	tar xzf mpc-1.0.1.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 mpc-1.0.1.tar.gz:
 	wget http://www.multiprecision.org/mpc/download/mpc-1.0.1.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f mpc-1.0.1.tar.gz
-	rm -rf mpc-1.0.1
+	-rm prepare
+	-rm configure
+	-rm mpc-1.0.1.tar.gz
+	-rm -r build/
+	-rm -r mpc-1.0.1/
 

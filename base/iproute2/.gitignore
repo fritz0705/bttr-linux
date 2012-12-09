@@ -1,3 +1,4 @@
-prepare
 build/
+configure
 iproute2-*
+prepare

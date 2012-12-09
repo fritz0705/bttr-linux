@@ -1,7 +1,14 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build
+
+configure: prepare
 	cd build && ../curl-7.28.1/configure --prefix=$(PREFIX) \
 		--disable-ldap \
 		--disable-ldaps \
@@ -11,22 +18,23 @@ all: prepare
 		--enable-threaded-resolver \
 		--with-random=/dev/urandom \
 		--without-librtmp
-	$(MAKE) -C build
+	@touch configure
 
 prepare: curl-7.28.1.tar.gz
 	tar xzf curl-7.28.1.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 curl-7.28.1.tar.gz:
 	wget http://curl.haxx.se/download/curl-7.28.1.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f curl-7.28.1.tar.gz
-	rm -rf curl-7.28.1
+	-rm prepare
+	-rm configure
+	-rm curl-7.28.1.tar.gz
+	-rm -r build/
+	-rm -r curl-7.28.1/
 

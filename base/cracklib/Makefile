@@ -1,25 +1,33 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build
+
+configure: prepare
 	cd build && ../cracklib-2.8.19/configure --prefix=$(PREFIX) \
 		--without-python
-	$(MAKE) -C build
+	@touch configure
 
 prepare: cracklib-2.8.19.tar.gz
 	tar xzf cracklib-2.8.19.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 cracklib-2.8.19.tar.gz:
 	wget http://downloads.sourceforge.net/sourceforge/cracklib/cracklib-2.8.19.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -rf cracklib-2.8.19
-	rm -f cracklib-2.8.19.tar.gz
+	-rm prepare
+	-rm configure
+	-rm cracklib-2.8.19.tar.gz
+	-rm -r build/
+	-rm -r cracklib-2.8.19/
 

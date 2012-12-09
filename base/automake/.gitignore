@@ -1,3 +1,4 @@
-prepare
-build/
 automake-*
+build/
+configure
+prepare

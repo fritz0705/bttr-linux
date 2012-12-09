@@ -1,3 +1,4 @@
-prepare
 build/
+configure
 m4-*
+prepare

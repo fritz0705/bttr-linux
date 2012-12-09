@@ -1,24 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../autoconf-2.69/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../autoconf-2.69/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: autoconf-2.69.tar.gz
 	tar xzf autoconf-2.69.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 autoconf-2.69.tar.gz:
 	wget ftp://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -rf autoconf-2.69
-	rm -f autoconf-2.69.tar.gz
+	-rm prepare
+	-rm configure
+	-rm autoconf-2.69.tar.gz
+	-rm -r build/
+	-rm -r autoconf-2.69/
 

@@ -1,24 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../flex-2.5.37/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../flex-2.5.37/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: flex-2.5.37.tar.gz
 	tar xzf flex-2.5.37.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 flex-2.5.37.tar.gz:
 	wget http://downloads.sourceforge.net/sourceforge/flex/flex-2.5.37.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -rf flex-2.5.37
-	rm -f flex-2.5.37.tar.gz
+	-rm prepare
+	-rm configure
+	-rm flex-2.5.37.tar.gz
+	-rm -r build/
+	-rm -r flex-2.5.37/
 

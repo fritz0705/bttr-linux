@@ -1,23 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../xz-5.0.4/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../xz-5.0.4/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: xz-5.0.4.tar.gz
 	tar xzf xz-5.0.4.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 xz-5.0.4.tar.gz:
 	wget http://tukaani.org/xz/xz-5.0.4.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f xz-5.0.4.tar.gz
-	rm -rf xz-5.0.4
+	-rm prepare
+	-rm configure
+	-rm xz-5.0.4.tar.gz
+	-rm -r build/
+	-rm -r xz-5.0.4/
+

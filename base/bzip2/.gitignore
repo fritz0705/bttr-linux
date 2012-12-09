@@ -1,3 +1,4 @@
-prepare
 build/
 bzip2-*
+configure
+prepare

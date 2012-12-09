@@ -1,25 +1,33 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../m4-1.4.16/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../m4-1.4.16/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: m4-1.4.16.tar.gz
 	tar xzf m4-1.4.16.tar.gz
 	sed -i -e '/gets is a/d' m4-1.4.16/lib/stdio.in.h
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 m4-1.4.16.tar.gz:
 	wget ftp://ftp.gnu.org/gnu/m4/m4-1.4.16.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f m4-1.4.16.tar.gz
-	rm -rf m4-1.4.16
+	-rm prepare
+	-rm configure
+	-rm m4-1.4.16.tar.gz
+	-rm -r build/
+	-rm -r m4-1.4.16/
 

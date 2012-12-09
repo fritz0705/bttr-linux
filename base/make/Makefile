@@ -1,24 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-build all: prepare
-	cd build && ../make-3.82/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build all
+
+configure: prepare
+	cd build && ../make-3.82/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: make-3.82.tar.gz
 	tar xzf make-3.82.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 make-3.82.tar.gz:
 	wget ftp://ftp.gnu.org/gnu/make/make-3.82.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build DESTDIR=$(DESTDIR) install
 
 clean:
-	rm -rf build/
-	rm -f make-3.82.tar.gz
-	rm -rf make-3.82/
-	rm -f prepare
+	-rm prepare
+	-rm configure
+	-rm make-3.82.tar.gz
+	-rm -r build/
+	-rm -r make-3.82/
 

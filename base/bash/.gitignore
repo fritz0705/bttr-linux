@@ -1,3 +1,4 @@
-build/
-prepare
 bash-*
+build/
+configure
+prepare

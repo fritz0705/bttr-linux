@@ -1,24 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../less-451/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../less-451/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: less-451.tar.gz
 	tar xzf less-451.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 less-451.tar.gz:
 	wget ftp://ftp.gnu.org/gnu/less/less-451.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f less-451.tar.gz
-	rm -rf less-451
+	-rm prepare
+	-rm configure
+	-rm less-451.tar.gz
+	-rm -r build/
+	-rm -r less-451/
 
