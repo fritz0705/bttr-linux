@@ -1,6 +1,7 @@
 .PHONY: all build install clean
 
 PREFIX=/usr
+SYSCONFDIR=/etc
 DESTDIR=
 
 all: build
