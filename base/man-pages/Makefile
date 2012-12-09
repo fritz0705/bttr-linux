@@ -10,7 +10,7 @@ build: configure
 configure: prepare
 	@touch configure
 
-prepare:
+prepare: man-pages-3.44.tar.gz
 	tar xzf man-pages-3.44.tar.gz
 	@mkdir build
 	@touch prepare
