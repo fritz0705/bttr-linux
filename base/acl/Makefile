@@ -14,6 +14,7 @@ configure: prepare
 
 prepare: acl-2.2.51.src.tar.gz
 	tar xzf acl-2.2.51.src.tar.gz
+	@mkdir build
 	@touch prepare
 
 acl-2.2.51.src.tar.gz:
@@ -26,5 +27,6 @@ clean:
 	-rm prepare
 	-rm configure
 	-rm acl-2.2.51.src.tar.gz
-	-rm acl-2.2.51/
+	-rm -r build/
+	-rm -r acl-2.2.51/
 
