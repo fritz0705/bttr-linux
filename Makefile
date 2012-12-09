@@ -4,5 +4,5 @@ PACKAGES := base kernel tools
 $(MAKECMDGOALS): $(PACKAGES)
 
 $(PACKAGES):
-	-$(MAKE) -C $@ $(MAKECMDGOALS)
+	$(MAKE) -C $@ $(MAKECMDGOALS)
 

@@ -4,4 +4,5 @@ PACKAGES := $(shell ls | grep -v Makefile)
 $(MAKECMDGOALS): $(PACKAGES)
 
 $(PACKAGES):
-	-$(MAKE) -C $@ $(MAKECMDGOALS)
+	$(MAKE) -C $@ $(MAKECMDGOALS)
+
