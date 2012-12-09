@@ -15,10 +15,6 @@ configure: prepare
 
 prepare: libtirpc-0.2.2.tar.bz2
 	tar xjf libtirpc-0.2.2.tar.bz2
-	cd libtirpc-0.2.2; \
-		patch -Np1 -i ../libtirpc-0.2.3rc3.patch; \
-		sh autogen.sh \
-		autoreconf -fisv
 	@mkdir build
 	@touch prepare
 
