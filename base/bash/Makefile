@@ -2,7 +2,11 @@
 
 PREFIX=/usr
 DESTDIR=
-BINDIR=/bin
+ifeq ($(PREFIX),/usr)
+	BINDIR=/bin
+else
+	BINDIR=$(PREFIX)/bin
+endif
 
 all: build
 
