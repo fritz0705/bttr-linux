@@ -4,7 +4,7 @@ PREFIX=/usr
 ifeq ($(PREFIX),/usr)
 	SYSCONFDIR=/etc
 else
-	SYSCONFDIR=$(PREFIX)/usr
+	SYSCONFDIR=$(PREFIX)/etc
 endif
 DESTDIR=
 
