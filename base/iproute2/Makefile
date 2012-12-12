@@ -9,7 +9,7 @@ build: configure
 	$(MAKE) -C iproute2-3.6.0
 
 configure: prepare
-	cd iproute2-3.6.0 && ./configure
+	cd iproute2-3.6.0 && ./configure --prefix=$(PREFIX)
 	@touch configure
 
 prepare: iproute2-3.6.0.tar.gz

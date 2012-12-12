@@ -1,6 +1,11 @@
 .PHONY: all build install clean
 
 PREFIX=/usr
+ifeq ($(PREFIX),/usr)
+	EXECPREFIX=
+else
+	EXECPREFIX=$(PREFIX)
+endif
 DESTDIR=
 
 all: build
