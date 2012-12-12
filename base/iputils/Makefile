@@ -20,7 +20,7 @@ iputils-s20121126.tar.bz2:
 	wget http://www.skbuff.net/iputils/iputils-s20121126.tar.bz2
 
 install: build
-	./install.sh iputils-s20121126 "$(DESTDIR)" $(PREFIX)
+	PREFIX=$(PREFIX) DESTDIR=$(DESTDIR) ./install.sh iputils-s20121126
 
 clean:
 	$(RM) prepare
