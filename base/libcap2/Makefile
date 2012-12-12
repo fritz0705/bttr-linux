@@ -28,7 +28,7 @@ libcap2_2.22.orig.tar.gz:
 	wget ftp://ftp.de.debian.org/debian/pool/main/libc/libcap2/libcap2_2.22.orig.tar.gz
 
 install: build
-	$(MAKE) -C libcap-2.22/ install DESTDIR=$(DESTDIR) RAISE_SETFCAP=$(RAISE_SETFCAP)
+	$(MAKE) -C libcap-2.22/ install DESTDIR=$(DESTDIR) RAISE_SETFCAP=$(RAISE_SETFCAP) prefix=$(PREFIX)
 
 clean:
 	$(RM) prepare
