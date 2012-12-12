@@ -27,9 +27,9 @@ install: build
 	$(MAKE) -C build DESTDIR=$(DESTDIR) install
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm ncurses-5.9.tar.gz
-	-rm -r build/
-	-rm -r ncurses-5.9/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) ncurses-5.9.tar.gz
+	$(RM) -r build/
+	$(RM) -r ncurses-5.9/
 

@@ -22,9 +22,9 @@ install: build
 	$(MAKE) -C man-pages-3.44 install prefix=$(PREFIX) DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm man-pages-3.44.tar.gz
-	-rm -r build/
-	-rm -r man-pages-3.44/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) man-pages-3.44.tar.gz
+	$(RM) -r build/
+	$(RM) -r man-pages-3.44/
 

@@ -26,9 +26,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm pcre-8.32.tar.gz
-	-rm -r build/
-	-rm -r pcre-8.32/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) pcre-8.32.tar.gz
+	$(RM) -r build/
+	$(RM) -r pcre-8.32/
 

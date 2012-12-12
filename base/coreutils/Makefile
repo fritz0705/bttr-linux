@@ -27,9 +27,9 @@ install: build
 	ln -sf $(BINDIR)/env $(DESTDIR)/$(PREFIX)/bin/env
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm coreutils-8.20.tar.xz
-	-rm -r build/
-	-rm -r coreutils-8.20/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) coreutils-8.20.tar.xz
+	$(RM) -r build/
+	$(RM) -r coreutils-8.20/
 

@@ -27,9 +27,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm gettext-0.18.1.1.tar.gz
-	-rm -r build/
-	-rm -r gettext-0.18.1.1/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) gettext-0.18.1.1.tar.gz
+	$(RM) -r build/
+	$(RM) -r gettext-0.18.1.1/
 

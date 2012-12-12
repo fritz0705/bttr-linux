@@ -25,9 +25,9 @@ install: build
 	$(MAKE) -C libtirpc-0.2.2 install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm libtirpc-0.2.2.tar.bz2
-	-rm -r build/
-	-rm -r libtirpc-0.2.2/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) libtirpc-0.2.2.tar.bz2
+	$(RM) -r build/
+	$(RM) -r libtirpc-0.2.2/
 

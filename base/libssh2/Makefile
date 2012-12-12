@@ -24,8 +24,8 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm libssh2-1.4.3.tar.gz
-	-rm -r build/
-	-rm -r libssh2-1.4.3/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) libssh2-1.4.3.tar.gz
+	$(RM) -r build/
+	$(RM) -r libssh2-1.4.3/

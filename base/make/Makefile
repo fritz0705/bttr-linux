@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build DESTDIR=$(DESTDIR) install
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm make-3.82.tar.gz
-	-rm -r build/
-	-rm -r make-3.82/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) make-3.82.tar.gz
+	$(RM) -r build/
+	$(RM) -r make-3.82/
 

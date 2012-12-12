@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm xz-5.0.4.tar.gz
-	-rm -r build/
-	-rm -r xz-5.0.4/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) xz-5.0.4.tar.gz
+	$(RM) -r build/
+	$(RM) -r xz-5.0.4/
 

@@ -25,9 +25,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm cracklib-2.8.19.tar.gz
-	-rm -r build/
-	-rm -r cracklib-2.8.19/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) cracklib-2.8.19.tar.gz
+	$(RM) -r build/
+	$(RM) -r cracklib-2.8.19/
 

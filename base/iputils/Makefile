@@ -23,9 +23,9 @@ install: build
 	./install.sh iputils-s20121126 "$(DESTDIR)" $(PREFIX)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm iputils-s20121126.tar.bz2
-	-rm -r build/
-	-rm -r iputils-s20121126
+	$(RM) prepare
+	$(RM) configure
+	$(RM) iputils-s20121126.tar.bz2
+	$(RM) -r build/
+	$(RM) -r iputils-s20121126
 

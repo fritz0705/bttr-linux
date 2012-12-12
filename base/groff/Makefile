@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm groff-1.21.tar.gz
-	-rm -r build/
-	-rm -r groff-1.21/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) groff-1.21.tar.gz
+	$(RM) -r build/
+	$(RM) -r groff-1.21/
 

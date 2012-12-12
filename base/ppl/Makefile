@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm ppl-1.0.tar.gz
-	-rm -r build/
-	-rm -r ppl-1.0/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) ppl-1.0.tar.gz
+	$(RM) -r build/
+	$(RM) -r ppl-1.0/
 

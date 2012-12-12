@@ -27,9 +27,9 @@ install: build
 	ln -sf gcc $(DESTDIR)/$(PREFIX)/bin/cc
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm gcc-4.7.2.tar.gz
-	-rm -r build/
-	-rm -r gcc-4.7.2/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) gcc-4.7.2.tar.gz
+	$(RM) -r build/
+	$(RM) -r gcc-4.7.2/
 

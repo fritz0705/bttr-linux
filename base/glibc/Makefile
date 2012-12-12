@@ -36,9 +36,9 @@ install: build
 	$(MAKE) -C build install_root=$(DESTDIR) install
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm glibc-2.16.0.tar.gz
-	-rm -r build/
-	-rm -r glibc-2.16.0/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) glibc-2.16.0.tar.gz
+	$(RM) -r build/
+	$(RM) -r glibc-2.16.0/
 

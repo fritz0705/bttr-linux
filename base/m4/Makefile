@@ -25,9 +25,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm m4-1.4.16.tar.gz
-	-rm -r build/
-	-rm -r m4-1.4.16/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) m4-1.4.16.tar.gz
+	$(RM) -r build/
+	$(RM) -r m4-1.4.16/
 

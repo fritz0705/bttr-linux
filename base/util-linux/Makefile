@@ -33,9 +33,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm util-linux-2.22.tar.gz
-	-rm -r build/
-	-rm -r util-linux-2.22/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) util-linux-2.22.tar.gz
+	$(RM) -r build/
+	$(RM) -r util-linux-2.22/
 

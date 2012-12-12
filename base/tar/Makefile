@@ -25,8 +25,8 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm -r build/
-	-rm -r tar-1.26/
-	-rm prepare configure
-	-rm tar-1.26.tar.gz
+	$(RM) -r build/
+	$(RM) -r tar-1.26/
+	$(RM) prepare configure
+	$(RM) tar-1.26.tar.gz
 

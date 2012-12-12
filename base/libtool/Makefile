@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm libtool-2.4.2.tar.gz
-	-rm -r build/
-	-rm -r libtool-2.4.2/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) libtool-2.4.2.tar.gz
+	$(RM) -r build/
+	$(RM) -r libtool-2.4.2/
 

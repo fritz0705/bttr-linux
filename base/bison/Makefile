@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm bison-2.6.5.tar.gz
-	-rm -r build/
-	-rm -r bison-2.6.5/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) bison-2.6.5.tar.gz
+	$(RM) -r build/
+	$(RM) -r bison-2.6.5/
 

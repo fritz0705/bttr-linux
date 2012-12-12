@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm findutils-4.2.33.tar.gz
-	-rm -r build/
-	-rm -r findutils-4.2.33/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) findutils-4.2.33.tar.gz
+	$(RM) -r build/
+	$(RM) -r findutils-4.2.33/
 

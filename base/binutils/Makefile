@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm binutils-2.23.tar.gz
-	-rm -r build/
-	-rm -r binutils-2.23/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) binutils-2.23.tar.gz
+	$(RM) -r build/
+	$(RM) -r binutils-2.23/
 

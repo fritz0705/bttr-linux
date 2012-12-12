@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm automake-1.12.5.tar.gz
-	-rm -r build/
-	-rm -r automake-1.12.5/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) automake-1.12.5.tar.gz
+	$(RM) -r build/
+	$(RM) -r automake-1.12.5/
 

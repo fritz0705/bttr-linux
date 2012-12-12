@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm sed-4.2.1.tar.gz
-	-rm -r build/
-	-rm -r sed-4.2.1/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) sed-4.2.1.tar.gz
+	$(RM) -r build/
+	$(RM) -r sed-4.2.1/
 

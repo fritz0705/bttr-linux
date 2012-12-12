@@ -31,9 +31,9 @@ install: build
 	ln -sf bash $(DESTDIR)/$(BINDIR)/sh
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm bash-4.2.tar.gz
-	-rm -r build/
-	-rm -r bash-4.2/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) bash-4.2.tar.gz
+	$(RM) -r build/
+	$(RM) -r bash-4.2/
 

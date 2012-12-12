@@ -31,9 +31,9 @@ install: build
 	$(MAKE) -C libcap-2.22/ install DESTDIR=$(DESTDIR) RAISE_SETFCAP=$(RAISE_SETFCAP)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm libcap2_2.22.orig.tar.gz
-	-rm -r build/
-	-rm -r libcap-2.22
+	$(RM) prepare
+	$(RM) configure
+	$(RM) libcap2_2.22.orig.tar.gz
+	$(RM) -r build/
+	$(RM) -r libcap-2.22
 

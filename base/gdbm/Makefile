@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm gdbm-1.10.tar.gz
-	-rm -r build/
-	-rm -r gdbm-1.10/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) gdbm-1.10.tar.gz
+	$(RM) -r build/
+	$(RM) -r gdbm-1.10/
 

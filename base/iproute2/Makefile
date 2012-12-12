@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C iproute2-3.6.0 DESTDIR=$(DESTDIR) install
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm iproute2-3.6.0.tar.gz
-	-rm -r build/
-	-rm -r iproute2-3.6.0/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) iproute2-3.6.0.tar.gz
+	$(RM) -r build/
+	$(RM) -r iproute2-3.6.0/
 

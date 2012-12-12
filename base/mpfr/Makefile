@@ -26,9 +26,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm mpfr-3.1.1.tar.gz
-	-rm -r build/
-	-rm -r mpfr-3.1.1/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) mpfr-3.1.1.tar.gz
+	$(RM) -r build/
+	$(RM) -r mpfr-3.1.1/
 

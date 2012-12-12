@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm texinfo-4.9.tar.gz
-	-rm -r build/
-	-rm -r texinfo-4.9/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) texinfo-4.9.tar.gz
+	$(RM) -r build/
+	$(RM) -r texinfo-4.9/
 

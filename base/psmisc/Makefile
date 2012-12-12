@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm psmisc-22.20.tar.gz
-	-rm -r build/
-	-rm -r psmisc-22.20/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) psmisc-22.20.tar.gz
+	$(RM) -r build/
+	$(RM) -r psmisc-22.20/
 

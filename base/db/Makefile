@@ -27,12 +27,12 @@ db-5.3.21.tar.gz:
 
 install: build
 	yes | $(MAKE) -C build install DESTDIR=$(DESTDIR)
-	-rm -r $(DESTDIR)/$(PREFIX)/docs
+	$(RM) -r $(DESTDIR)/$(PREFIX)/docs
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm db-5.3.21.tar.gz
-	-rm -r build/
-	-rm -r db-5.3.21/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) db-5.3.21.tar.gz
+	$(RM) -r build/
+	$(RM) -r db-5.3.21/
 

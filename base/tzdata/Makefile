@@ -30,7 +30,7 @@ install: build
 		cp -v zone.tab iso3166.tab $(DESTDIR)/$(ZONEINFO)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm tzdata2012j.tar.gz
-	-rm -r build/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) tzdata2012j.tar.gz
+	$(RM) -r build/

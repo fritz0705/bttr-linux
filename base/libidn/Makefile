@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm libidn-1.25.tar.gz
-	-rm -r build/
-	-rm -r libidn-1.25/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) libidn-1.25.tar.gz
+	$(RM) -r build/
+	$(RM) -r libidn-1.25/
 

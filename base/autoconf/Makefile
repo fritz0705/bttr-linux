@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm autoconf-2.69.tar.gz
-	-rm -r build/
-	-rm -r autoconf-2.69/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) autoconf-2.69.tar.gz
+	$(RM) -r build/
+	$(RM) -r autoconf-2.69/
 

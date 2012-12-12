@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm gawk-4.0.1.tar.gz
-	-rm -r build/
-	-rm -r gawk-4.0.1/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) gawk-4.0.1.tar.gz
+	$(RM) -r build/
+	$(RM) -r gawk-4.0.1/
 

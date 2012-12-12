@@ -23,8 +23,8 @@ install: build
 	$(MAKE) -C attr-2.4.46 install install-lib install-dev DIST_ROOT=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm attr-2.4.46.src.tar.gz
-	-rm -r attr-2.4.46/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) attr-2.4.46.src.tar.gz
+	$(RM) -r attr-2.4.46/
 

@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C acl-2.2.51/ install install-lib install-dev DIST_ROOT=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm acl-2.2.51.src.tar.gz
-	-rm -r build/
-	-rm -r acl-2.2.51/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) acl-2.2.51.src.tar.gz
+	$(RM) -r build/
+	$(RM) -r acl-2.2.51/
 

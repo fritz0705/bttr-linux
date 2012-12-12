@@ -32,9 +32,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm curl-7.28.1.tar.gz
-	-rm -r build/
-	-rm -r curl-7.28.1/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) curl-7.28.1.tar.gz
+	$(RM) -r build/
+	$(RM) -r curl-7.28.1/
 

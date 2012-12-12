@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm expat-2.1.0.tar.gz
-	-rm -r build/
-	-rm -r expat-2.1.0/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) expat-2.1.0.tar.gz
+	$(RM) -r build/
+	$(RM) -r expat-2.1.0/
 

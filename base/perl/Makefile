@@ -26,9 +26,9 @@ install: build
 	yes | $(MAKE) -C perl-5.16.2 install
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm perl-5.16.2.tar.gz
-	-rm -r build/
-	-rm -r perl-5.16.2/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) perl-5.16.2.tar.gz
+	$(RM) -r build/
+	$(RM) -r perl-5.16.2/
 

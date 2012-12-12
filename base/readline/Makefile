@@ -24,8 +24,8 @@ install: build
 	$(MAKE) -C build DESTDIR=$(DESTDIR) install
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm readline-6.2.tar.gz
-	-rm -r build/
-	-rm -r readline-6.2/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) readline-6.2.tar.gz
+	$(RM) -r build/
+	$(RM) -r readline-6.2/

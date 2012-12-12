@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm mpc-1.0.1.tar.gz
-	-rm -r build/
-	-rm -r mpc-1.0.1/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) mpc-1.0.1.tar.gz
+	$(RM) -r build/
+	$(RM) -r mpc-1.0.1/
 

@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm less-451.tar.gz
-	-rm -r build/
-	-rm -r less-451/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) less-451.tar.gz
+	$(RM) -r build/
+	$(RM) -r less-451/
 

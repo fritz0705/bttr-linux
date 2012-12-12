@@ -44,9 +44,9 @@ install: build
 	ln -sf bzip2.1 $(DESTDIR)/$(PREFIX)/share/man/man1/bzip2recover.1
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm bzip2-1.0.6.tar.gz
-	-rm -r build/
-	-rm -r bzip2-1.0.6/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) bzip2-1.0.6.tar.gz
+	$(RM) -r build/
+	$(RM) -r bzip2-1.0.6/
 

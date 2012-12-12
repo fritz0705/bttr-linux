@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm flex-2.5.37.tar.gz
-	-rm -r build/
-	-rm -r flex-2.5.37/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) flex-2.5.37.tar.gz
+	$(RM) -r build/
+	$(RM) -r flex-2.5.37/
 

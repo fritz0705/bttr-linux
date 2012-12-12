@@ -34,9 +34,9 @@ install: build
 	$(MAKE) -C openssl-1.0.1c install INSTALL_PREFIX=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm openssl-1.0.1c.tar.gz
-	-rm -r build/
-	-rm -r openssl-1.0.1c/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) openssl-1.0.1c.tar.gz
+	$(RM) -r build/
+	$(RM) -r openssl-1.0.1c/
 

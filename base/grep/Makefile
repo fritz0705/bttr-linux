@@ -29,9 +29,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm grep-2.14.tar.gz
-	-rm -r build/
-	-rm -r grep-2.14/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) grep-2.14.tar.gz
+	$(RM) -r build/
+	$(RM) -r grep-2.14/
 

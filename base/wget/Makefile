@@ -31,9 +31,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm wget-1.14.tar.gz
-	-rm -r build/
-	-rm -r wget-1.14/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) wget-1.14.tar.gz
+	$(RM) -r build/
+	$(RM) -r wget-1.14/
 

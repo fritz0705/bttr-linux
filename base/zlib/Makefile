@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C zlib-1.2.7 install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm zlib-1.2.7.tar.gz
-	-rm -r build/
-	-rm -r zlib-1.2.7/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) zlib-1.2.7.tar.gz
+	$(RM) -r build/
+	$(RM) -r zlib-1.2.7/
 

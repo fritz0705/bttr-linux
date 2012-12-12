@@ -32,9 +32,9 @@ install: build
 	$(MAKE) -C LVM2.2.02.98 install_lvm2 install_device-mapper DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm -r LVM2.2.02.98.tgz
-	-rm -r build/
-	-rm -r LVM2.2.02.98/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) -r LVM2.2.02.98.tgz
+	$(RM) -r build/
+	$(RM) -r LVM2.2.02.98/
 

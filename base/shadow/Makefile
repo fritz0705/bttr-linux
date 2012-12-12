@@ -38,9 +38,9 @@ install: build
 	install -t $(DESTDIR)/etc/pam.d -m644 passwd chgpasswd chpasswd newusers
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm shadow-4.1.5.1.tar.gz
-	-rm -r build/
-	-rm -r shadow-4.1.5.1/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) shadow-4.1.5.1.tar.gz
+	$(RM) -r build/
+	$(RM) -r shadow-4.1.5.1/
 

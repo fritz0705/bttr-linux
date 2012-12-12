@@ -25,9 +25,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm diffutils-3.2.tar.gz
-	-rm -r build/
-	-rm -r diffutils-3.2/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) diffutils-3.2.tar.gz
+	$(RM) -r build/
+	$(RM) -r diffutils-3.2/
 

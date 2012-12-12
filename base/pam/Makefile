@@ -26,9 +26,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR) SCONFIGDIR=/etc/security
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm Linux-PAM-1.1.6.tar.gz
-	-rm -r build/
-	-rm -r Linux-PAM-1.1.6/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) Linux-PAM-1.1.6.tar.gz
+	$(RM) -r build/
+	$(RM) -r Linux-PAM-1.1.6/
 

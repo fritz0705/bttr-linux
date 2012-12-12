@@ -23,9 +23,9 @@ install: build
 	$(MAKE) -C git-1.8.0.1 install DESTDIR=$(DESTDIR) prefix=$(PREFIX)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm git-1.8.0.1.tar.gz
-	-rm -r build/
-	-rm -r git-1.8.0.1/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) git-1.8.0.1.tar.gz
+	$(RM) -r build/
+	$(RM) -r git-1.8.0.1/
 

@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm gzip-1.5.tar.gz
-	-rm -r build/
-	-rm -r gzip-1.5/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) gzip-1.5.tar.gz
+	$(RM) -r build/
+	$(RM) -r gzip-1.5/
 

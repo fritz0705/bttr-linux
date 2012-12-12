@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm patch-2.7.1.tar.gz
-	-rm -r build/
-	-rm -r patch-2.7.1/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) patch-2.7.1.tar.gz
+	$(RM) -r build/
+	$(RM) -r patch-2.7.1/
 

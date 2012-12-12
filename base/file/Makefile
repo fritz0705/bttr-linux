@@ -24,9 +24,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm file-5.11.tar.gz
-	-rm -r build/
-	-rm -r file-5.11/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) file-5.11.tar.gz
+	$(RM) -r build/
+	$(RM) -r file-5.11/
 

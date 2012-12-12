@@ -25,9 +25,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm gmp-5.0.5.tar.bz2
-	-rm -r build/
-	-rm -r gmp-5.0.5/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) gmp-5.0.5.tar.bz2
+	$(RM) -r build/
+	$(RM) -r gmp-5.0.5/
 

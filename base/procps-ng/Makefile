@@ -25,9 +25,9 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm procps-ng-3.3.5.tar.gz
-	-rm -r build/
-	-rm -r procps-ng-3.3.5/
+	$(RM) prepare
+	$(RM) configure
+	$(RM) procps-ng-3.3.5.tar.gz
+	$(RM) -r build/
+	$(RM) -r procps-ng-3.3.5/
 
