@@ -2,7 +2,7 @@
 
 PREFIX=/usr
 DESTDIR=
-LANGUAGES=c,c++
+LANGUAGES=c
 
 all: build
 

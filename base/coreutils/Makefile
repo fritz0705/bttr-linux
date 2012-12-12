@@ -2,7 +2,11 @@
 
 PREFIX=/usr
 DESTDIR=
-BINDIR:=/bin
+ifeq ($(PREFIX),/usr)
+	BINDIR=/bin
+else
+	BINDIR=$(PREFIX)/bin
+endif
 
 all: build
 
@@ -24,7 +28,9 @@ coreutils-8.20.tar.xz:
 
 install: build
 	$(MAKE) -C build/ DESTDIR=$(DESTDIR) install
-	ln -sf $(BINDIR)/env $(DESTDIR)/$(PREFIX)/bin/env
+ifeq ($(BINDIR),/bin)
+	ln -sf $(BINDIR)/env $(DESTDIR)/bin/env
+endif
 
 clean:
 	$(RM) prepare
