@@ -1,12 +1,22 @@
 .PHONY: all build install clean
 
 PREFIX=/usr
+ifeq ($(PREFIX),/usr)
+SBINDIR=/sbin
+CONFDIR=/etc/iproute2
+ARPDDIR=/var/lib/arpd
+else
+SBINDIR=$(PREFIX)/sbin
+CONFDIR=$(PREFIX)/etc/iproute2
+ARPDDIR=$(PREFIX)/var/lib/arpd
+endif
+
 DESTDIR=
 
 all: build
 
 build: configure
-	$(MAKE) -C iproute2-3.6.0
+	$(MAKE) -C iproute2-3.6.0 PREFIX=$(PREFIX)
 
 configure: prepare
 	cd iproute2-3.6.0 && ./configure
@@ -21,7 +31,7 @@ iproute2-3.6.0.tar.gz:
 	wget http://kernel.org/pub/linux/utils/net/iproute2/iproute2-3.6.0.tar.gz
 
 install: build
-	$(MAKE) -C iproute2-3.6.0 DESTDIR=$(DESTDIR) PREFIX=$(PREFIX) install
+	$(MAKE) -C iproute2-3.6.0 DESTDIR=$(DESTDIR) SBINDIR=$(SBINDIR) CONFDIR=$(CONFDIR) ARPDDIR=$(ARPDIR) install
 
 clean:
 	$(RM) prepare
