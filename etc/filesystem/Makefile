@@ -2,6 +2,8 @@ DESTDIR=
 
 # Empty targets
 all:
+build:
+configure:
 prepare:
 clean:
 
@@ -30,3 +32,4 @@ install:
 		$(DESTDIR)/usr/local/share $(DESTDIR)/usr/local/src
 	# /etc
 	ln -sf /proc/self/mounts $(DESTDIR)/etc/mtab
+

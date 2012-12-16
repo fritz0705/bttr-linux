@@ -2,6 +2,8 @@ DESTDIR=
 
 # Empty targets
 all:
+build:
+configure:
 prepare:
 clean:
 
