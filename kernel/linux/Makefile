@@ -24,7 +24,7 @@ install: all
 	install -d -m755 $(DESTDIR)/boot
 	$(MAKE) -C linux-3.6.8 modules_install INSTALL_MOD_PATH=$(DESTDIR)
 	$(MAKE) -C linux-3.6.8 firmware_install INSTALL_FW_PATH=$(DESTDIR)/lib/firmware
-	$(MAKE) -C linux-3.6.8 headers_install INSTALL_HDR_PATH=$(DESTDIR)/usr
+	$(MAKE) -C linux-3.6.8 headers_install INSTALL_HDR_PATH=$(DESTDIR)/usr/include/linux
 	cp linux-3.6.8/.config $(DESTDIR)/boot/config
 	cp linux-3.6.8/arch/x86/boot/bzImage $(DESTDIR)/boot/vmlinuz
 
