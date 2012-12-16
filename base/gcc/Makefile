@@ -3,6 +3,7 @@
 PREFIX=/usr
 DESTDIR=
 LANGUAGES=c
+VERSION=4.7.1
 
 all: build
 
@@ -10,17 +11,17 @@ build: configure
 	$(MAKE) -C build all
 
 configure: prepare
-	cd build && ../gcc-4.7.2/configure --prefix=$(PREFIX) \
+	cd build && ../gcc-$(VERSION)/configure --prefix=$(PREFIX) \
 		--enable-languages=$(LANGUAGES) --disable-multilib
 	@touch configure
 
-prepare: gcc-4.7.2.tar.gz
-	tar xzf gcc-4.7.2.tar.gz
+prepare: gcc-$(VERSION).tar.gz
+	tar xzf gcc-$(VERSION).tar.gz
 	@mkdir build
 	@touch prepare
 
-gcc-4.7.2.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/gcc/gcc-4.7.2/gcc-4.7.2.tar.gz
+gcc-$(VERSION).tar.gz:
+	wget ftp://ftp.gnu.org/gnu/gcc/gcc-$(VERSION)/gcc-$(VERSION).tar.gz
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
@@ -29,7 +30,7 @@ install: build
 clean:
 	$(RM) prepare
 	$(RM) configure
-	$(RM) gcc-4.7.2.tar.gz
+	$(RM) gcc-$(VERSION).tar.gz
 	$(RM) -r build/
-	$(RM) -r gcc-4.7.2/
+	$(RM) -r gcc-$(VERSION)/
 

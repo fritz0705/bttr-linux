@@ -6,13 +6,15 @@ DESTDIR=
 LIBDIR:=$(PREFIX)/lib
 LIBEXECDIR:=$(PREFIX)/lib
 
+VERSION=2.16.0
+
 all: build
 
 build: configure
 	$(MAKE) -C build all
 
 configure: prepare
-	cd build && ../glibc-2.16.0/configure --prefix=$(PREFIX) \
+	cd build && ../glibc-$(VERSION)/configure --prefix=$(PREFIX) \
 		--libdir=$(LIBDIR) \
 		--libexecdir=$(LIBEXECDIR) \
 		--enable-add-ons=nptl,libidn \
@@ -23,13 +25,13 @@ configure: prepare
 		--enable-multi-arch
 	@touch configure
 
-prepare: glibc-2.16.0.tar.gz
-	tar xzf glibc-2.16.0.tar.gz
+prepare: glibc-$(VERSION).tar.gz
+	tar xzf glibc-$(VERSION).tar.gz
 	mkdir -p build
 	@touch prepare
 
-glibc-2.16.0.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/glibc/glibc-2.16.0.tar.gz
+glibc-$(VERSION).tar.gz:
+	wget ftp://ftp.gnu.org/gnu/glibc/glibc-$(VERSION).tar.gz
 
 install: build
 	ln -sf lib64 $(DESTDIR)/lib
@@ -38,7 +40,7 @@ install: build
 clean:
 	$(RM) prepare
 	$(RM) configure
-	$(RM) glibc-2.16.0.tar.gz
+	$(RM) glibc-$(VERSION).tar.gz
 	$(RM) -r build/
-	$(RM) -r glibc-2.16.0/
+	$(RM) -r glibc-$(VERSION)/
 
