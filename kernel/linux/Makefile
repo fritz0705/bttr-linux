@@ -1,6 +1,8 @@
 DESTDIR=
 
-all: prepare configure
+all: build
+
+build: configure
 	$(MAKE) -C linux-3.6.8 all
 
 configure: prepare
@@ -10,15 +12,16 @@ else
 	cp $(KCONFIG) linux-3.6.8/.config
 	$(MAKE) -C linux-3.6.8 silentoldconfig
 endif
+	@touch configure
 
 prepare: linux-3.6.8.tar.bz2
 	tar xjf linux-3.6.8.tar.bz2
-	touch prepare
+	@touch prepare
 
 linux-3.6.8.tar.bz2:
 	wget http://www.kernel.org/pub/linux/kernel/v3.0/linux-3.6.8.tar.bz2
 
-install: all
+install: build
 	install -d -m755 $(DESTDIR)/lib/modules
 	install -d -m755 $(DESTDIR)/lib/firmware
 	install -d -m755 $(DESTDIR)/boot
@@ -29,8 +32,7 @@ install: all
 	cp linux-3.6.8/arch/x86/boot/bzImage $(DESTDIR)/boot/vmlinuz
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -rf linux-3.6.8
-	rm -f linux-3.6.8.tar.bz2
+	$(RM) prepare
+	$(RM) linux-3.6.8.tar.bz2
+	$(RM) -r linux-3.6.8
 
