@@ -1,24 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../freetype-2.4.10/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../freetype-2.4.10/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: freetype-2.4.10.tar.bz2
 	tar xjf freetype-2.4.10.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 freetype-2.4.10.tar.bz2:
 	wget http://downloads.sourceforge.net/sourceforge/freetype/freetype-2.4.10.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f freetype-2.4.10.tar.bz2
-	rm -rf freetype-2.4.10
+	$(RM) prepare
+	$(RM) configure
+	$(RM) freetype-2.4.10.tar.bz2
+	$(RM) -r build/
+	$(RM) -r freetype-2.4.10/
 

@@ -1,24 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../libgpg-error-1.10/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../libgpg-error-1.10/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: libgpg-error-1.10.tar.bz2
 	tar xjf libgpg-error-1.10.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 libgpg-error-1.10.tar.bz2:
 	wget ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.10.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f libgpg-error-1.10.tar.bz2
-	rm -rf libgpg-error-1.10
+	$(RM) prepare
+	$(RM) configure
+	$(RM) libgpg-error-1.10.tar.bz2
+	$(RM) -r build/
+	$(RM) -r libgpg-error-1.10/
 

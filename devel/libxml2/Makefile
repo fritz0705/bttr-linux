@@ -1,25 +1,33 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build
+
+configure: prepare
 	cd build && ../libxml2-2.9.0/configure --prefix=$(PREFIX) \
 		--with-threads --with-history
-	$(MAKE) -C build
+	@touch configure
 
 prepare: libxml2-2.9.0.tar.gz
 	tar xzf libxml2-2.9.0.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 libxml2-2.9.0.tar.gz:
 	wget ftp://xmlsoft.org/libxml2/libxml2-2.9.0.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f libxml2-2.9.0.tar.gz
-	rm -rf libxml2-2.9.0
+	$(RM) prepare
+	$(RM) configure
+	$(RM) libxml2-2.9.0.tar.gz
+	$(RM) -r build/
+	$(RM) -r libxml2-2.9.0/
 

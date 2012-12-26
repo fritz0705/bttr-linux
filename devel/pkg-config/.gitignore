@@ -1,3 +1,4 @@
-prepare
 build/
+configure
 pkg-config-*
+prepare

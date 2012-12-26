@@ -29,9 +29,9 @@ install: build
 	# Installation instructions
 
 clean:
-	-rm prepare
-	-rm configure
-	-rm -r build/
+	\$(RM) prepare
+	\$(RM) configure
+	\$(RM) -r build/
 MAKEFILE
 
 if [ -f .gitignore ]

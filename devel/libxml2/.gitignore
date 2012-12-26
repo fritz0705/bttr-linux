@@ -1,3 +1,4 @@
-prepare
 build/
+configure
 libxml2-*
+prepare

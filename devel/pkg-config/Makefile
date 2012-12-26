@@ -1,3 +1,5 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
@@ -7,25 +9,31 @@ ifeq ($(HAVE_NO_GLIB),yes)
 	configure_flags += --with-internal-glib
 endif
 
-all: prepare
-	cd build && ../pkg-config-0.27.1/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../pkg-config-0.27.1/configure --prefix=$(PREFIX) $(configure_flags)
+	@touch configure
 
 prepare: pkg-config-0.27.1.tar.gz
 	tar xzf pkg-config-0.27.1.tar.gz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 pkg-config-0.27.1.tar.gz:
 	wget http://pkgconfig.freedesktop.org/releases/pkg-config-0.27.1.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 	ln -sf /usr/lib/pkgconfig $(DESTDIR)/lib/pkgconfig
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f pkg-config-0.27.1.tar.gz
-	rm -rf pkg-config-0.27.1
+	$(RM) prepare
+	$(RM) configure
+	$(RM) pkg-config-0.27.1.tar.gz
+	$(RM) -r build/
+	$(RM) -r pkg-config-0.27.1/
 
