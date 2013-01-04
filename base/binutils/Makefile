@@ -3,13 +3,18 @@
 PREFIX=/usr
 DESTDIR=
 
+override CONFIGURE_FLAGS=
+ifdef LIB_PATH
+override CONFIGURE_FLAGS+= --with-lib-path=$(LIB_PATH)
+endif
+
 all: build
 
 build: configure
 	$(MAKE) -C build all
 
 configure: prepare
-	cd build && ../binutils-2.23/configure --prefix=$(PREFIX)
+	cd build && ../binutils-2.23/configure --prefix=$(PREFIX) $(CONFIGURE_FLAGS)
 	@touch configure
 
 prepare: binutils-2.23.tar.gz
