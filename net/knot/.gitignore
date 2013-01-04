@@ -1,0 +1,5 @@
+prepare
+configure
+build/
+knot-*.tar.gz
+knot-*/
