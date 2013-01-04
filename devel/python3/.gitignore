@@ -1,0 +1,5 @@
+prepare
+configure
+build/
+Python-*/
+Python-*.tgz
