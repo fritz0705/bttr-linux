@@ -1,24 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../systemd-196/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../systemd-196/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: systemd-196.tar.xz
 	tar xJf systemd-196.tar.xz
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 systemd-196.tar.xz:
 	wget http://www.freedesktop.org/software/systemd/systemd-196.tar.xz
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f systemd-196.tar.xz
-	rm -rf systemd-196
+	$(RM) prepare
+	$(RM) configure
+	$(RM) systemd-196.tar.gz
+	$(RM) -r build/
+	$(RM) -r systemd-196/
 

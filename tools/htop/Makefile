@@ -1,29 +1,37 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build
+
+configure: prepare
 	cd build && ../htop-1.0.2/configure --prefix=$(PREFIX) \
 		--enable-unicode \
 		--enable-openvz \
 		--enable-vserver \
 		--enable-cgroup
-	$(MAKE) -C build
+	@touch configure
 
 prepare: htop-1.0.2.tar.gz
 	tar xzf htop-1.0.2.tar.gz
 	sed -i 's|ncursesw/curses.h|curses.h|' htop-1.0.2/RichString.c htop-1.0.2/RichString.h htop-1.0.2/configure
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 htop-1.0.2.tar.gz:
 	wget http://downloads.sourceforge.net/htop/htop-1.0.2.tar.gz
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -rf htop-1.0.2
-	rm -f htop-1.0.2.tar.gz
+	$(RM) prepare
+	$(RM) configure
+	$(RM) htop-1.0.2.tar.gz
+	$(RM) -r build/
+	$(RM) -r htop-1.0.2/
 

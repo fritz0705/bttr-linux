@@ -1,8 +1,15 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 ETCDIR=/etc/zsh
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build all info
+
+configure: prepare
 	cd build && ../zsh-5.0.0/configure --prefix=$(PREFIX) \
 		--enable-etcdir=$(ETCDIR) \
 		--enable-zshenv=$(ETCDIR)/zshenv \
@@ -20,22 +27,23 @@ all: prepare
 		--enable-pcre \
 		--enable-cap \
 		--enable-zsh-secure-free
-	$(MAKE) -C build all info
+	@touch configure
 
 prepare: zsh-5.0.0.tar.bz2
 	tar xjf zsh-5.0.0.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 zsh-5.0.0.tar.bz2:
 	wget http://www.zsh.org/pub/zsh-5.0.0.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C build install install.info DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -rf zsh-5.0.0
-	rm -f zsh-5.0.0.tar.bz2
+	$(RM) prepare
+	$(RM) configure
+	$(RM) zsh-5.0.0.tar.bz2
+	$(RM) -r build/
+	$(RM) -r zsh-5.0.0/
 

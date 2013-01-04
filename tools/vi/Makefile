@@ -1,22 +1,30 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
 	$(MAKE) -C ex-050325 PREFIX=$(PREFIX) LIBEXECDIR=$(PREFIX)/lib/ex TERMLIB=ncurses 'FEATURES=-DCHDIR -DFASTTAG -DUCVISUAL -DMB -DBIT8'
+
+configure: prepare
 
 prepare: ex-050325.tar.bz2
 	tar xjf ex-050325.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 ex-050325.tar.bz2:
 	wget http://downloads.sourceforge.net/sourceforge/ex-vi/ex-050325.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C ex-050325 PREFIX=$(PREFIX) LIBEXECDIR=$(PREFIX)/lib/ex INSTALL=install DESTDIR=$(DESTDIR) install
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -rf ex-050325
-	rm -f ex-050325.tar.bz2
+	$(RM) prepare
+	$(RM) configure
+	$(RM) ex-050325.tar.bz2
+	$(RM) -r build/
+	$(RM) -r ex-050325/
+
