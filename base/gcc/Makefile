@@ -12,7 +12,8 @@ build: configure
 
 configure: prepare
 	cd build && ../gcc-$(VERSION)/configure --prefix=$(PREFIX) \
-		--enable-languages=$(LANGUAGES) --disable-multilib
+		--enable-languages=$(LANGUAGES) --disable-multilib \
+		$(CONFIGURE_FLAGS)
 	@touch configure
 
 prepare: gcc-$(VERSION).tar.gz
