@@ -1,0 +1,5 @@
+prepare
+configure
+build/
+tmux-*.tar.gz
+tmux-*/
