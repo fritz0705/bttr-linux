@@ -1,4 +1,4 @@
-PACKAGES := base kernel tools
+PACKAGES := $(shell find -maxdepth 1 -mindepth 1 -type d -not -name '.*' -printf '%f\n')
 .PHONY: $(PACKAGES) $(MAKECMDGOALS)
 
 $(MAKECMDGOALS): $(PACKAGES)

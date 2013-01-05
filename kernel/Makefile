@@ -1,7 +1,1 @@
-all:
-
-install:
-
-clean:
-
-
+../Makefile
