@@ -1,5 +1,5 @@
 build/
 configure
-gcc-4.7.2
-gcc-4.7.2.tar.gz
+gcc-*/
+gcc-*.tar.gz
 prepare
