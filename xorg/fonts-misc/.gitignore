@@ -1,4 +1,5 @@
-prepare
 build/
-fonts-*-misc-*.tar.bz2
+configure
 fonts-*-misc-*/
+fonts-*-misc-*.tar.bz2
+prepare

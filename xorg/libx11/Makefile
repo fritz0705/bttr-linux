@@ -1,25 +1,33 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build
+
+configure: prepare
 	cd build && ../libX11-1.5.0/configure --prefix=$(PREFIX) \
 		--disable-static --disable-xf86bigfont
-	$(MAKE) -C build
+	@touch configure
 
 prepare: libX11-1.5.0.tar.bz2
 	tar xjf libX11-1.5.0.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 libX11-1.5.0.tar.bz2:
 	wget http://xorg.freedesktop.org/releases/individual/lib/libX11-1.5.0.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f libX11-1.5.0.tar.bz2
-	rm -rf libX11-1.5.0
+	$(RM) prepare
+	$(RM) configure
+	$(RM) libX11-1.5.0.tar.bz2
+	$(RM) -r build/
+	$(RM) -r libX11-1.5.0/
 

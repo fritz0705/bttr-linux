@@ -1,26 +1,34 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 SYSCONFDIR=/etc
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build
+
+configure: prepare
 	cd build && ../libxkbfile-1.0.8/configure --prefix=$(PREFIX) \
 		--sysconfdir=$(SYSCONFDIR) --disable-static
-	$(MAKE) -C build
+	@touch configure
 
 prepare: libxkbfile-1.0.8.tar.bz2
 	tar xjf libxkbfile-1.0.8.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 libxkbfile-1.0.8.tar.bz2:
 	wget http://xorg.freedesktop.org/releases/individual/lib/libxkbfile-1.0.8.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f libxkbfile-1.0.8.tar.bz2
-	rm -rf libxkbfile-1.0.8
+	$(RM) prepare
+	$(RM) configure
+	$(RM) libxkbfile-1.0.8.tar.bz2
+	$(RM) -r build/
+	$(RM) -r libxkbfile-1.0.8/
 

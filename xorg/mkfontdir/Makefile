@@ -1,23 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../mkfontdir-1.0.7/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../mkfontdir-1.0.7/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: mkfontdir-1.0.7.tar.bz2
 	tar xjf mkfontdir-1.0.7.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 mkfontdir-1.0.7.tar.bz2:
 	wget http://xorg.freedesktop.org/archive/individual/app/mkfontdir-1.0.7.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f mkfontdir-1.0.7.tar.bz2
-	rm -rf mkfontdir-1.0.7
+	$(RM) prepare
+	$(RM) configure
+	$(RM) mkfontdir-1.0.7.tar.bz2
+	$(RM) -r build/
+	$(RM) -r mkfontdir-1.0.7/
+

@@ -1,27 +1,35 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build 
+
+configure: prepare
 	cd build && ../xkeyboard-config-2.7/configure --prefix=$(PREFIX) \
 		--with-xkb-base=$(PREFIX)/share/X11/xkb \
 		--with-xkb-rules-symlink=xorg \
 		--enable-compat-rules=yes
-	$(MAKE) -C build 
+	@touch configure
 
 prepare: xkeyboard-config-2.7.tar.bz2
 	tar xjf xkeyboard-config-2.7.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 xkeyboard-config-2.7.tar.bz2:
 	wget http://xorg.freedesktop.org/archive/individual/data/xkeyboard-config/xkeyboard-config-2.7.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f xkeyboard-config-2.7.tar.bz2
-	rm -rf xkeyboard-config-2.7
+	$(RM) prepare
+	$(RM) configure
+	$(RM) xkeyboard-config-2.7.tar.bz2
+	$(RM) -r build/
+	$(RM) -r xkeyboard-config-2.7/
 

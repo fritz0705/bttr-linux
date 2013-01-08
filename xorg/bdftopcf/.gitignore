@@ -1,3 +1,4 @@
-prepare
-build/
 bdftopcf-*
+build/
+configure
+prepare

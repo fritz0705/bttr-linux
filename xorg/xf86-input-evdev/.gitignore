@@ -1,3 +1,4 @@
-prepare
 build/
+configure
+prepare
 xf86-input-evdev-*

@@ -1,24 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../fontsproto-2.1.2/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../fontsproto-2.1.2/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: fontsproto-2.1.2.tar.bz2
 	tar xjf fontsproto-2.1.2.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 fontsproto-2.1.2.tar.bz2:
 	wget http://xorg.freedesktop.org/releases/individual/proto/fontsproto-2.1.2.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f fontsproto-2.1.2.tar.bz2
-	rm -rf fontsproto-2.1.2
+	$(RM) prepare
+	$(RM) configure
+	$(RM) fontsproto-2.1.2.tar.bz2
+	$(RM) -r build/
+	$(RM) -r fontsproto-2.1.2/
 

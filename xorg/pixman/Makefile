@@ -1,24 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../pixman-0.28.0/configure --prefix=$(PREFIX) --disable-static
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../pixman-0.28.0/configure --prefix=$(PREFIX) --disable-static
+	@touch configure
 
 prepare: pixman-0.28.0.tar.bz2
 	tar xjf pixman-0.28.0.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 pixman-0.28.0.tar.bz2:
 	wget http://xorg.freedesktop.org/releases/individual/lib/pixman-0.28.0.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f pixman-0.28.0.tar.bz2
-	rm -rf pixman-0.28.0
+	$(RM) prepare
+	$(RM) configure
+	$(RM) pixman-0.28.0.tar.bz2
+	$(RM) -r build/
+	$(RM) -r pixman-0.28.0/
 

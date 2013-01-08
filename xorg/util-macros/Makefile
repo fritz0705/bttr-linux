@@ -1,24 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../util-macros-1.17/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../util-macros-1.17/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: util-macros-1.17.tar.bz2
 	tar xjf util-macros-1.17.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 util-macros-1.17.tar.bz2:
 	wget http://xorg.freedesktop.org/releases/individual/util/util-macros-1.17.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f util-macros-1.17.tar.bz2
-	rm -rf util-macros-1.17
+	$(RM) prepare
+	$(RM) configure
+	$(RM) util-macros-1.17.tar.bz2
+	$(RM) -r build/
+	$(RM) -r util-macros-1.17/
 

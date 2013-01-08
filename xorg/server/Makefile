@@ -1,9 +1,16 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 SYSCONFDIR=/etc/X11
 LOCALSTATEDIR=/var
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build
+
+configure: prepare
 	cd build && ../xorg-server-1.13.0.901/configure --prefix=$(PREFIX) \
 		--enable-ipv6 \
 		--enable-dri \
@@ -31,22 +38,24 @@ all: prepare
 		--with-xkb-path=$(PREFIX)/share/X11/xkb \
 		--with-xkb-output=$(LOCALSTATEDIR)/lib/xkb \
 		--with-fontrootdir=$(PREFIX)/share/fonts
-	$(MAKE) -C build
+	sed -i 's/chown/-chown/' build/hw/xfree86/Makefile
+	@touch configure
 
 prepare: xorg-server-1.13.0.901.tar.bz2
 	tar xjf xorg-server-1.13.0.901.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 xorg-server-1.13.0.901.tar.bz2:
 	wget http://xorg.freedesktop.org/releases/individual/xserver/xorg-server-1.13.0.901.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f xorg-server-1.13.0.901.tar.bz2
-	rm -rf xorg-server-1.13.0.901
+	$(RM) prepare
+	$(RM) configure
+	$(RM) xorg-server-1.13.0.901.tar.bz2
+	$(RM) -r build/
+	$(RM) -r xorg-server-1.13.0.901/
 

@@ -1,25 +1,34 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 SYSCONFDIR=/etc
 DESTDIR=
 
-all: prepare
+all: build
+
+build: configure
+	$(MAKE) -C build
+
+configure: prepare
 	cd build && ../libXau-1.0.7/configure --prefix=$(PREFIX) \
 		--sysconfdir=$(SYSCONFDIR)
-	$(MAKE) -C build
+	@touch configure
 
 prepare: libXau-1.0.7.tar.bz2
 	tar xjf libXau-1.0.7.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 libXau-1.0.7.tar.bz2:
 	wget http://xorg.freedesktop.org/releases/individual/lib/libXau-1.0.7.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f libXau-1.0.7.tar.bz2
-	rm -rf libXau-1.0.7
+	$(RM) prepare
+	$(RM) configure
+	$(RM) libXau-1.0.7.tar.bz2
+	$(RM) -r build/
+	$(RM) -r libXau-1.0.7/
+

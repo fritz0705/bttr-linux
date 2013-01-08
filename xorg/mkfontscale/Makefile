@@ -1,24 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../mkfontscale-1.1.0/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../mkfontscale-1.1.0/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: mkfontscale-1.1.0.tar.bz2
 	tar xjf mkfontscale-1.1.0.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 mkfontscale-1.1.0.tar.bz2:
 	wget http://xorg.freedesktop.org/archive/individual/app/mkfontscale-1.1.0.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f mkfontscale-1.1.0.tar.bz2
-	rm -rf mkfontscale-1.1.0
+	$(RM) prepare
+	$(RM) configure
+	$(RM) mkfontscale-1.1.0.tar.bz2/
+	$(RM) -r build/
+	$(RM) -r mkfontscale-1.1.0/
 

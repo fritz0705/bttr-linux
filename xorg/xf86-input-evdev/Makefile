@@ -1,24 +1,32 @@
+.PHONY: all build install clean
+
 PREFIX=/usr
 DESTDIR=
 
-all: prepare
-	cd build && ../xf86-input-evdev-2.7.3/configure --prefix=$(PREFIX)
+all: build
+
+build: configure
 	$(MAKE) -C build
+
+configure: prepare
+	cd build && ../xf86-input-evdev-2.7.3/configure --prefix=$(PREFIX)
+	@touch configure
 
 prepare: xf86-input-evdev-2.7.3.tar.bz2
 	tar xjf xf86-input-evdev-2.7.3.tar.bz2
-	mkdir -p build
-	touch prepare
+	@mkdir build
+	@touch prepare
 
 xf86-input-evdev-2.7.3.tar.bz2:
 	wget http://xorg.freedesktop.org/releases/individual/driver/xf86-input-evdev-2.7.3.tar.bz2
 
-install: all
+install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	rm -rf build/
-	rm -f prepare
-	rm -f xf86-input-evdev-2.7.3.tar.bz2
-	rm -rf xf86-input-evdev-2.7.3
+	$(RM) prepare
+	$(RM) configure
+	$(RM) xf86-input-evdev-2.7.3.tar.bz2
+	$(RM) -r build/
+	$(RM) -r xf86-input-evdev-2.7.3/
 
