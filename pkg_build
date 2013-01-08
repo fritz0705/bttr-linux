@@ -1,3 +1,0 @@
-#!/bin/sh
-
-make -C $1 -j $(cat /proc/cpuinfo | grep "processor" | wc -l) all
