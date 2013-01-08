@@ -5,16 +5,33 @@ DESTDIR=
 LANGUAGES=c
 VERSION=4.7.1
 
+# Build configure flags
 override __configure_flags =
 
+# You can set an alternative sysroot for this GCC compilation using SYSROOT
 ifdef SYSROOT
 override __configure_flags += --with-sysroot=$(SYSROOT)
 endif
 
+# Set NATIVE_SYSTEM_HEADER_DIR to isolate the GCC from /usr/include
+# This is useful while bootstrapping your Linux system
+ifdef NATIVE_SYSTEM_HEADER_DIR
+override __configure_flags += --with-native-system-header-dir=$(NATIVE_SYSTEM_HEADER_DIR)
+endif
+
+# Disable shared libraries and enable static linking for binaries
+# Also useful for cross-compilation and bootstrapping a system
+ifeq ($(WITHOUT_SHARED),yes)
+override __configure_flags += --disable-shared --enable-static
+endif
+
+# Remove dependency on libc headers from GCC, to bootstrap a build environment
 ifeq ($(WITHOUT_HEADERS),yes)
 override __configure_flags += --without-headers
 endif
 
+# Append CONFIGURE_FLAGS to internal configure flags
+# This should be used for more experimental configure flags
 override __configure_flags += $(CONFIGURE_FLAGS)
 
 all: build
