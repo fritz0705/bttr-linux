@@ -1,0 +1,4 @@
+prepare
+configure
+build/
+gatling-*
