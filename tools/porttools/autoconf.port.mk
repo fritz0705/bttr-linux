@@ -56,9 +56,9 @@ ifdef PPREFIX
 override __configure_flags += --program-prefix=$(PPREFIX)
 endif
 
-FETCH=curl
-
 override __configure_flags += $(CONFIGURE_FLAGS)
+
+FETCH=curl
 
 all: build
 

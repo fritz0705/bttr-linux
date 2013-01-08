@@ -103,11 +103,14 @@ GITIGNORE
 
 # PREFIX=/
 # SYSCONFDIR=/etc
+# BINDIR=/bin
+# SBINDIR=/sbin
+# LOCALSTATEDIR=/var
 
-# TAR_FLAGS=z
+# TAR_FLAGS=-z
 # DISABLE_BUILD_DIR=yes
 
-.include 'autoconf.port.mk'
+include autoconf.port.mk
 MAKE
 			;
 
