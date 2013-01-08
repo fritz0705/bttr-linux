@@ -12,7 +12,7 @@ override __configure_flags += --with-sysroot=$(SYSROOT)
 endif
 
 ifeq ($(WITHOUT_HEADERS),yes)
-override __configure_flags += $(WITHOUT_HEADERS)
+override __configure_flags += --without-headers
 endif
 
 override __configure_flags += $(CONFIGURE_FLAGS)
