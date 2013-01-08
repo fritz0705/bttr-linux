@@ -5,6 +5,18 @@ DESTDIR=
 LANGUAGES=c
 VERSION=4.7.1
 
+override __configure_flags =
+
+ifdef SYSROOT
+override __configure_flags += --with-sysroot=$(SYSROOT)
+endif
+
+ifeq ($(WITHOUT_HEADERS),yes)
+override __configure_flags += $(WITHOUT_HEADERS)
+endif
+
+override __configure_flags += $(CONFIGURE_FLAGS)
+
 all: build
 
 build: configure
@@ -13,7 +25,7 @@ build: configure
 configure: prepare
 	cd build && ../gcc-$(VERSION)/configure --prefix=$(PREFIX) \
 		--enable-languages=$(LANGUAGES) --disable-multilib \
-		$(CONFIGURE_FLAGS)
+		$(__configure_flags)
 	@touch configure
 
 prepare: gcc-$(VERSION).tar.gz

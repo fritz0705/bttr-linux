@@ -8,6 +8,10 @@ ifdef LIB_PATH
 override CONFIGURE_FLAGS+= --with-lib-path=$(LIB_PATH)
 endif
 
+ifdef SYSROOT
+override CONFIGURE_FLAGS += --with-sysroot=$(SYSROOT)
+endif
+
 all: build
 
 build: configure
