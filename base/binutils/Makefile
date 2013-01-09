@@ -3,14 +3,21 @@
 PREFIX=/usr
 DESTDIR=
 
-override CONFIGURE_FLAGS=
+override __configure_flags = 
+
 ifdef LIB_PATH
-override CONFIGURE_FLAGS+= --with-lib-path=$(LIB_PATH)
+override __configure_flags += --with-lib-path=$(LIB_PATH)
 endif
 
 ifdef SYSROOT
-override CONFIGURE_FLAGS += --with-sysroot=$(SYSROOT)
+override __configure_flags += --with-sysroot=$(SYSROOT)
 endif
+
+ifeq ($(WITHOUT_SHARED),yes)
+override __configure_flags += --disable-shared --enable-static
+endif
+
+override __configure_flags += $(CONFIGURE_FLAGS)
 
 all: build
 
@@ -18,7 +25,8 @@ build: configure
 	$(MAKE) -C build all
 
 configure: prepare
-	cd build && ../binutils-2.23/configure --prefix=$(PREFIX) $(CONFIGURE_FLAGS)
+	cd build && ../binutils-2.23/configure --prefix=$(PREFIX) \
+		$(__configure_flags)
 	@touch configure
 
 prepare: binutils-2.23.tar.gz
