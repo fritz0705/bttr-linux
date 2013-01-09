@@ -30,6 +30,26 @@ ifeq ($(WITHOUT_HEADERS),yes)
 override __configure_flags += --without-headers
 endif
 
+# It should be possible to enable multilib support
+ifeq ($(WITH_MULTILIB),yes)
+override __configure_flags += --enable-multilib
+else
+override __configure_flags += --disable-multilib
+endif
+
+# We want simple support for several libc versions
+ifdef LIBC
+ifeq ($(LIBC),glibc)
+else ($(LIBC),eglibc)
+else ($(LIBC),newlib)
+override __configure_flags += --with-newlib
+else ($(LIBC),avrlibc)
+override __configure_flags += --with-avrlibc
+else
+$(error libc $(LIBC) is not supported)
+endif
+endif
+
 # Append CONFIGURE_FLAGS to internal configure flags
 # This should be used for more experimental configure flags
 override __configure_flags += $(CONFIGURE_FLAGS)
@@ -41,7 +61,7 @@ build: configure
 
 configure: prepare
 	cd build && ../gcc-$(VERSION)/configure --prefix=$(PREFIX) \
-		--enable-languages=$(LANGUAGES) --disable-multilib \
+		--enable-languages=$(LANGUAGES) \
 		$(__configure_flags)
 	@touch configure
 
