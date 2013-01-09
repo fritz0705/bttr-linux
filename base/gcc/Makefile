@@ -40,10 +40,10 @@ endif
 # We want simple support for several libc versions
 ifdef LIBC
 ifeq ($(LIBC),glibc)
-else ($(LIBC),eglibc)
-else ($(LIBC),newlib)
+else ifeq ($(LIBC),eglibc)
+else ifeq ($(LIBC),newlib)
 override __configure_flags += --with-newlib
-else ($(LIBC),avrlibc)
+else ifeq ($(LIBC),avrlibc)
 override __configure_flags += --with-avrlibc
 else
 $(error libc $(LIBC) is not supported)
