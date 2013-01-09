@@ -1,0 +1,1 @@
+HOOKSCRIPTS=	50-ntp.conf
