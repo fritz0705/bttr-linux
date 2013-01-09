@@ -2,6 +2,7 @@
 
 PREFIX=/usr
 DESTDIR=
+VERSION=2.23
 
 override __configure_flags = 
 
@@ -25,17 +26,17 @@ build: configure
 	$(MAKE) -C build all
 
 configure: prepare
-	cd build && ../binutils-2.23/configure --prefix=$(PREFIX) \
+	cd build && ../binutils-$(VERSION)/configure --prefix=$(PREFIX) \
 		$(__configure_flags)
 	@touch configure
 
-prepare: binutils-2.23.tar.gz
-	tar xzf binutils-2.23.tar.gz
+prepare: binutils-$(VERSION).tar.gz
+	tar xzf binutils-$(VERSION).tar.gz
 	@mkdir build
 	@touch prepare
 
-binutils-2.23.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/binutils/binutils-2.23.tar.gz
+binutils-$(VERSION).tar.gz:
+	wget ftp://ftp.gnu.org/gnu/binutils/binutils-$(VERSION).tar.gz
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
@@ -43,7 +44,7 @@ install: build
 clean:
 	$(RM) prepare
 	$(RM) configure
-	$(RM) binutils-2.23.tar.gz
+	$(RM) binutils-$(VERSION).tar.gz
 	$(RM) -r build/
-	$(RM) -r binutils-2.23/
+	$(RM) -r binutils-$(VERSION)/
 
