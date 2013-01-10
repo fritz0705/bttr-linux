@@ -7,6 +7,7 @@ LIBDIR:=$(PREFIX)/lib
 LIBEXECDIR:=$(PREFIX)/lib
 
 VERSION=2.16.0
+KERNEL_VERSION=2.6.32
 
 all: build
 
@@ -19,7 +20,7 @@ configure: prepare
 		--libexecdir=$(LIBEXECDIR) \
 		--enable-add-ons=nptl,libidn \
 		--enable-obsolete-rpc \
-		--enable-kernel=2.6.32 \
+		--enable-kernel=$(KERNEL_VERSION) \
 		--enable-bind-now --disable-profile \
 		--enable-stackguard-randomization \
 		--enable-multi-arch
