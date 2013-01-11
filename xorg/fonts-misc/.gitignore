@@ -1,5 +1,5 @@
 build/
 configure
-fonts-*-misc-*/
-fonts-*-misc-*.tar.bz2
+font-*-misc-*/
+font-*-misc-*.tar.bz2
 prepare
