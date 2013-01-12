@@ -23,7 +23,8 @@ configure: prepare
 		--enable-kernel=$(KERNEL_VERSION) \
 		--enable-bind-now --disable-profile \
 		--enable-stackguard-randomization \
-		--enable-multi-arch
+		--enable-multi-arch \
+		$(CONFIGURE_FLAGS)
 	@touch configure
 
 prepare: glibc-$(VERSION).tar.gz
@@ -35,9 +36,6 @@ glibc-$(VERSION).tar.gz:
 	wget ftp://ftp.gnu.org/gnu/glibc/glibc-$(VERSION).tar.gz
 
 install: build
-ifeq ($(PREFIX),/usr)
-	ln -sf lib64 $(DESTDIR)/lib
-endif
 	$(MAKE) -C build install_root=$(DESTDIR) install
 
 clean:
