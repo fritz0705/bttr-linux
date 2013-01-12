@@ -50,6 +50,29 @@ $(error libc $(LIBC) is not supported)
 endif
 endif
 
+# Disable flags for several libraries and features:
+#   WITHOUT_DECIMAL_FLOAT   translates to --disable-decimal-float, which
+#                           disables the GCC extension to handle decimal floats
+#   WITHOUT_LIBMUDFLAP      disable compilation of libmudflap
+#   WITHOUT_LIBSSP          disable compilation of libssp
+#   WITHOUT_LIBGOMP         disable compilation of libgomp
+#   WITHOUT_LIBQUADMATH     disable compilation of libquadmath
+ifeq ($(WITHOUT_DECIMAL_FLOAT),yes)
+override __configure_flags += --without-decimal-float
+endif
+ifeq ($(WITHOUT_LIBMUDFLAP),yes)
+override __configure_flags += --without-libmudflap
+endif
+ifeq ($(WITHOUT_LIBSSP),yes)
+override __configure_flags += --without-libssp
+endif
+ifeq ($(WITHOUT_LIBGOMP),yes)
+override __configure_flags += --without-libgomp
+endif
+ifeq ($(WITHOUT_LIBQUADMATH),yes)
+override __configure_flags += --without-libquadmath
+endif
+
 # Append CONFIGURE_FLAGS to internal configure flags
 # This should be used for more experimental configure flags
 override __configure_flags += $(CONFIGURE_FLAGS)
@@ -75,7 +98,9 @@ gcc-$(VERSION).tar.gz:
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
+ifneq ($(WITHOUT_CC_LINK),yes)
 	ln -sf gcc $(DESTDIR)/$(PREFIX)/bin/cc
+endif
 
 clean:
 	$(RM) prepare
