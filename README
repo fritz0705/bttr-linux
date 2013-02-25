@@ -13,26 +13,31 @@ Ports
 
 The base of BTTR Linux is this ports tree. A port was invented on BSD and describes how to build a package from source. BTTR Linux Ports are nearly the same as in BSD with the difference, that we're using GNU Make instead of pmake/BSD Make and also try to write expressive Makefiles.
 
-Any port consists of a directory and a Makefile, which is directly located in that directory. This Makefile has to provide several targets, which may be phony:
+Any port consists of a directory and a Makefile, which is directly located in that directory. These Makefile provide several default targets, which will ensure a defined assumption:
 
 +------------+------------------------------------------------------+
-| fetch      | Fetch source code                                    |
+| fetch      | Ensure that any source code was fetched and no       |
+|            | outgoing connections are necessary                   |
 +------------+------------------------------------------------------+
-| unpack     | Unpack source code                                   |
+| unpack     | Ensure that the source code was unpacked             |
 +------------+------------------------------------------------------+
-| patch      | Patch source code                                    |
+| patch      | Ensure that any source code was patched              |
 +------------+------------------------------------------------------+
-| configure  | Create configuration for building the port           |
+| prepare    | Ensure that any resources necessary for building are |
+|            | present                                              |
 +------------+------------------------------------------------------+
-| build      | Build port                                           |
-+------------+                                                      |
-| all        |                                                      |
+| configure  | Ensure that the source tree was configured and is    |
+|            | ready for compilation                                |
 +------------+------------------------------------------------------+
-| install    | Install port to DESTDIR                              |
+| build      | Ensure that all files were built from source code    |
 +------------+------------------------------------------------------+
-| clean      | Remove all built files and unpacked source code      |
+| install    | Ensure that all files were installed to DESTDIR      |
 +------------+------------------------------------------------------+
-| distclean  | Same as clean, but also remove fetched source code   |
+| clean      | Ensure that all files except source code             |
+|            | repositories were removed                            |
++------------+------------------------------------------------------+
+| distclean  | Ensure that all files except repository files were   |
+|            | removed                                              |
 +------------+------------------------------------------------------+
 
 These targets are used by our package building tools and port management tools, so have to implement them correctly.
@@ -43,6 +48,8 @@ Furthermore, there are also variables with special meaning:
 | PREFIX        | Prefix for package files                          |
 +---------------+---------------------------------------------------+
 | DESTDIR       | Directory to install files                        |
++---------------+---------------------------------------------------+
+| FETCH         | Program to fetch remote files (mirrorfetch, curl) |
 +---------------+---------------------------------------------------+
 | WITH_xxx      | Enable feature xxx if value is "yes"              |
 +---------------+---------------------------------------------------+
