@@ -1,38 +1,69 @@
 DESTDIR=
 
+VERSION=3.8.5
+FETCH=curl
+
+# Source of kernel configuration
+# 
+#   defconfig
+#     Generate configuration using defconfig target
+#
+#   procfs
+#     Use /proc/config.gz as source
+#
+#   interactive
+#     Call nconfig target
+#
+#   file
+#     Use KCONFIG_FILE as source
+#
+KCONFIG ?= defconfig
+
 all: build
 
-build: configure
-	$(MAKE) -C linux-3.6.8 all
+fetch: linux-$(VERSION).tar.bz2
+unpack: linux-$(VERSION)/
+patch: unpack
+prepare: linux-$(VERSION)/ patch
+configure: linux-$(VERSION)/.config
 
-configure: prepare
-ifeq ($(KCONFIG),)
-	$(MAKE) -C linux-3.6.8 defconfig
+linux-$(VERSION)/.config: linux-$(VERSION)/
+ifeq ($(KCONFIG),defconfig)
+	$(MAKE) -C linux-$(VERSION) defconfig
+else ifeq ($(KCONFIG),procfs)
+	zcat /proc/config.gz linux-$(VERSION)/.config
+	$(MAKE) -C linux-$(VERSION) silentoldconfig
+else ifeq ($(KCONFIG),interactive)
+	$(MAKE) -C linux-$(VERSION) nconfig
+else ifeq ($(KCONFIG),file)
+	cp $(KCONFIG_FILE) linux-$(VERSION)/.config
+	$(MAKE) -C linux-$(VERSION) silentoldconfig
 else
-	cp $(KCONFIG) linux-3.6.8/.config
-	$(MAKE) -C linux-3.6.8 silentoldconfig
+$(error Invalid value $(KCONFIG) for KCONFIG)
 endif
-	@touch configure
 
-prepare: linux-3.6.8.tar.bz2
-	tar xjf linux-3.6.8.tar.bz2
-	@touch prepare
-
-linux-3.6.8.tar.bz2:
-	wget http://www.kernel.org/pub/linux/kernel/v3.0/linux-3.6.8.tar.bz2
+build: configure
+	$(MAKE) -C linux-$(VERSION) all
 
 install: build
 	install -d -m755 $(DESTDIR)/lib/modules
 	install -d -m755 $(DESTDIR)/lib/firmware
 	install -d -m755 $(DESTDIR)/boot
-	$(MAKE) -C linux-3.6.8 modules_install INSTALL_MOD_PATH=$(DESTDIR)
-	$(MAKE) -C linux-3.6.8 firmware_install INSTALL_FW_PATH=$(DESTDIR)/lib/firmware
-	$(MAKE) -C linux-3.6.8 headers_install INSTALL_HDR_PATH=$(DESTDIR)/usr/include/linux
-	cp linux-3.6.8/.config $(DESTDIR)/boot/config
-	cp linux-3.6.8/arch/x86/boot/bzImage $(DESTDIR)/boot/vmlinuz
+	$(MAKE) -C linux-$(VERSION) modules_install INSTALL_MOD_PATH=$(DESTDIR)
+	$(MAKE) -C linux-$(VERSION) firmware_install INSTALL_FW_PATH=$(DESTDIR)/lib/firmware
+	$(MAKE) -C linux-$(VERSION) headers_install INSTALL_HDR_PATH=$(DESTDIR)/usr/include/linux
+	cp linux-$(VERSION)/.config $(DESTDIR)/boot/config
+	cp linux-$(VERSION)/arch/x86/boot/bzImage $(DESTDIR)/boot/vmlinuz
 
 clean:
-	$(RM) prepare
-	$(RM) linux-3.6.8.tar.bz2
-	$(RM) -r linux-3.6.8
+	$(RM) -r linux-$(VERSION)/
+
+distclean: clean
+	$(RM) linux-$(VERSION).tar.bz2
+
+linux-$(VERSION).tar.bz2:
+	$(FETCH) http://www.kernel.org/pub/linux/kernel/v3.0/linux-$(VERSION).tar.bz2 > $@
+
+linux-$(VERSION)/: linux-$(VERSION).tar.bz2
+	tar xjf $<
 

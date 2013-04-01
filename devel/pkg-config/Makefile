@@ -1,7 +1,9 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=0.28
+FETCH=curl
 
 configure_flags =
 
@@ -11,29 +13,35 @@ endif
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: pkg-config-$(VERSION).tar.gz
+unpack: pkg-config-$(VERSION)/
+patch: unpack
+prepare: pkg-config-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../pkg-config-0.27.1/configure --prefix=$(PREFIX) $(configure_flags)
-	@touch configure
+	cd build && ../pkg-config-$(VERSION)/configure --prefix=$(PREFIX) $(configure_flags)
+	@touch $@
 
-prepare: pkg-config-0.27.1.tar.gz
-	tar xzf pkg-config-0.27.1.tar.gz
-	@mkdir build
-	@touch prepare
-
-pkg-config-0.27.1.tar.gz:
-	wget http://pkgconfig.freedesktop.org/releases/pkg-config-0.27.1.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 	ln -sf /usr/lib/pkgconfig $(DESTDIR)/lib/pkgconfig
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) pkg-config-0.27.1.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r pkg-config-0.27.1/
+	$(RM) -r pkg-config-$(VERSION)/
+
+distclean: clean
+	$(RM) pkg-config-$(VERSION).tar.gz
+
+pkg-config-$(VERSION).tar.gz:
+	$(FETCH) http://pkgconfig.freedesktop.org/releases/pkg-config-$(VERSION).tar.gz > $@
+
+pkg-config-$(VERSION)/: pkg-config-$(VERSION).tar.gz
+	tar xzf $<
 

@@ -1,7 +1,9 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch prepare build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=1.1.3
+FETCH=curl
 
 SYSCONFDIR=$(PREFIX)/etc
 LOCALSTATEDIR=$(PREFIX)/var
@@ -13,28 +15,31 @@ endif
 
 all: build
 
-build: configure
-	$(MAKE) -C knot-1.1.3/
+fetch: knot-$(VERSION).tar.gz
+unpack: knot-$(VERSION)/
+patch: unpack
+prepare: knot-$(VERSION)/
 
 configure: prepare
-	cd knot-1.1.3 && ./configure --prefix=$(PREFIX) --localstatedir=$(LOCALSTATEDIR) --sysconfdir=$(SYSCONFDIR)
-	@touch configure
+	cd knot-$(VERSION) && ./configure --prefix=$(PREFIX) --localstatedir=$(LOCALSTATEDIR) --sysconfdir=$(SYSCONFDIR)
+	@touch $@
 
-prepare: knot-1.1.3.tar.gz
-	tar xzf knot-1.1.3.tar.gz
-	@mkdir build
-	@touch prepare
-
-knot-1.1.3.tar.gz:
-	wget https://secure.nic.cz/files/knot-dns/knot-1.1.3.tar.gz
+build: configure
+	$(MAKE) -C knot-$(VERSION)/
 
 install: build
-	$(MAKE) -C knot-1.1.3/ install DESTDIR=$(DESTDIR)
+	$(MAKE) -C knot-$(VERSION)/ install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
 	$(RM) configure
-	$(RM) knot-1.1.3.tar.gz
-	$(RM) -r build/
-	$(RM) -r knot-1.1.3/
+	$(RM) -r knot-$(VERSION)/
+
+distclean: clean
+	$(RM) knot-$(VERSION).tar.gz
+
+knot-$(VERSION).tar.gz:
+	$(FETCH) https://secure.nic.cz/files/knot-dns/knot-$(VERSION).tar.gz > $@
+
+knot-$(VERSION)/: knot-$(VERSION).tar.gz
+	tar xzf $<
 

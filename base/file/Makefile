@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=5.14
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: file-$(VERSION).tar.gz
+unpack: file-$(VERSION)/
+patch: unpack
+prepare: file-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../file-5.11/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../file-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: file-5.11.tar.gz
-	tar xzf file-5.11.tar.gz
-	@mkdir build
-	@touch prepare
-
-file-5.11.tar.gz:
-	wget ftp://ftp.astron.com/pub/file/file-5.11.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) file-5.11.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r file-5.11/
+	$(RM) -r file-$(VERSION)/
+
+distclean: clean
+	$(RM) file-$(VERSION).tar.gz
+
+file-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.astron.com/pub/file/file-$(VERSION).tar.gz > $@
+
+file-$(VERSION)/: file-$(VERSION).tar.gz
+	tar xzf $<
 

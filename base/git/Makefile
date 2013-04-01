@@ -1,31 +1,33 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch prepare configure build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=1.8.2
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C git-1.8.0.1 all prefix=$(PREFIX)
-
+fetch: git-$(VERSION).tar.gz
+unpack: git-$(VERSION)/
+patch: unpack
+prepare: git-$(VERSION)/
 configure: prepare
-	@touch configure
 
-prepare: git-1.8.0.1.tar.gz
-	tar xzf git-1.8.0.1.tar.gz
-	@mkdir build
-	@touch prepare
-
-git-1.8.0.1.tar.gz:
-	wget http://git-core.googlecode.com/files/git-1.8.0.1.tar.gz
+build: configure
+	$(MAKE) -C git-$(VERSION) all prefix=$(PREFIX)
 
 install: build
-	$(MAKE) -C git-1.8.0.1 install DESTDIR=$(DESTDIR) prefix=$(PREFIX)
+	$(MAKE) -C git-$(VERSION) install DESTDIR=$(DESTDIR) prefix=$(PREFIX)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) git-1.8.0.1.tar.gz
-	$(RM) -r build/
-	$(RM) -r git-1.8.0.1/
+	$(RM) -r git-$(VERSION)/
+
+distclean: clean
+	$(RM) git-$(VERSION).tar.gz
+
+git-$(VERSION).tar.gz:
+	$(FETCH) http://git-core.googlecode.com/files/git-$(VERSION).tar.gz > $@
+
+git-$(VERSION)/: git-$(VERSION).tar.gz
+	tar xzf $<
 

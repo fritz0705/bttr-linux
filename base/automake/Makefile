@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=1.13
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: automake-$(VERSION).tar.gz
+unpack: automake-$(VERSION)/
+patch: unpack
+prepare: automake-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../automake-1.12.5/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../automake-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: automake-1.12.5.tar.gz
-	tar xzf automake-1.12.5.tar.gz
-	@mkdir build
-	@touch prepare
-
-automake-1.12.5.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/automake/automake-1.12.5.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) automake-1.12.5.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r automake-1.12.5/
+	$(RM) -r automake-$(VERSION)/
+
+distclean: clean
+	$(RM) automake-$(VERSION).tar.gz
+
+automake-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/automake/automake-$(VERSION).tar.gz > $@
+
+automake-$(VERSION)/: automake-$(VERSION).tar.gz
+	tar xzf $<
 

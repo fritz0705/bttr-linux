@@ -1,32 +1,41 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
 
+VERSION=1.2.7
+FETCH=curl
+
 all: build
 
-build: configure
-	$(MAKE) -C zlib-1.2.7
+fetch: zlib-$(VERSION).tar.gz
+unpack: zlib-$(VERSION)/
+patch: unpack
+prepare: zlib-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd zlib-1.2.7 && ./configure --prefix=$(PREFIX)
-	@touch configure
+	cd zlib-$(VERSION) && ./configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: zlib-1.2.7.tar.gz
-	tar xzf zlib-1.2.7.tar.gz
-	@mkdir build
-	@touch prepare
-
-zlib-1.2.7.tar.gz:
-	wget http://zlib.net/zlib-1.2.7.tar.gz
+build: configure
+	$(MAKE) -C zlib-$(VERSION)
 
 install: build
-	$(MAKE) -C zlib-1.2.7 install DESTDIR=$(DESTDIR)
+	$(MAKE) -C zlib-$(VERSION) install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) zlib-1.2.7.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r zlib-1.2.7/
+	$(RM) -r zlib-$(VERSION)/
+
+distclean: clean
+	$(RM) zlib-$(VERSION).tar.gz
+
+zlib-$(VERSION).tar.gz:
+	$(FETCH) http://zlib.net/zlib-$(VERSION).tar.gz > $@
+
+zlib-$(VERSION)/: zlib-$(VERSION).tar.gz
+	tar xzf $<
 

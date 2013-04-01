@@ -1,38 +1,46 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=5.3.21
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build LIBSO_LIBS=-lpthread
+fetch: db-$(VERSION).tar.gz
+unpack: db-$(VERSION)/
+patch: unpack
+prepare: db-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../db-5.3.21/dist/configure --prefix=$(PREFIX) \
+	cd build && ../db-$(VERSION)/dist/configure --prefix=$(PREFIX) \
 		--enable-compat185 \
 		--enable-shared \
 		--enable-static \
 		--enable-cxx \
 		--enable-dbm
-	@touch configure
+	@touch $@
 
-prepare: db-5.3.21.tar.gz
-	tar xzf db-5.3.21.tar.gz
-	@mkdir build
-	@touch prepare
-
-db-5.3.21.tar.gz:
-	wget http://download.oracle.com/berkeley-db/db-5.3.21.tar.gz
+build: configure
+	$(MAKE) -C build LIBSO_LIBS=-lpthread
 
 install: build
 	yes | $(MAKE) -C build install DESTDIR=$(DESTDIR)
 	$(RM) -r $(DESTDIR)/$(PREFIX)/docs
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) db-5.3.21.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r db-5.3.21/
+	$(RM) -r db-$(VERSION)/
+
+distclen: clean
+	$(RM) db-$(VERSION).tar.gz
+
+db-$(VERSION).tar.gz:
+	$(FETCH) http://download.oracle.com/berkeley-db/db-$(VERSION).tar.gz > $@
+
+db-$(VERSION)/: db-$(VERSION).tar.gz
+	tar xzf $<
 

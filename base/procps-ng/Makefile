@@ -1,4 +1,4 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 ifeq ($(PREFIX),/usr)
@@ -8,31 +8,40 @@ else
 endif
 DESTDIR=
 
+VERSION=3.3.7
+FETCH=curl
+
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: procps-ng-$(VERSION).tar.gz
+unpack: procps-procps/
+patch: unpack
+prepare: procps-procps/
+	mkdir build/
+	@touch $@
 
 configure: prepare
 	cd procps-procps && ./autogen.sh
 	cd build && ../procps-procps/configure --prefix=$(PREFIX) --exec-prefix=$(EXECPREFIX)
-	@touch configure
+	@touch $@
 
-prepare: procps-ng-3.3.5.tar.gz
-	tar xzf procps-ng-3.3.5.tar.gz
-	@mkdir build
-	@touch prepare
-
-procps-ng-3.3.5.tar.gz:
-	wget -O $@ http://gitorious.org/procps/procps/archive-tarball/v3.3.5
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) procps-ng-3.3.5.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r procps-ng-3.3.5/
+	$(RM) -r procps-procps/
+
+distclean: clean
+	$(RM) procps-ng-$(VERSION).tar.gz
+
+procps-ng-$(VERSION).tar.gz:
+	$(FETCH) http://gitorious.org/procps/procps/archive-tarball/v$(VERSION) > $@
+
+procps-procps/: procps-ng-$(VERSION).tar.gz
+	tar xzf $<
 

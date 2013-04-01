@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=4.0.2
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: gawk-$(VERSION).tar.gz
+unpack: gawk-$(VERSION)/
+patch: unpack
+prepare: gawk-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../gawk-4.0.1/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../gawk-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: gawk-4.0.1.tar.gz
-	tar xzf gawk-4.0.1.tar.gz
-	@mkdir build
-	@touch prepare
-
-gawk-4.0.1.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/gawk/gawk-4.0.1.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) gawk-4.0.1.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r gawk-4.0.1/
+	$(RM) -r gawk-$(VERSION)/
+
+distclean: clean
+	$(RM) gawk-$(VERSION).tar.gz
+
+gawk-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/gawk/gawk-$(VERSION).tar.gz > $@
+
+gawk-$(VERSION)/: gawk-$(VERSION).tar.gz
+	tar xzf $<
 

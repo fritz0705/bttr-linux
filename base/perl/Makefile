@@ -1,34 +1,42 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=5.16.3
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C perl-5.16.2
+fetch: perl-$(VERSION).tar.gz
+unpack: perl-$(VERSION)/
+patch: unpack
+prepare: perl-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd perl-5.16.2; \
+	cd perl-$(VERSION); \
 		./Configure -des -Dusethreads -Duseshrplib \
 		-Dprefix=$(PREFIX)
-	@touch configure
+	@touch $@
 
-prepare: perl-5.16.2.tar.gz
-	tar xzf perl-5.16.2.tar.gz
-	@mkdir build
-	@touch prepare
-
-perl-5.16.2.tar.gz:
-	wget http://www.cpan.org/src/5.0/perl-5.16.2.tar.gz
+build: configure
+	$(MAKE) -C perl-$(VERSION)
 
 install: build
-	yes | $(MAKE) -C perl-5.16.2 install
+	yes | $(MAKE) -C perl-$(VERSION) install
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) perl-5.16.2.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r perl-5.16.2/
+	$(RM) -r perl-$(VERSION)/
+
+distclean: clean
+	$(RM) perl-$(VERSION).tar.gz
+
+perl-$(VERSION).tar.gz:
+	$(FETCH) http://www.cpan.org/src/5.0/perl-$(VERSION).tar.gz > $@
+
+perl-$(VERSION)/: perl-$(VERSION).tar.gz
+	tar xzf $<
 

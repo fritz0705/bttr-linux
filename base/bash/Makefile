@@ -1,4 +1,4 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
@@ -7,33 +7,41 @@ ifeq ($(PREFIX),/usr)
 else
 	BINDIR=$(PREFIX)/bin
 endif
+VERSION=4.2
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build all
+fetch: bash-$(VERSION).tar.gz
+unpack: bash-$(VERSION)/
+patch: unpack
+prepare: bash-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../bash-4.2/configure --prefix=$(PREFIX) \
+	cd build && ../bash-$(VERSION)/configure --prefix=$(PREFIX) \
 		--bindir=$(BINDIR)
-	@touch configure
+	@touch $@
 
-prepare: bash-4.2.tar.gz
-	tar xzf bash-4.2.tar.gz
-	@mkdir build
-	@touch prepare
-
-bash-4.2.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/bash/bash-4.2.tar.gz
+build: configure
+	$(MAKE) -C build all
 
 install: build
 	$(MAKE) -C build DESTDIR=$(DESTDIR) install
 	ln -sf bash $(DESTDIR)/$(BINDIR)/sh
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) bash-4.2.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r bash-4.2/
+	$(RM) -r bash-$(VERSION)/
+
+distclean: clean
+	$(RM) bash-$(VERSION).tar.gz
+
+bash-$(VERSION).tar.gz:
+	wget ftp://ftp.gnu.org/gnu/bash/bash-$(VERSION).tar.gz
+
+bash-$(VERSION)/: bash-$(VERSION).tar.gz
+	tar xzf $<
 

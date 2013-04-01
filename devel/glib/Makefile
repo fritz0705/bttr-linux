@@ -1,34 +1,42 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=2.34.3
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: glib-$(VERSION).tar.xz
+unpack: glib-$(VERSION)/
+patch: unpack
+prepare: glib-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../glib-2.34.3/configure --prefix=$(PREFIX) --libdir=$(LIBDIR) \
+	cd build && ../glib-$(VERSION)/configure --prefix=$(PREFIX) --libdir=$(LIBDIR) \
 		--sysconfdir=$(SYSCONFDIR) --with-pcre=system --disable-fam \
 		PYTHON=python2
-	@touch configure
+	@touch $@
 
-prepare: glib-2.34.3.tar.xz
-	tar xJf glib-2.34.3.tar.xz
-	@mkdir build
-	@touch prepare
-
-glib-2.34.3.tar.xz:
-	wget http://ftp.gnome.org/pub/GNOME/sources/glib/2.34/glib-2.34.3.tar.xz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) glib-2.34.3.tar.xz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r glib-2.34.3/
+	$(RM) -r glib-$(VERSION)/
+
+distclean: clean
+	$(RM) glib-$(VERSION).tar.xz
+
+glib-$(VERSION).tar.xz:
+	$(FETCH) http://ftp.gnome.org/pub/GNOME/sources/glib/2.34/glib-$(VERSION).tar.xz > $@
+
+glib-$(VERSION)/: glib-$(VERSION).tar.xz
+	tar xJf $<
 

@@ -1,33 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
 VERSION=3.3.0
+FETCH=curl
 
 all: build
-
-build: configure
-	$(MAKE) -C build
+	
+fetch: Python-$(VERSION).tgz
+unpack: Python-$(VERSION)/
+patch: unpack
+prepare: Python-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
 	cd build && ../Python-$(VERSION)/configure --prefix=$(PREFIX)
-	@touch configure
+	@touch $@
 
-prepare: Python-$(VERSION).tgz
-	tar xzf Python-$(VERSION).tgz
-	@mkdir build
-	@touch prepare
-
-Python-$(VERSION).tgz:
-	wget http://python.org/ftp/python/$(VERSION)/Python-$(VERSION).tgz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) Python-$(VERSION).tgz
+	$(RM) prepare configure
 	$(RM) -r build/
 	$(RM) -r Python-$(VERSION)/
+
+distclean: clean
+	$(RM) Python-$(VERSION).tgz
+
+Python-$(VERSION).tgz:
+	$(FETCH) http://python.org/ftp/python/$(VERSION)/Python-$(VERSION).tgz > $@
+
+Python-$(VERSION)/: Python-$(VERSION).tgz
+	tar xzf $<
 

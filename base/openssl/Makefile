@@ -1,11 +1,13 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch prepare build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=1.0.1e
+FETCH=curl -k
 
-mach=$(shell uname -m)
+TARGET ?= $(shell uname -m)
 
-ifeq ($(mach),x86_64)
+ifeq ($(TARGET),x86_64)
 	openssl_target="linux-x86_64"
 else
 	openssl_target="linux-elf"
@@ -13,30 +15,32 @@ endif
 
 all: build
 
-build: configure
-	$(MAKE) -C openssl-1.0.1c -j 1 depend
-	$(MAKE) -C openssl-1.0.1c -j 1
+fetch: openssl-$(VERSION).tar.gz
+unpack: openssl-$(VERSION)/
+patch: unpack
+prepare: patch
 
 configure: prepare
-	cd openssl-1.0.1c && ./Configure --prefix=$(PREFIX) shared zlib enable-md2 $(openssl_target)
-	@touch configure
+	cd openssl-$(VERSION) && ./Configure --prefix=$(PREFIX) shared zlib enable-md2 $(openssl_target)
+	@touch $@
 
-prepare: openssl-1.0.1c.tar.gz
-	tar xzf openssl-1.0.1c.tar.gz
-	@mkdir build
-	@touch prepare
-
-openssl-1.0.1c.tar.gz:
-	# --no-check-certificate is important
-	wget --no-check-certificate https://www.openssl.org/source/openssl-1.0.1c.tar.gz
+build: configure
+	$(MAKE) -C openssl-$(VERSION) -j 1 depend
+	$(MAKE) -C openssl-$(VERSION) -j 1
 
 install: build
-	$(MAKE) -C openssl-1.0.1c install INSTALL_PREFIX=$(DESTDIR)
+	$(MAKE) -C openssl-$(VERSION) install INSTALL_PREFIX=$(DESTDIR)
 
 clean:
-	$(RM) prepare
 	$(RM) configure
-	$(RM) openssl-1.0.1c.tar.gz
-	$(RM) -r build/
-	$(RM) -r openssl-1.0.1c/
+	$(RM) -r openssl-$(VERSION)/
+
+distclean: clean
+	$(RM) openssl-$(VERSION).tar.gz
+
+openssl-$(VERSION).tar.gz:
+	$(CURL) https://www.openssl.org/source/openssl-$(VERSION).tar.gz > $@
+
+openssl-$(VERSION)/: openssl-$(VERSION).tar.gz
+	tar xzf $<
 

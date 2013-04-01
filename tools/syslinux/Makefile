@@ -1,33 +1,41 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+FETCH=curl
+VERSION=5.01
 
 all: build
 
-build: configure
-	$(MAKE) -C build/
+fetch: syslinux-$(VERSION).tar.xz
+unpack: syslinux-$(VERSION)/
+patch: unpack
+prepare: syslinux-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../syslinux-5.00/configure \
+	cd build && ../syslinux-$(VERSION)/configure \
 		--prefix=$(PREFIX)
-	@touch configure
+	@touch $@
 
-prepare: syslinux-5.00.tar.xz
-	tar xJf syslinux-5.00.tar.xz
-	@mkdir build
-	@touch prepare
-
-syslinux-5.00.tar.xz:
-	wget http://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-5.00.tar.xz
+build: configure
+	$(MAKE) -C build/
 
 install: build
 	$(MAKE) -C build/ install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) syslinux-5.00.tar.xz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r syslinux-5.00/
+	$(RM) -r syslinux-$(VERSION)/
+
+distclean: clean
+	$(RM) syslinux-$(VERSION).tar.xz
+
+syslinux-$(VERSION).tar.xz:
+	$(FETCH) http://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-$(VERSION).tar.xz > $@
+	
+syslinux-$(VERSION)/: syslinux-$(VERSION).tar.xz
+	tar xJf $<
 

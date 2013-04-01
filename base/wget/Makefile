@@ -1,4 +1,4 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 ifeq ($(PREFIX),/usr)
@@ -8,32 +8,41 @@ else
 endif
 DESTDIR=
 
+VERSION=1.14
+FETCH=curl
+
 all: build
+
+fetch: wget-$(VERSION).tar.gz
+unpack: wget-$(VERSION)/
+patch: unpack
+prepare: wget-$(VERSION)/
+	mkdir build/
+	@touch $@
+
+configure: prepare
+	cd build && ../wget-$(VERSION)/configure --prefix=$(PREFIX) \
+		--with-ssl=openssl \
+		--sysconfdir=$(SYSCONFDIR)
+	@touch $@
 
 build: configure
 	$(MAKE) -C build
-
-configure: prepare
-	cd build && ../wget-1.14/configure --prefix=$(PREFIX) \
-		--with-ssl=openssl \
-		--sysconfdir=$(SYSCONFDIR)
-	@touch configure
-
-prepare: wget-1.14.tar.gz
-	tar xzf wget-1.14.tar.gz
-	@mkdir build
-	@touch prepare
-
-wget-1.14.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/wget/wget-1.14.tar.gz
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) wget-1.14.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r wget-1.14/
+	$(RM) -r wget-$(VERSION)/
+
+distclean: clean
+	$(RM) wget-$(VERSION).tar.gz
+
+wget-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/wget/wget-$(VERSION).tar.gz > $@
+
+wget-$(VERSION)/: wget-$(VERSION).tar.gz
+	tar xzf $<
 

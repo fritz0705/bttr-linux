@@ -1,15 +1,21 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=7.29.0
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: curl-$(VERSION).tar.gz
+unpack: curl-$(VERSION)/
+patch: unpack
+prepare: curl-$(VERSION)/
+	mkdir build
+	@touch $@
 
 configure: prepare
-	cd build && ../curl-7.28.1/configure --prefix=$(PREFIX) \
+	cd build && ../curl-$(VERSION)/configure --prefix=$(PREFIX) \
 		--disable-ldap \
 		--disable-ldaps \
 		--enable-ipv6 \
@@ -18,23 +24,25 @@ configure: prepare
 		--enable-threaded-resolver \
 		--with-random=/dev/urandom \
 		--without-librtmp
-	@touch configure
+	@touch $@
 
-prepare: curl-7.28.1.tar.gz
-	tar xzf curl-7.28.1.tar.gz
-	@mkdir build
-	@touch prepare
-
-curl-7.28.1.tar.gz:
-	wget http://curl.haxx.se/download/curl-7.28.1.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) curl-7.28.1.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r curl-7.28.1/
+	$(RM) -r curl-$(VERSION)/
+
+distclean: clean
+	$(RM) -r curl-$(VERSION).tar.gz
+
+curl-$(VERSION).tar.gz:
+	$(FETCH) http://curl.haxx.se/download/curl-$(VERSION).tar.gz > $@
+
+curl-$(VERSION)/: curl-$(VERSION).tar.gz
+	tar xzf $<
 

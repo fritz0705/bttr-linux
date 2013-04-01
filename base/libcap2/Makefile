@@ -1,7 +1,9 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch prepare configure build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=2.22
+FETCH=curl
 
 ifeq ($(shell id -u),0)
 	RAISE_SETFCAP=yes
@@ -11,29 +13,29 @@ endif
 
 all: build
 
-build: configure
-	$(MAKE) -C libcap-2.22/ all
-
+fetch: libcap2_$(VERSION).orig.tar.gz
+unpack: libcap-$(VERSION)/
+patch: unpack
+prepare: libcap-$(VERSION)/
 configure: prepare
-	tar xzf libcap2_2.22.orig.tar.gz
-	@touch configure
 
-prepare: libcap2_2.22.orig.tar.gz
-	tar xzf libcap2_2.22.orig.tar.gz
-	@mkdir build
-	@touch prepare
-
-# We should steal this from debian because kernel.org fails
-libcap2_2.22.orig.tar.gz:
-	wget ftp://ftp.de.debian.org/debian/pool/main/libc/libcap2/libcap2_2.22.orig.tar.gz
+build: configure
+	$(MAKE) -C libcap-$(VERSION)/ all
 
 install: build
-	$(MAKE) -C libcap-2.22/ install DESTDIR=$(DESTDIR) RAISE_SETFCAP=$(RAISE_SETFCAP) prefix=$(PREFIX)
+	$(MAKE) -C libcap-$(VERSION)/ install DESTDIR=$(DESTDIR) RAISE_SETFCAP=$(RAISE_SETFCAP) prefix=$(PREFIX)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) libcap2_2.22.orig.tar.gz
 	$(RM) -r build/
-	$(RM) -r libcap-2.22
+	$(RM) -r libcap-$(VERSION)
+
+distclean: clean
+	$(RM) libcap2_$(VERSION).orig.tar.gz
+
+# We should steal this from debian because kernel.org fails
+libcap2_$(VERSION).orig.tar.gz:
+	$(FETCH) ftp://ftp.de.debian.org/debian/pool/main/libc/libcap2/libcap2_$(VERSION).orig.tar.gz > $@
+
+libcap-$(VERSION)/: libcap2_$(VERSION).orig.tar.gz
+	tar xzf $<
 

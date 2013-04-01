@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=1.8
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: tmux-$(VERSION).tar.gz
+unpack: tmux-$(VERSION)/
+patch: unpack
+prepare: tmux-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build/ && ../tmux-1.7/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build/ && ../tmux-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: tmux-1.7.tar.gz
-	tar xzf tmux-1.7.tar.gz
-	@mkdir build
-	@touch prepare
-
-tmux-1.7.tar.gz:
-	wget http://downloads.sourceforge.net/tmux/tmux-1.7.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) tmux-1.7.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r tmux-1.7/
+	$(RM) -r tmux-$(VERSION)/
+
+distclean: clean
+	$(RM) tmux-$(VERSION).tar.gz
+
+tmux-$(VERSION).tar.gz:
+	$(FETCH) http://downloads.sourceforge.net/tmux/tmux-$(VERSION).tar.gz > $@
+
+tmux-$(VERSION)/: tmux-$(VERSION).tar.gz
+	tar xzf $<
 

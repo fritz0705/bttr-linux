@@ -49,7 +49,7 @@ install: build
 ### CLEAN
 
 clean:
-	$(RM) musl-$(VERSION)
+	$(RM) -r musl-$(VERSION)
 
 distclean: clean
 	$(RM) musl-$(VERSION).tar.gz

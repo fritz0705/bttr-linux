@@ -1,32 +1,39 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=1.26
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: libidn-$(VERSION).tar.gz
+unpack: libidn-$(VERSION)/
+patch: unpack
+prepare: libidn-$(VERSION)/
+	mkdir build
+	@touch $@
 
 configure: prepare
-	cd build && ../libidn-1.25/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../libidn-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: libidn-1.25.tar.gz
-	tar xzf libidn-1.25.tar.gz
-	@mkdir build
-	@touch prepare
-
-libidn-1.25.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/libidn/libidn-1.25.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) libidn-1.25.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r libidn-1.25/
+	$(RM) -r libidn-$(VERSION)/
 
+distclean: clean
+	$(RM) libidn-$(VERSION).tar.gz
+
+libidn-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/libidn/libidn-$(VERSION).tar.gz > $@
+
+libidn-$(VERSION)/: libidn-$(VERSION).tar.gz
+	tar xzf $<

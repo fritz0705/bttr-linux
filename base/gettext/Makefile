@@ -1,35 +1,45 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=0.18.2.1
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: gettext-$(VERSION).tar.gz
+unpack: gettext-$(VERSION)/
+patch: gettext-$(VERSION)/
+	sed -i -e '/gets is a/d' gettext-$(VERSION)/gettext-runtime/gnulib-lib/stdio.in.h
+	sed -i -e '/gets is a/d' gettext-$(VERSION)/gettext-tools/libgettextpo/stdio.in.h
+	sed -i -e '/gets is a/d' gettext-$(VERSION)/gettext-tools/gnulib-lib/stdio.in.h
+	@touch $@
+
+prepare: gettext-$(VERSION)/ patch
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../gettext-0.18.1.1/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../gettext-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: gettext-0.18.1.1.tar.gz
-	tar xzf gettext-0.18.1.1.tar.gz
-	sed -i -e '/gets is a/d' gettext-0.18.1.1/gettext-runtime/gnulib-lib/stdio.in.h
-	sed -i -e '/gets is a/d' gettext-0.18.1.1/gettext-tools/libgettextpo/stdio.in.h
-	sed -i -e '/gets is a/d' gettext-0.18.1.1/gettext-tools/gnulib-lib/stdio.in.h
-	@mkdir build
-	@touch prepare
-
-gettext-0.18.1.1.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/gettext/gettext-0.18.1.1.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) gettext-0.18.1.1.tar.gz
+	$(RM) prepare configure patch
 	$(RM) -r build/
-	$(RM) -r gettext-0.18.1.1/
+	$(RM) -r gettext-$(VERSION)/
+
+distclean: clean
+	$(RM) gettext-$(VERSION).tar.gz
+
+gettext-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/gettext/gettext-$(VERSION).tar.gz > $@
+
+gettext-$(VERSION)/: gettext-$(VERSION).tar.gz
+	tar xzf $<
 

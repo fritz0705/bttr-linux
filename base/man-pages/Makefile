@@ -1,30 +1,31 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch prepare configure build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=3.50
+FETCH=curl
 
 all: build
 
+fetch: man-pages-$(VERSION).tar.gz
+unpack: man-pages-$(VERSION)/
+patch: unpack
+prepare: patch
+configure: prepare
 build: configure
 
-configure: prepare
-	@touch configure
-
-prepare: man-pages-3.44.tar.gz
-	tar xzf man-pages-3.44.tar.gz
-	@mkdir build
-	@touch prepare
-
-man-pages-3.44.tar.gz:
-	wget http://www.kernel.org/pub/linux/docs/man-pages/man-pages-3.44.tar.gz
-
 install: build
-	$(MAKE) -C man-pages-3.44 install prefix=$(PREFIX) DESTDIR=$(DESTDIR)
+	$(MAKE) -C man-pages-$(VERSION) install prefix=$(PREFIX) DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) man-pages-3.44.tar.gz
-	$(RM) -r build/
-	$(RM) -r man-pages-3.44/
+	$(RM) -r man-pages-$(VERSION)/
+
+distclean: clean
+	$(RM) man-pages-$(VERSION).tar.gz
+
+man-pages-$(VERSION).tar.gz:
+	$(FETCH) http://www.kernel.org/pub/linux/docs/man-pages/man-pages-$(VERSION).tar.gz > $@
+
+man-pages-$(VERSION)/: man-pages-$(VERSION).tar.gz
+	tar xzf $<
 

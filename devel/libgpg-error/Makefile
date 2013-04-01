@@ -1,32 +1,39 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=1.11
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: libgpg-error-$(VERSION).tar.bz2
+unpack: libgpg-error-$(VERSION)/
+patch: unpack
+prepare: libgpg-error-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../libgpg-error-1.10/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../libgpg-error-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: libgpg-error-1.10.tar.bz2
-	tar xjf libgpg-error-1.10.tar.bz2
-	@mkdir build
-	@touch prepare
-
-libgpg-error-1.10.tar.bz2:
-	wget ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.10.tar.bz2
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) libgpg-error-1.10.tar.bz2
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r libgpg-error-1.10/
+	$(RM) -r libgpg-error-$(VERSION)/
 
+distclean: clean
+	$(RM) libgpg-error-$(VERSION).tar.bz2
+
+libgpg-error-$(VERSION).tar.bz2:
+	$(FETCH) ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-$(VERSION).tar.bz2 > $@
+
+libgpg-error-$(VERSION)/: libgpg-error-$(VERSION).tar.bz2
+	tar xjf $<

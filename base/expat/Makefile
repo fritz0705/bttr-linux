@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=2.1.0
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: expat-$(VERSION).tar.gz
+unpack: expat-$(VERSION)/
+patch: unpack
+prepare: expat-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../expat-2.1.0/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../expat-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: expat-2.1.0.tar.gz
-	tar xzf expat-2.1.0.tar.gz
-	@mkdir build
-	@touch prepare
-
-expat-2.1.0.tar.gz:
-	wget http://downloads.sourceforge.net/sourceforge/expat/expat-2.1.0.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) expat-2.1.0.tar.gz
+	$(RM) configure prepare
 	$(RM) -r build/
-	$(RM) -r expat-2.1.0/
+	$(RM) -r expat-$(VERSION)/
+
+distclean: clean
+	$(RM) expat-$(VERSION).tar.gz
+
+expat-$(VERSION).tar.gz:
+	$(FETCH) http://downloads.sourceforge.net/sourceforge/expat/expat-$(VERSION).tar.gz > $@
+
+expat-$(VERSION)/: expat-$(VERSION).tar.gz
+	tar xzf $<
 

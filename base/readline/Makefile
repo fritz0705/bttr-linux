@@ -1,31 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=6.2
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build all
+fetch: readline-$(VERSION).tar.gz
+unpack: readline-$(VERSION)/
+patch: unpack
+prepare: readline-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../readline-6.2/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../readline-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: readline-6.2.tar.gz
-	tar xaf readline-6.2.tar.gz
-	@mkdir build
-	@touch prepare
-
-readline-6.2.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/readline/readline-6.2.tar.gz
+build: configure
+	$(MAKE) -C build all
 
 install: build
 	$(MAKE) -C build DESTDIR=$(DESTDIR) install
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) readline-6.2.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r readline-6.2/
+	$(RM) -r readline-$(VERSION)/
+
+distclean: clean
+	$(RM) readline-$(VERSION).tar.gz
+
+readline-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/readline/readline-$(VERSION).tar.gz > $@
+
+readline-$(VERSION)/: readline-$(VERSION).tar.gz
+	tar xzf $<
+

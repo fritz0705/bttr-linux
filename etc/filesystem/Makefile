@@ -1,11 +1,16 @@
 DESTDIR=
+VERSION=1
 
 # Empty targets
 all:
-build:
-configure:
+fetch:
+unpack:
+patch:
 prepare:
+configure:
+build:
 clean:
+distclean:
 
 install:
 	# /

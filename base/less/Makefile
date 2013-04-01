@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=451
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: less-$(VERSION).tar.gz
+unpack: less-$(VERSION)/
+patch: unpack
+prepare: less-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../less-451/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../less-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: less-451.tar.gz
-	tar xzf less-451.tar.gz
-	@mkdir build
-	@touch prepare
-
-less-451.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/less/less-451.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) less-451.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r less-451/
+	$(RM) -r less-$(VERSION)/
+
+distclean: clean
+	$(RM) less-$(VERSION).tar.gz
+
+less-$(VERSION).tar.gz:
+	wget ftp://ftp.gnu.org/gnu/less/less-$(VERSION).tar.gz
+
+less-$(VERSION)/: less-$(VERSION).tar.gz
+	tar xzf $<
 

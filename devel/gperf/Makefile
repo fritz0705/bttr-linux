@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=3.0.4
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: gperf-$(VERSION).tar.gz
+unpack: gperf-$(VERSION)/
+patch: unpack
+prepare: gperf-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../gperf-3.0.4/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../gperf-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: gperf-3.0.4.tar.gz
-	tar xzf gperf-3.0.4.tar.gz
-	@mkdir build
-	@touch prepare
-
-gperf-3.0.4.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/gperf/gperf-3.0.4.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) gperf-3.0.4.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r gperf-3.0.4/
+	$(RM) -r gperf-$(VERSION)/
+
+distclean: clean
+	$(RM) gperf-$(VERSION).tar.gz
+
+gperf-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/gperf/gperf-$(VERSION).tar.gz > $@
+
+gperf-$(VERSION)/: gperf-$(VERSION).tar.gz
+	tar xzf $<
 

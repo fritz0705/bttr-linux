@@ -1,24 +1,25 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=1.1.6
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: Linux-PAM-$(VERSION).tar.gz
+unpack: Linux-PAM-$(VERSION)/
+patch: unpack
+prepare: Linux-PAM-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../Linux-PAM-1.1.6/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../Linux-PAM-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: Linux-PAM-1.1.6.tar.gz
-	tar xzf Linux-PAM-1.1.6.tar.gz
-	@mkdir build
-	@touch prepare
-
-Linux-PAM-1.1.6.tar.gz:
-	wget http://linux-pam.org/library/Linux-PAM-1.1.6.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	mkdir -p $(DESTDIR)/etc/security
@@ -26,9 +27,16 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR) SCONFIGDIR=/etc/security
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) Linux-PAM-1.1.6.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r Linux-PAM-1.1.6/
+	$(RM) -r Linux-PAM-$(VERSION)/
+
+distclean: clean
+	$(RM) Linux-PAM-$(VERSION).tar.gz
+
+Linux-PAM-$(VERSION).tar.gz:
+	$(FETCH) http://linux-pam.org/library/Linux-PAM-$(VERSION).tar.gz > $@
+
+Linux-PAM-$(VERSION)/: Linux-PAM-$(VERSION).tar.gz
+	tar xzf $<
 

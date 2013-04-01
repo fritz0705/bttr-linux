@@ -1,4 +1,4 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 ifeq ($(PREFIX),/usr)
@@ -8,26 +8,28 @@ else
 endif
 DESTDIR=
 
+VERSION=4.1.5.1
+FETCH=curl
+
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: shadow-$(VERSION).tar.gz
+unpack: shadow-$(VERSION)/
+patch: unpack
+prepare: shadow-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../shadow-4.1.5.1/configure \
+	cd build && ../shadow-$(VERSION)/configure \
 		--prefix=$(PREFIX) \
 		--sysconfdir=$(SYSCONFDIR) \
 		--with-libpam \
 		--without-selinux
-	@touch configure
+	@touch $@
 
-prepare: shadow-4.1.5.1.tar.gz
-	tar xzf shadow-4.1.5.1.tar.gz
-	@mkdir build
-	@touch prepare
-
-shadow-4.1.5.1.tar.gz:
-	wget http://pkg-shadow.alioth.debian.org/releases/shadow-4.1.5.1.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
@@ -38,9 +40,16 @@ install: build
 	install -t $(DESTDIR)/etc/pam.d -m644 passwd chgpasswd chpasswd newusers
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) shadow-4.1.5.1.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r shadow-4.1.5.1/
+	$(RM) -r shadow-$(VERSION)/
+
+distclean: clean
+	$(RM) shadow-$(VERSION).tar.gz
+
+shadow-$(VERSION).tar.gz:
+	$(FETCH) http://pkg-shadow.alioth.debian.org/releases/shadow-$(VERSION).tar.gz > $@
+
+shadow-$(VERSION)/: shadow-$(VERSION).tar.gz
+	tar xzf $<
 

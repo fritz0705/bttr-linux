@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=22.20
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: psmisc-$(VERSION).tar.gz
+unpack: psmisc-$(VERSION)/
+patch: unpack
+prepare: psmisc-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../psmisc-22.20/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../psmisc-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: psmisc-22.20.tar.gz
-	tar xzf psmisc-22.20.tar.gz
-	@mkdir build
-	@touch prepare
-
-psmisc-22.20.tar.gz:
-	wget http://sourceforge.net/projects/psmisc/files/psmisc/psmisc-22.20.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) psmisc-22.20.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r psmisc-22.20/
+	$(RM) -r psmisc-$(VERSION)/
+
+distclean: clean
+	$(RM) psmisc-$(VERSION).tar.gz
+
+psmisc-$(VERSION).tar.gz:
+	$(FETCH) http://sourceforge.net/projects/psmisc/files/psmisc/psmisc-$(VERSION).tar.gz > $@
+
+psmisc-$(VERSION)/: psmisc-$(VERSION).tar.gz
+	tar xzf $<
 

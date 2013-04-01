@@ -1,35 +1,42 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=5.9
+FETCH=curl
 
 all: build
-
-build: configure
-	$(MAKE) -C build all
+	
+fetch: ncurses-$(VERSION).tar.gz
+unpack: ncurses-$(VERSION)/
+patch: unpack
+prepare: ncurses-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../ncurses-5.9/configure --prefix=$(PREFIX) \
+	cd build && ../ncurses-$(VERSION)/configure --prefix=$(PREFIX) \
 		--with-termlib \
 		--with-normal \
 		--with-shared
-	@touch configure
+	@touch $@
 
-prepare: ncurses-5.9.tar.gz
-	tar xaf ncurses-5.9.tar.gz
-	@mkdir build
-	@touch prepare
-
-ncurses-5.9.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/ncurses/ncurses-5.9.tar.gz
+build: configure
+	$(MAKE) -C build all
 
 install: build
 	$(MAKE) -C build DESTDIR=$(DESTDIR) install
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) ncurses-5.9.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r ncurses-5.9/
+	$(RM) -r ncurses-$(VERSION)/
 
+distclean: clean
+	$(RM) ncurses-$(VERSION).tar.gz
+
+ncurses-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/ncurses/ncurses-$(VERSION).tar.gz > $@
+
+ncurses-$(VERSION)/: ncurses-$(VERSION).tar.gz
+	tar xzf $<

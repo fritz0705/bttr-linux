@@ -1,8 +1,0 @@
-PACKAGES := font-util xproto libfontenc mkfontscale mkfontdir fontsproto kbproto xcb-proto libxau libxcb xtrans fonts-encodings fonts-alias fonts-misc libpciaccess libdrm libxfont libxdmcp pixman util-macros inputproto xextproto libx11 libxkbfile xkbcomp setxkbmap bdftopcf server xkeyboard-config xf86-input-evdev
-.PHONY: $(PACKAGES) bootstrap
-
-bootstrap: | $(PACKAGES)
-
-$(PACKAGES):
-	-$(MAKE) -C $@ install DESTDIR=$(DESTDIR)
-

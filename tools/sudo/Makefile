@@ -1,35 +1,43 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+FETCH=curl
+VERSION=1.8.6p7
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: sudo-$(VERSION).tar.gz
+unpack: sudo-$(VERSION)/
+patch: unpack
+prepare: sudo-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../sudo-1.8.6p3/configure --prefix=$(PREFIX) \
+	cd build && ../sudo-$(VERSION)/configure --prefix=$(PREFIX) \
 		--with-logfac=auth --with-pam --with-env-editor \
 		--with-passprompt="[sudo] password for %p: " \
 		--with-all-insults
-	@touch configure
+	@touch $@
 
-prepare: sudo-1.8.6p3.tar.gz
-	tar xzf sudo-1.8.6p3.tar.gz
-	@mkdir build
-	@touch prepare
-
-sudo-1.8.6p3.tar.gz:
-	wget http://www.sudo.ws/sudo/dist/sudo-1.8.6p3.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) sudo-1.8.6p3.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r sudo-1.8.6p3/
+	$(RM) -r sudo-$(VERSION)/
+
+distclean: clean
+	$(RM) sudo-$(VERSION).tar.gz
+
+sudo-$(VERSION).tar.gz:
+	$(FETCH) http://www.sudo.ws/sudo/dist/sudo-$(VERSION).tar.gz > $@
+
+sudo-$(VERSION)/: sudo-$(VERSION).tar.gz
+	tar xzf $<
 

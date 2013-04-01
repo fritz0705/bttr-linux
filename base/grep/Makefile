@@ -1,7 +1,9 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=2.14
+FETCH=curl
 
 CONFIGURE_FLAGS = 
 ifneq ($(WITH_PCRE),yes)
@@ -10,28 +12,34 @@ endif
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: grep-$(VERSION).tar.xz
+unpack: grep-$(VERSION)/
+patch: unpack
+prepare: grep-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../grep-2.14/configure --prefix=$(PREFIX) $(CONFIGURE_FLAGS)
-	@touch configure
+	cd build && ../grep-$(VERSION)/configure --prefix=$(PREFIX) $(CONFIGURE_FLAGS)
+	@touch $@
 
-prepare: grep-2.14.tar.xz
-	tar xJf grep-2.14.tar.xz
-	@mkdir build
-	@touch prepare
-
-grep-2.14.tar.xz:
-	wget ftp://ftp.gnu.org/gnu/grep/grep-2.14.tar.xz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) grep-2.14.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r grep-2.14/
+	$(RM) -r grep-$(VERSION)/
+
+distclean: clean
+	$(RM) grep-$(VERSION).tar.gz
+
+grep-$(VERSION).tar.xz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/grep/grep-$(VERSION).tar.xz > $@
+
+grep-$(VERSION)/: grep-$(VERSION).tar.xz
+	tar xJf $<
 

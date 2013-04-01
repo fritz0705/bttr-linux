@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=1.0.1
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: ppl-$(VERSION).tar.gz
+unpack: ppl-$(VERSION)/
+patch: unpack
+prepare: ppl-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../ppl-1.0/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../ppl-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: ppl-1.0.tar.gz
-	tar xzf ppl-1.0.tar.gz
-	@mkdir build
-	@touch prepare
-
-ppl-1.0.tar.gz:
-	wget http://bugseng.com/products/ppl/download/ftp/releases/1.0/ppl-1.0.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) ppl-1.0.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r ppl-1.0/
+	$(RM) -r ppl-$(VERSION)/
+
+distclean: clean
+	$(RM) ppl-$(VERSION).tar.gz
+
+ppl-$(VERSION).tar.gz:
+	$(FETCH) http://bugseng.com/products/ppl/download/ftp/releases/$(VERSION)/ppl-$(VERSION).tar.gz > $@
+
+ppl-$(VERSION)/: ppl-$(VERSION).tar.gz
+	tar xzf $<
 

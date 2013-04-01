@@ -1,33 +1,41 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=1.5.1
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: libgcrypt-$(VERSION).tar.bz2
+unpack: libgcrypt-$(VERSION)/
+patch: unpack
+prepare: libgcrypt-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../libgcrypt-1.5.0/configure --prefix=$(PREFIX) \
+	cd build && ../libgcrypt-$(VERSION)/configure --prefix=$(PREFIX) \
 		--disable-static --disable-padlock-support
-	@touch configure
+	@touch $@
 
-prepare: libgcrypt-1.5.0.tar.bz2
-	tar xjf libgcrypt-1.5.0.tar.bz2
-	@mkdir build
-	@touch prepare
-
-libgcrypt-1.5.0.tar.bz2:
-	wget ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.5.0.tar.bz2
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) libgcrypt-1.5.0.tar.bz2
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r libgcrypt-1.5.0/
+	$(RM) -r libgcrypt-$(VERSION)/
+
+distclean: clean
+	$(RM) libgcrypt-$(VERSION).tar.bz2
+
+libgcrypt-$(VERSION).tar.bz2:
+	$(FETCH) ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-$(VERSION).tar.bz2 > $@
+
+libgcrypt-$(VERSION)/: libgcrypt-$(VERSION).tar.bz2
+	tar xjf $<
 

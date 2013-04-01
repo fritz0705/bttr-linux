@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=200
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: systemd-$(VERSION).tar.xz
+unpack: systemd-$(VERSION)/
+patch: unpack
+prepare: systemd-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../systemd-196/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../systemd-$(VERSION)/configure $(CONFIGURE_FLAGS)
+	@touch $@
 
-prepare: systemd-196.tar.xz
-	tar xJf systemd-196.tar.xz
-	@mkdir build
-	@touch prepare
-
-systemd-196.tar.xz:
-	wget http://www.freedesktop.org/software/systemd/systemd-196.tar.xz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) systemd-196.tar.gz
 	$(RM) -r build/
-	$(RM) -r systemd-196/
+	$(RM) configure prepare
+	$(RM) -r systemd-$(VERSION)/
+
+distclean: clean
+	$(RM) systemd-$(VERSION).tar.gz
+
+systemd-$(VERSION)/: systemd-$(VERSION).tar.xz
+	tar xJf $<
+
+systemd-$(VERSION).tar.xz:
+	$(FETCH) http://www.freedesktop.org/software/systemd/systemd-$(VERSION).tar.xz > $@
 

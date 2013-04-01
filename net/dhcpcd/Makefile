@@ -1,32 +1,37 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch prepare build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=5.6.7
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C dhcpcd-5.6.6/
+fetch: dhcpcd-$(VERSION).tar.bz2
+unpack: dhcpcd-$(VERSION)/
+patch: unpack
+prepare: dhcpcd-$(VERSION)/
 
 configure: prepare
-	cd dhcpcd-5.6.6/ && ./configure --prefix=$(PREFIX)
-	@touch configure
+	cd dhcpcd-$(VERSION)/ && ./configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: dhcpcd-5.6.6.tar.bz2
-	tar xjf dhcpcd-5.6.6.tar.bz2
-	@mkdir build
-	@touch prepare
-
-dhcpcd-5.6.6.tar.bz2:
-	curl http://roy.marples.name/downloads/dhcpcd/dhcpcd-5.6.6.tar.bz2 > $@
+build: configure
+	$(MAKE) -C dhcpcd-$(VERSION)/
 
 install: build
-	$(MAKE) -C dhcpcd-5.6.6/ install DESTDIR=$(DESTDIR)
+	$(MAKE) -C dhcpcd-$(VERSION)/ install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
 	$(RM) configure
-	$(RM) dhcpcd-5.6.6.tar.bz2
-	$(RM) -r build/
-	$(RM) -r dhcpcd-5.6.6/
+	$(RM) -r dhcpcd-$(VERSION)/
+
+distclean: clean
+	$(RM) dhcpcd-$(VERSION).tar.bz2
+
+dhcpcd-$(VERSION).tar.bz2:
+	$(FETCH) http://roy.marples.name/downloads/dhcpcd/dhcpcd-$(VERSION).tar.bz2 > $@
+
+dhcpcd-$(VERSION)/: dhcpcd-$(VERSION).tar.bz2
+	tar xjf $<
 

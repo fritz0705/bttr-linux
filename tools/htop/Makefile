@@ -1,37 +1,47 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=1.0.2
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: htop-$(VERSION).tar.gz
+unpack: htop-$(VERSION)/
+patch: htop-$(VERSION)/
+	sed -i 's|ncursesw/curses.h|curses.h|' htop-$(VERSION)/RichString.c htop-$(VERSION)/RichString.h htop-$(VERSION)/configure
+	@touch $@
+
+prepare: patch htop-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../htop-1.0.2/configure --prefix=$(PREFIX) \
+	cd build && ../htop-$(VERSION)/configure --prefix=$(PREFIX) \
 		--enable-unicode \
 		--enable-openvz \
 		--enable-vserver \
 		--enable-cgroup
-	@touch configure
+	@touch $@
 
-prepare: htop-1.0.2.tar.gz
-	tar xzf htop-1.0.2.tar.gz
-	sed -i 's|ncursesw/curses.h|curses.h|' htop-1.0.2/RichString.c htop-1.0.2/RichString.h htop-1.0.2/configure
-	@mkdir build
-	@touch prepare
-
-htop-1.0.2.tar.gz:
-	wget http://downloads.sourceforge.net/htop/htop-1.0.2.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) htop-1.0.2.tar.gz
+	$(RM) patch prepare configure
 	$(RM) -r build/
-	$(RM) -r htop-1.0.2/
+	$(RM) -r htop-$(VERSION)/
+
+distclean: clean
+	$(RM) htop-$(VERSION).tar.gz
+
+htop-$(VERSION).tar.gz:
+	$(FETCH) http://downloads.sourceforge.net/htop/htop-$(VERSION).tar.gz > $@
+
+htop-$(VERSION)/: htop-$(VERSION).tar.gz
+	tar xzf $<
 

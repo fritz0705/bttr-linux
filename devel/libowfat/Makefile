@@ -1,7 +1,9 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch prepare configure build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=0.29
+FETCH=curl
 
 LIBDIR=$(PREFIX)/lib
 
@@ -19,28 +21,31 @@ endif
 
 all: build
 
-build: configure
-	$(MAKE) -C libowfat-0.29/
-
+fetch: libowfat-$(VERSION).tar.bz2
+unpack: libowfat-$(VERSION)/
+patch: unpack
+prepare: patch
 configure: prepare
 
-prepare: libowfat-0.29.tar.bz2
-	tar xjf libowfat-0.29.tar.bz2
-	@mkdir build
-	@touch prepare
-
-libowfat-0.29.tar.bz2:
-	wget http://dl.fefe.de/libowfat-0.29.tar.bz2
+build: configure
+	$(MAKE) -C libowfat-$(VERSION)/
 
 install: build
-	$(MAKE) -C libowfat-0.29/ install \
+	$(MAKE) -C libowfat-$(VERSION)/ install \
 		LIBDIR=$(DESTDIR)/$(LIBDIR) \
 		INCLUDEDIR=$(DESTDIR)/$(INCLUDEDIR) \
 		MAN3DIR=$(DESTDIR)/$(MAN3DIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) libowfat-0.29.tar.gz
-	$(RM) -r libowfat-0.29/
+	$(RM) prepare configure
+	$(RM) -r libowfat-$(VERSION)/
+
+distclean: clean
+	$(RM) libowfat-$(VERSION).tar.gz
+
+libowfat-$(VERSION).tar.bz2:
+	$(FETCH) http://dl.fefe.de/libowfat-$(VERSION).tar.bz2 > $@
+
+libowfat-$(VERSION)/: libowfat-$(VERSION).tar.bz2
+	tar xjf $<
 

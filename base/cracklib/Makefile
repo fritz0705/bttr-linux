@@ -1,33 +1,41 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=2.8.22
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: cracklib-$(VERSION).tar.gz
+unpack: cracklib-$(VERSION)/
+patch: unpack
+prepare: cracklib-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../cracklib-2.8.19/configure --prefix=$(PREFIX) \
+	cd build && ../cracklib-$(VERSION)/configure --prefix=$(PREFIX) \
 		--without-python
-	@touch configure
+	@touch $@
 
-prepare: cracklib-2.8.19.tar.gz
-	tar xzf cracklib-2.8.19.tar.gz
-	@mkdir build
-	@touch prepare
-
-cracklib-2.8.19.tar.gz:
-	wget http://downloads.sourceforge.net/sourceforge/cracklib/cracklib-2.8.19.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) cracklib-2.8.19.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r cracklib-2.8.19/
+	$(RM) -r cracklib-$(VERSION)/
+
+distclean: clean
+	$(RM) cracklib-$(VERSION).tar.gz
+
+cracklib-$(VERSION).tar.gz:
+	$(FETCH) http://downloads.sourceforge.net/sourceforge/cracklib/cracklib-$(VERSION).tar.gz > $@
+
+cracklib-$(VERSION)/: cracklib-$(VERSION).tar.gz
+	tar xzf $<
 

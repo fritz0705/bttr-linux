@@ -1,32 +1,39 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=1.0.1
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: mpc-$(VERSION).tar.gz
+unpack: mpc-$(VERSION)/
+patch: unpack
+prepare: mpc-$(VERSION)/
+	mkdir build
+	@touch $@
 
 configure: prepare
-	cd build && ../mpc-1.0.1/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../mpc-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: mpc-1.0.1.tar.gz
-	tar xzf mpc-1.0.1.tar.gz
-	@mkdir build
-	@touch prepare
-
-mpc-1.0.1.tar.gz:
-	wget http://www.multiprecision.org/mpc/download/mpc-1.0.1.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) mpc-1.0.1.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r mpc-1.0.1/
+	$(RM) -r mpc-$(VERSION)/
 
+distclean: clean
+	$(RM) mpc-$(VERSION).tar.gz
+
+mpc-$(VERSION).tar.gz:
+	$(FETCH) http://www.multiprecision.org/mpc/download/mpc-$(VERSION).tar.gz > $@
+
+mpc-$(VERSION)/: mpc-$(VERSION).tar.gz
+	tar xzf $<

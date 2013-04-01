@@ -1,17 +1,23 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 SYSCONFDIR=/etc
 LOCALSTATEDIR=/var
 DESTDIR=
+VERSION=2.10.2
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: fontconfig-$(VERSION).tar.bz2
+unpack: fontconfig-$(VERSION)/
+patch: unpack
+prepare: fontconfig-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../fontconfig-2.10.2/configure --prefix=$(PREFIX) \
+	cd build && ../fontconfig-$(VERSION)/configure --prefix=$(PREFIX) \
 		--sysconfdir=$(SYSCONFDIR) \
 		--with-templatedir=$(SYSCONFDIR)/fonts/conf.avail \
 		--with-xmldir=$(SYSCONFDIR)/fonts \
@@ -19,23 +25,25 @@ configure: prepare
 		--disable-static \
 		--with-default-fonts=$(PREFIX)/share/fonts \
 		--with-add-fonts=$(PREFIX)/share/fonts
-	@touch configure
+	@touch $@
 
-prepare: fontconfig-2.10.2.tar.bz2
-	tar xjf fontconfig-2.10.2.tar.bz2
-	@mkdir build
-	@touch prepare
-
-fontconfig-2.10.2.tar.bz2:
-	wget http://www.fontconfig.org/release/fontconfig-2.10.2.tar.bz2
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) fontconfig-2.10.2.tar.bz2
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r fontconfig-2.10.2/
+	$(RM) -r fontconfig-$(VERSION)/
+
+distclean: clean
+	$(RM) fontconfig-$(VERSION).tar.bz2
+
+fontconfig-$(VERSION).tar.bz2:
+	$(FETCH) http://www.fontconfig.org/release/fontconfig-$(VERSION).tar.bz2 > $@
+
+fontconfig-$(VERSION)/: fontconfig-$(VERSION).tar.bz2
+	tar xjf $<
 

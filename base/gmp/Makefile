@@ -1,33 +1,41 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=5.1.1
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: gmp-$(VERSION).tar.bz2
+unpack: gmp-$(VERSION)/
+patch: unpack
+prepare: gmp-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../gmp-5.0.5/configure --prefix=$(PREFIX) \
+	cd build && ../gmp-$(VERSION)/configure --prefix=$(PREFIX) \
 		--enable-cxx
-	@touch configure
+	@touch $@
 
-prepare: gmp-5.0.5.tar.bz2
-	tar xjf gmp-5.0.5.tar.bz2
-	@mkdir build
-	@touch prepare
-
-gmp-5.0.5.tar.bz2:
-	wget ftp://ftp.gmplib.org/pub/gmp-5.0.5/gmp-5.0.5.tar.bz2
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) gmp-5.0.5.tar.bz2
+	$(RM) configure prepare
 	$(RM) -r build/
-	$(RM) -r gmp-5.0.5/
+	$(RM) -r gmp-$(VERSION)/
+
+distclean: clean
+	$(RM) gmp-$(VERSION).tar.bz2
+
+gmp-$(VERSION).tar.bz2:
+	$(FETCH) ftp://ftp.gmplib.org/pub/gmp-$(VERSION)/gmp-$(VERSION).tar.bz2 > $@
+
+gmp-$(VERSION)/: gmp-$(VERSION).tar.bz2
+	tar xjf $<
 

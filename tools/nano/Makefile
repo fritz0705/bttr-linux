@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+FETCH=curl
+VERSION=2.3.1
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: nano-$(VERSION).tar.gz
+unpack: nano-$(VERSION)/
+patch: unpack
+prepare: nano-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../nano-2.3.1/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../nano-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: nano-2.3.1.tar.gz
-	tar xzf nano-2.3.1.tar.gz
-	@mkdir build
-	@touch prepare
-
-nano-2.3.1.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/nano/nano-2.3.1.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) nano-2.3.1.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r nano-2.3.1/
+	$(RM) -r nano-$(VERSION)/
+
+distclean: clean
+	$(RM) nano-$(VERSION).tar.gz
+
+nano-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/nano/nano-$(VERSION).tar.gz > $@
+
+nano-$(VERSION)/: nano-$(VERSION).tar.gz
+	tar xzf $<
 

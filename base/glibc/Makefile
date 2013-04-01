@@ -1,4 +1,4 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
@@ -6,13 +6,19 @@ DESTDIR=
 LIBDIR:=$(PREFIX)/lib
 LIBEXECDIR:=$(PREFIX)/lib
 
-VERSION=2.16.0
-KERNEL_VERSION=2.6.32
+VERSION=2.17
+KERNEL_VERSION=2.6.39
+
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build all
+fetch: glibc-$(VERSION).tar.gz
+unpack: glibc-$(VERSION)/
+patch: unpack
+prepare: glibc-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
 	cd build && ../glibc-$(VERSION)/configure --prefix=$(PREFIX) \
@@ -25,23 +31,25 @@ configure: prepare
 		--enable-stackguard-randomization \
 		--enable-multi-arch \
 		$(CONFIGURE_FLAGS)
-	@touch configure
+	@touch $@
 
-prepare: glibc-$(VERSION).tar.gz
-	tar xzf glibc-$(VERSION).tar.gz
-	mkdir -p build
-	@touch prepare
-
-glibc-$(VERSION).tar.gz:
-	wget ftp://ftp.gnu.org/gnu/glibc/glibc-$(VERSION).tar.gz
+build: configure
+	$(MAKE) -C build all
 
 install: build
 	$(MAKE) -C build install_root=$(DESTDIR) install
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) glibc-$(VERSION).tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
 	$(RM) -r glibc-$(VERSION)/
+
+distclean: clean
+	$(RM) glibc-$(VERSION).tar.gz
+
+glibc-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/glibc/glibc-$(VERSION).tar.gz > $@
+
+glibc-$(VERSION)/: glibc-$(VERSION).tar.gz
+	tar xzf $<
 

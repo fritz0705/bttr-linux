@@ -1,33 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
-VERSION=0.7.5
+VERSION=0.7.6
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: userspace-rcu-$(VERSION).tar.bz2
+unpack: userspace-rcu-$(VERSION)/
+patch: unpack
+prepare: userspace-rcu-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
 	cd build && ../userspace-rcu-$(VERSION)/configure --prefix=$(PREFIX)
-	@touch configure
+	@touch $@
 
-prepare: userspace-rcu-$(VERSION).tar.bz2
-	tar xjf userspace-rcu-$(VERSION).tar.bz2
-	@mkdir build
-	@touch prepare
-
-userspace-rcu-$(VERSION).tar.bz2:
-	wget http://lttng.org/files/urcu/userspace-rcu-$(VERSION).tar.bz2
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) userspace-rcu-$(VERSION).tar.bz2
 	$(RM) -r build/
+	$(RM) configure prepare
 	$(RM) -r userspace-rcu-$(VERSION)/
+
+distclean: clean
+	$(RM) userspace-rcu-$(VERSION)/
+
+userspace-rcu-$(VERSION)/: userspace-rcu-$(VERSION).tar.bz2
+	tar xjf $<
+
+userspace-rcu-$(VERSION).tar.bz2:
+	$(FETCH) http://lttng.org/files/urcu/userspace-rcu-$(VERSION).tar.bz2 > $@
 

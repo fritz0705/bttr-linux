@@ -1,33 +1,38 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=2.41
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C XML-Parser-2.41
+fetch: XML-Parser-$(VERSION).tar.gz
+unpack: XML-Parser-$(VERSION)/
+patch: unpack
+prepare: XML-Parser-$(VERSION)/
 
 configure: prepare
-	cd XML-Parser-2.41; \
+	cd XML-Parser-$(VERSION); \
 		perl Makefile.PL INSTALLDIRS=vendor
-	@touch configure
+	@touch $@
 
-prepare: XML-Parser-2.41.tar.gz
-	tar xzf XML-Parser-2.41.tar.gz
-	@mkdir build
-	@touch prepare
-
-XML-Parser-2.41.tar.gz:
-	wget http://search.cpan.org/CPAN/authors/id/T/TO/TODDR/XML-Parser-2.41.tar.gz
+build: configure
+	$(MAKE) -C XML-Parser-$(VERSION)
 
 install: build
-	$(MAKE) -C XML-Parser-2.41 install DESTDIR=$(DESTDIR)
+	$(MAKE) -C XML-Parser-$(VERSION) install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
 	$(RM) configure
-	$(RM) XML-Parser-2.41.tar.gz
-	$(RM) -r build/
-	$(RM) -r XML-Parser-2.41/
+	$(RM) -r XML-Parser-$(VERSION)/
+
+distclean: clean
+	$(RM) XML-Parser-$(VERSION).tar.gz
+
+XML-Parser-$(VERSION).tar.gz:
+	$(FETCH) http://search.cpan.org/CPAN/authors/id/T/TO/TODDR/XML-Parser-$(VERSION).tar.gz > $@
+
+XML-Parser-$(VERSION)/: XML-Parser-$(VERSION).tar.gz
+	tar xzf $<
 

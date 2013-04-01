@@ -1,8 +1,9 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
-VERSION=2.23
+VERSION=2.23.2
+FETCH=curl
 
 override __configure_flags = 
 
@@ -22,29 +23,35 @@ override __configure_flags += $(CONFIGURE_FLAGS)
 
 all: build
 
-build: configure
-	$(MAKE) -C build all
+fetch: binutils-$(VERSION).tar.gz
+unpack: binutils-$(VERSION)/
+patch: unpack
+prepare: binutils-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
 	cd build && ../binutils-$(VERSION)/configure --prefix=$(PREFIX) \
 		$(__configure_flags)
-	@touch configure
+	@touch $@
 
-prepare: binutils-$(VERSION).tar.gz
-	tar xzf binutils-$(VERSION).tar.gz
-	@mkdir build
-	@touch prepare
-
-binutils-$(VERSION).tar.gz:
-	wget ftp://ftp.gnu.org/gnu/binutils/binutils-$(VERSION).tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) binutils-$(VERSION).tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
 	$(RM) -r binutils-$(VERSION)/
+
+distclean: clean
+	$(RM) binutils-$(VERSION).tar.gz
+
+binutils-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/binutils/binutils-$(VERSION).tar.gz > $@
+
+binutils-$(VERSION)/: binutils-$(VERSION).tar.gz
+	tar xzf $<
 

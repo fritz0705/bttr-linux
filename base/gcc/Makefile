@@ -1,9 +1,10 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
 LANGUAGES=c
-VERSION=4.7.1
+VERSION=4.8.0
+FETCH=curl
 
 # Build configure flags
 override __configure_flags =
@@ -79,22 +80,21 @@ override __configure_flags += $(CONFIGURE_FLAGS)
 
 all: build
 
-build: configure
-	$(MAKE) -C build all
+fetch: gcc-$(VERSION).tar.gz
+unpack: gcc-$(VERSION)/
+patch: unpack
+prepare: gcc-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
 	cd build && ../gcc-$(VERSION)/configure --prefix=$(PREFIX) \
 		--enable-languages=$(LANGUAGES) \
 		$(__configure_flags)
-	@touch configure
+	@touch $@
 
-prepare: gcc-$(VERSION).tar.gz
-	tar xzf gcc-$(VERSION).tar.gz
-	@mkdir build
-	@touch prepare
-
-gcc-$(VERSION).tar.gz:
-	wget ftp://ftp.gnu.org/gnu/gcc/gcc-$(VERSION)/gcc-$(VERSION).tar.gz
+build: configure
+	$(MAKE) -C build all
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
@@ -103,9 +103,16 @@ ifneq ($(WITHOUT_CC_LINK),yes)
 endif
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) gcc-$(VERSION).tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
 	$(RM) -r gcc-$(VERSION)/
+
+distclean: clean
+	$(RM) gcc-$(VERSION).tar.gz
+
+gcc-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/gcc/gcc-$(VERSION)/gcc-$(VERSION).tar.gz > $@
+
+gcc-$(VERSION)/: gcc-$(VERSION).tar.gz
+	tar xzf $<
 

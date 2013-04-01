@@ -1,9 +1,12 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 SYSCONFDIR=$(PREFIX)/etc
 LOCALSTATEDIR=$(PREFIX)/var
 DESTDIR=
+
+VERSION=1.3.9
+FETCH=curl
 
 ifeq ($(PREFIX),/usr)
 SYSCONFDIR=/etc
@@ -16,28 +19,34 @@ endif
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: bird-$(VERSION).tar.gz
+unpack: bird-$(VERSION)/
+patch: unpack
+prepare: bird-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../bird-1.3.8/configure --prefix=$(PREFIX) --sysconfdir=$(SYSCONFDIR) --localstatedir=$(LOCALSTATEDIR) $(opt_WITH_IPV6)
-	@touch configure
+	cd build && ../bird-$(VERSION)/configure --prefix=$(PREFIX) --sysconfdir=$(SYSCONFDIR) --localstatedir=$(LOCALSTATEDIR) $(opt_WITH_IPV6)
+	@touch $@
 
-prepare: bird-1.3.8.tar.gz
-	tar xzf bird-1.3.8.tar.gz
-	@mkdir build
-	@touch prepare
-
-bird-1.3.8.tar.gz:
-	wget ftp://bird.network.cz/pub/bird/bird-1.3.8.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) bird-1.3.8.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r bird-1.3.8/
+	$(RM) -r bird-$(VERSION)/
+
+distclean: clean
+	$(RM) bird-$(VERSION).tar.gz
+
+bird-$(VERSION).tar.gz:
+	$(FETCH) ftp://bird.network.cz/pub/bird/bird-$(VERSION).tar.gz > $@
+
+bird-$(VERSION)/: bird-$(VERSION).tar.gz
+	tar xzf $<
 

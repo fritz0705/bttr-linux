@@ -1,30 +1,39 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=2.4.46
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C attr-2.4.46
-
-configure: prepare
-	cd attr-2.4.46 && ./configure --prefix=$(PREFIX)
-	@touch configure
-
-prepare: attr-2.4.46.src.tar.gz
-	tar xzf attr-2.4.46.src.tar.gz
+fetch: attr-$(VERSION).src.tar.gz
+unpack: attr-$(VERSION)/
+patch: unpack
+prepare: attr-$(VERSION)
+	mkdir build/
 	@touch prepare
 
-attr-2.4.46.src.tar.gz:
-	wget http://mirror3.layerjet.com/nongnu//attr/attr-2.4.46.src.tar.gz
+configure: prepare
+	cd attr-$(VERSION) && ./configure --prefix=$(PREFIX)
+	@touch configure
+
+build: configure
+	$(MAKE) -C attr-$(VERSION)
 
 install: build
-	$(MAKE) -C attr-2.4.46 install install-lib install-dev DIST_ROOT=$(DESTDIR)
+	$(MAKE) -C attr-$(VERSION) install install-lib install-dev DIST_ROOT=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) attr-2.4.46.src.tar.gz
-	$(RM) -r attr-2.4.46/
+	$(RM) prepare configure
+	$(RM) -r attr-$(VERSION)/
+
+distclean: clean
+	$(RM) attr-$(VERSION).src.tar.gz
+
+attr-$(VERSION): attr-$(VERSION).src.tar.gz
+	tar xzf $<
+
+attr-$(VERSION).src.tar.gz:
+	wget http://mirror3.layerjet.com/nongnu//attr/attr-$(VERSION).src.tar.gz
 

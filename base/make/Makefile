@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=3.82
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build all
+fetch: make-$(VERSION).tar.gz
+unpack: make-$(VERSION)/
+patch: unpack
+prepare: make-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../make-3.82/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../make-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: make-3.82.tar.gz
-	tar xzf make-3.82.tar.gz
-	@mkdir build
-	@touch prepare
-
-make-3.82.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/make/make-3.82.tar.gz
+build: configure
+	$(MAKE) -C build all
 
 install: build
 	$(MAKE) -C build DESTDIR=$(DESTDIR) install
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) make-3.82.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r make-3.82/
+	$(RM) -r make-$(VERSION)/
+
+distclean: clean
+	$(RM) make-$(VERSION).tar.gz
+
+make-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/make/make-$(VERSION).tar.gz > $@
+
+make-$(VERSION)/: make-$(VERSION).tar.gz
+	tar xzf $<
 

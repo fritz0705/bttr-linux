@@ -1,31 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=1.6.8
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: dbus-$(VERSION).tar.gz
+unpack: dbus-$(VERSION)/
+patch: unpack
+prepare: dbus-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../dbus-1.6.8/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../dbus-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: dbus-1.6.8.tar.gz
-	tar xzf dbus-1.6.8.tar.gz
-	@mkdir build
-	@touch prepare
-
-dbus-1.6.8.tar.gz:
-	wget http://dbus.freedesktop.org/releases/dbus/dbus-1.6.8.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) dbus-1.6.8.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r dbus-1.6.8
+	$(RM) -r dbus-$(VERSION)
+
+distclean: clean
+	$(RM) dbus-$(VERSION).tar.gz
+
+dbus-$(VERSION).tar.gz:
+	$(FETCH) http://dbus.freedesktop.org/releases/dbus/dbus-$(VERSION).tar.gz > $@
+
+dbus-$(VERSION)/: dbus-$(VERSION).tar.gz
+	tar xzf $<
+

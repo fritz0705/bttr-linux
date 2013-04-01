@@ -1,32 +1,39 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=2.5.37
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: flex-$(VERISON).tar.gz
+unpack: flex-$(VERSION)/
+patch: unpack
+prepare: flex-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../flex-2.5.37/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../flex-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: flex-2.5.37.tar.gz
-	tar xzf flex-2.5.37.tar.gz
-	@mkdir build
-	@touch prepare
-
-flex-2.5.37.tar.gz:
-	wget http://downloads.sourceforge.net/sourceforge/flex/flex-2.5.37.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) flex-2.5.37.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r flex-2.5.37/
+	$(RM) -r flex-$(VERSION)/
 
+distclean: clean
+	$(RM) flex-$(VERSION).tar.gz
+
+flex-$(VERSION).tar.gz:
+	$(FETCH) http://downloads.sourceforge.net/sourceforge/flex/flex-$(VERSION).tar.gz > $@
+
+flex-$(VERSION)/: flex-$(VERSION).tar.gz
+	tar xzf $<

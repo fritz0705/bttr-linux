@@ -1,4 +1,4 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
@@ -7,24 +7,25 @@ ifeq ($(PREFIX),/usr)
 else
 	BINDIR=$(PREFIX)/bin
 endif
+VERSION=8.21
+FETCH=curl
 
 all: build
-
-build: configure
-	$(MAKE) -C build/ all
+	
+fetch: coreutils-$(VERSION).tar.xz
+unpack: coreutils-$(VERSION)/
+patch: unpack
+prepare: coreutils-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../coreutils-8.20/configure --prefix=$(PREFIX) \
+	cd build && ../coreutils-$(VERSION)/configure --prefix=$(PREFIX) \
 		--bindir=$(BINDIR)
-	@touch configure
+	@touch $@
 
-prepare: coreutils-8.20.tar.xz
-	tar xJf coreutils-8.20.tar.xz
-	@mkdir build
-	@touch prepare
-
-coreutils-8.20.tar.xz:
-	wget ftp://ftp.gnu.org/gnu/coreutils/coreutils-8.20.tar.xz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build/ DESTDIR=$(DESTDIR) install
@@ -33,9 +34,16 @@ ifeq ($(BINDIR),/bin)
 endif
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) coreutils-8.20.tar.xz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r coreutils-8.20/
+	$(RM) -r coreutils-$(VERSION)/
+
+distclean: clean
+	$(RM) coreutils-$(VERSION).tar.xz
+
+coreutils-$(VERSION).tar.xz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/coreutils/coreutils-$(VERSION).tar.xz > $@
+
+coreutils-$(VERSION)/: coreutils-$(VERSION).tar.xz
+	tar xJf $<
 

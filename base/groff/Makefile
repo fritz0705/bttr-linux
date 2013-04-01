@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=1.22
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: groff-$(VERSION).tar.gz
+unpack: groff-$(VERSION)/
+patch: unpack
+prepare: groff-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../groff-1.21/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../groff-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: groff-1.21.tar.gz
-	tar xzf groff-1.21.tar.gz
-	@mkdir build
-	@touch prepare
-
-groff-1.21.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/groff/groff-1.21.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) groff-1.21.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r groff-1.21/
+	$(RM) -r groff-$(VERSION)/
+
+distclean: clean
+	$(RM) groff-$(VERSION).tar.gz
+
+groff-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/groff/groff-$(VERSION).tar.gz > $@
+
+groff-$(VERSION)/: groff-$(VERSION).tar.gz
+	tar xzf $<
 

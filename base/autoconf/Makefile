@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=2.69
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: autoconf-$(VERSION).tar.gz
+unpack: autoconf-$(VERSION)/
+patch: unpack
+prepare: autoconf-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../autoconf-2.69/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../autoconf-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: autoconf-2.69.tar.gz
-	tar xzf autoconf-2.69.tar.gz
-	@mkdir build
-	@touch prepare
-
-autoconf-2.69.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) autoconf-2.69.tar.gz
 	$(RM) -r build/
-	$(RM) -r autoconf-2.69/
+	$(RM) prepare configure
+	$(RM) -r autoconf-$(VERSION)/
+
+distclean: clean
+	$(RM) autoconf-$(VERSION).tar.gz
+
+autoconf-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/autoconf/autoconf-$(VERSION).tar.gz > $@
+
+autoconf-$(VERSION)/: autoconf-$(VERSION).tar.gz
+	tar xzf $<
 

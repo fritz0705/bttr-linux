@@ -1,33 +1,41 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=0.2.2
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C libtirpc-0.2.2
+fetch: libtirpc-$(VERSION).tar.bz2
+unpack: libtirpc-$(VERSION)/
+patch: unpack
+prepare: libtirpc-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd libtirpc-0.2.2 && ./configure --prefix=$(PREFIX) \
+	cd libtirpc-$(VERSION) && ./configure --prefix=$(PREFIX) \
 		--enable-gss
-	@touch configure
+	@touch $@
 
-prepare: libtirpc-0.2.2.tar.bz2
-	tar xjf libtirpc-0.2.2.tar.bz2
-	@mkdir build
-	@touch prepare
-
-libtirpc-0.2.2.tar.bz2:
-	wget http://downloads.sourceforge.net/sourceforge/libtirpc/libtirpc-0.2.2.tar.bz2
+build: configure
+	$(MAKE) -C libtirpc-$(VERSION)
 
 install: build
-	$(MAKE) -C libtirpc-0.2.2 install DESTDIR=$(DESTDIR)
+	$(MAKE) -C libtirpc-$(VERSION) install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) libtirpc-0.2.2.tar.bz2
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r libtirpc-0.2.2/
+	$(RM) -r libtirpc-$(VERSION)/
+
+distclean: clean
+	$(RM) libtirpc-$(VERSION).tar.bz2
+
+libtirpc-$(VERSION).tar.bz2:
+	$(FETCH) http://downloads.sourceforge.net/sourceforge/libtirpc/libtirpc-$(VERSION).tar.bz2 > $@
+
+libtirpc-$(VERSION)/: libtirpc-$(VERSION).tar.bz2
+	tar xzf $<
 

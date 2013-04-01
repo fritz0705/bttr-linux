@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=4.2.33
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: findutils-$(VERSION).tar.gz
+unpack: findutils-$(VERSION)/
+patch: unpack
+prepare: findutils-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../findutils-4.2.33/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../findutils-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: findutils-4.2.33.tar.gz
-	tar xzf findutils-4.2.33.tar.gz
-	@mkdir build
-	@touch prepare
-
-findutils-4.2.33.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/findutils/findutils-4.2.33.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) findutils-4.2.33.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r findutils-4.2.33/
+	$(RM) -r findutils-$(VERSION)/
+
+distclean: clean
+	$(RM) findutils-$(VERSION).tar.gz
+
+findutils-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/findutils/findutils-$(VERSION).tar.gz > $@
+	
+findutils-$(VERSION)/: findutils-$(VERSION).tar.gz
+	tar xzf $<
 

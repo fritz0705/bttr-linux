@@ -1,32 +1,37 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=2.7.3
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: Python-$(VERSION).tar.bz2
+unpack: Python-$(VERSION)/
+patch: unpack
+prepare: Python-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../Python-2.7.3/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../Python-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: Python-2.7.3.tar.bz2
-	tar xjf Python-2.7.3.tar.bz2
-	@mkdir build
-	@touch prepare
-
-Python-2.7.3.tar.bz2:
-	wget http://python.org/ftp/python/2.7.3/Python-2.7.3.tar.bz2
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) Python-2.7.3.tar.bz2
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r Python-2.7.3/
+	$(RM) -r Python-$(VERSION)/
+
+distclean: clean
+	$(RM) Python-$(VERSION).tar.bz2
+
+Python-$(VERSION).tar.bz2:
+	$(FETCH) http://python.org/ftp/python/$(VERSION)/Python-$(VERSION).tar.bz2 > $@
 

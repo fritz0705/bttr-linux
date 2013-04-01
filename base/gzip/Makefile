@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=1.5
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: gzip-$(VERSION).tar.gz
+unpack: gzip-$(VERSION)/
+patch: unpack
+prepare: gzip-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../gzip-1.5/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../gzip-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: gzip-1.5.tar.gz
-	tar xzf gzip-1.5.tar.gz
-	@mkdir build
-	@touch prepare
-
-gzip-1.5.tar.gz:
-	wget ftp://ftp.gnu.org/gnu/gzip/gzip-1.5.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) gzip-1.5.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r gzip-1.5/
+	$(RM) -r gzip-$(VERSION)/
+
+distclean: clean
+	$(RM) gzip-$(VERSION).tar.gz
+
+gzip-$(VERSION).tar.gz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/gzip/gzip-$(VERSION).tar.gz > $@
+
+gzip-$(VERSION)/: gzip-$(VERSION).tar.gz
+	tar xzf $<
 

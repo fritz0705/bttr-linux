@@ -1,10 +1,11 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch prepare build install clean distclean
 
 PREFIX=/usr
 BINDIR=$(PREFIX)/bin
 DESTDIR=
 
 VERSION=0.13
+FETCH=curl
 
 override __targets = gatling
 
@@ -30,22 +31,18 @@ endif
 
 all: build
 
-build: configure
-	$(MAKE) -C gatling-$(VERSION)/ $(__targets)
-
+fetch: gatling-$(VERSION).tar.bz2
+unpack: gatling-$(VERSION)/
+patch: unpack
+prepare: gatling-$(VERSION)/
 configure: prepare
 ifdef FEATURE_CONFIG
 	cp -f $(FEATURE_CONFIG) gatling-$(VERSION)/gatling_features.h
 endif
-	@touch configure
+	@touch $@
 
-prepare: gatling-$(VERSION).tar.bz2
-	tar xjf gatling-$(VERSION).tar.bz2
-	@mkdir build
-	@touch prepare
-
-gatling-$(VERSION).tar.bz2:
-	curl http://dl.fefe.de/gatling-$(VERSION).tar.bz2 > $@
+build: configure
+	$(MAKE) -C gatling-$(VERSION)/ $(__targets)
 
 install: build
 	install -d $(DESTDIR)/$(BINDIR)
@@ -64,8 +61,15 @@ ifeq ($(WITH_POLARSSL),yes)
 endif
 
 clean:
-	$(RM) prepare
 	$(RM) configure
-	$(RM) gatling-$(VERSION).tar.bz2
 	$(RM) -r gatling-$(VERSION)/
+
+distclean: clean
+	$(RM) gatling-$(VERSION).tar.bz2
+
+gatling-$(VERSION).tar.bz2:
+	$(FETCH) http://dl.fefe.de/gatling-$(VERSION).tar.bz2 > $@
+
+gatling-$(VERSION)/: gatling-$(VERSION).tar.bz2
+	tar xjf $<
 

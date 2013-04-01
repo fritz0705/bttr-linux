@@ -1,32 +1,40 @@
-.PHONY: all build install clean
+.PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX=/usr
 DESTDIR=
+VERSION=3.0.13
+FETCH=curl
 
 all: build
 
-build: configure
-	$(MAKE) -C build
+fetch: libffi-$(VERSION).tar.gz
+unpack: libffi-$(VERSION)/
+patch: unpack
+prepare: libffi-$(VERSION)/
+	mkdir build/
+	@touch $@
 
 configure: prepare
-	cd build && ../libffi-3.0.11/configure --prefix=$(PREFIX)
-	@touch configure
+	cd build && ../libffi-$(VERSION)/configure --prefix=$(PREFIX)
+	@touch $@
 
-prepare: libffi-3.0.11.tar.gz
-	tar xzf libffi-3.0.11.tar.gz
-	@mkdir build
-	@touch prepare
-
-libffi-3.0.11.tar.gz:
-	wget ftp://sourceware.org/pub/libffi/libffi-3.0.11.tar.gz
+build: configure
+	$(MAKE) -C build
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare
-	$(RM) configure
-	$(RM) libffi-3.0.11.tar.gz
+	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r libffi-3.0.11/
+	$(RM) -r libffi-$(VERSION)/
+
+distclean: clean
+	$(RM) libffi-$(VERSION).tar.gz
+
+libffi-$(VERSION).tar.gz:
+	$(FETCH) ftp://sourceware.org/pub/libffi/libffi-$(VERSION).tar.gz > $@
+
+libffi-$(VERSION)/: libffi-$(VERSION).tar.gz
+	tar xzf $<
 
