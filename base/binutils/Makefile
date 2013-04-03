@@ -1,4 +1,4 @@
-.PHONY: all fetch unpack patch build install clean distclean
+.PHONY: all fetch unpack build install clean distclean
 
 PREFIX?=/usr
 DESTDIR?=
@@ -25,9 +25,13 @@ all: build
 
 fetch: binutils-$(VERSION).tar.gz
 unpack: binutils-$(VERSION)/
-patch: unpack
-prepare: binutils-$(VERSION)/
-	mkdir build/
+patch: binutils-$(VERSION)/
+	sed -i -e 's/@colophon/@@colophon/' \
+		-e 's/doc@cygnus.com/doc@@cygnus.com/' binutils-$(VERSION)/bfd/doc/bfd.texinfo
+	@touch $@
+
+prepare: patch binutils-$(VERSION)/
+	-mkdir build/
 	@touch $@
 
 configure: prepare
@@ -42,7 +46,7 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare configure
+	$(RM) prepare configure patch
 	$(RM) -r build/
 	$(RM) -r binutils-$(VERSION)/
 
