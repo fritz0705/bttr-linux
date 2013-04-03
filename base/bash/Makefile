@@ -40,7 +40,7 @@ distclean: clean
 	$(RM) bash-$(VERSION).tar.gz
 
 bash-$(VERSION).tar.gz:
-	wget ftp://ftp.gnu.org/gnu/bash/bash-$(VERSION).tar.gz
+	$(FETCH) ftp://ftp.gnu.org/gnu/bash/bash-$(VERSION).tar.gz > $@
 
 bash-$(VERSION)/: bash-$(VERSION).tar.gz
 	tar xzf $<
