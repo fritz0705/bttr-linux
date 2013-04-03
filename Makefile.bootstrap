@@ -34,7 +34,7 @@ clean: | $(PACKAGES)
 .PHONY: $(PACKAGES)
 
 $(PACKAGES):
-	@echo ">>> Bootstrap $@"
+	@echo ">>> Bootstrap $@..."
 	-@$(MAKE) -C $@ $(TARGETS)$(if $(MAKE_LOG), 2>&1 >> $(MAKE_LOG)) \
-		&& echo ">>>> Succeded" || echo ">>>> Failed"
+		&& echo ">>>> $@ succeeded" || echo ">>>> $@ failed"
 
