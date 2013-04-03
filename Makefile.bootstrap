@@ -1,0 +1,33 @@
+# Bootstrap Linux System
+# 
+# Usage: make -f Makefile.bootstrap
+
+# Include configuration if present
+ifdef CONFIG
+include $(CONFIG)
+else
+include default.bootstrap.mk
+endif
+
+# Set DESTDIR to temporary dir if not already set
+DESTDIR ?= $(shell mktemp -d)
+
+TARGETS ?= build install
+
+export DESTDIR
+
+ifeq ($(WITH_FS),YES)
+override PACKAGES += etc/filesystem etc/config etc/pam $(PACKAGES)
+endif
+
+.PHONY: bootstrap clean
+bootstrap: $(PACKAGES)
+	@echo ">> Bootstrap done"
+	@echo ">>     $(DESTDIR)"
+
+.PHONY: $(PACKAGES)
+
+$(PACKAGES):
+	@echo ">>> Bootstrap $@"
+	@$(MAKE) -C $@ $(TARGETS)$(if $(MAKE_LOG), 2>&1 >> $(MAKE_LOG))
+
