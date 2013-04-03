@@ -35,6 +35,7 @@ clean: | $(PACKAGES)
 
 $(PACKAGES):
 	@echo ">>> Bootstrap $@..."
-	-@$(MAKE) -C $@ $(TARGETS)$(if $(MAKE_LOG), 2>&1 >> $(MAKE_LOG)) \
+	-@$(MAKE) -C $@ $(TARGETS) \
+		$(if $(MAKE_LOG), 2>&1 >> $(subst %p,$(subst /,_,$@),$(MAKE_LOG))) \
 		&& echo ">>>> $@ succeeded" || echo ">>>> $@ failed"
 
