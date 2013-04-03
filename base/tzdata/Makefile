@@ -33,7 +33,7 @@ distclean: clean
 	$(RM) tzdata$(VERSION).tar.gz
 
 tzdata$(VERSION).tar.gz:
-	wget http://www.iana.org/time-zones/repository/releases/tzdata$(VERSION).tar.gz
+	$(FETCH) http://www.iana.org/time-zones/repository/releases/tzdata$(VERSION).tar.gz > $@
 
 tzdata$(VERSION)/: tzdata$(VERSION).tar.gz
 	mkdir $@
