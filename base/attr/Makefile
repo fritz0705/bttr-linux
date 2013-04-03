@@ -2,8 +2,8 @@
 
 PREFIX ?= /usr
 DESTDIR ?=
-VERSION = 2.4.46
-FETCH = curl
+VERSION ?= 2.4.46
+FETCH ?= curl -L
 
 all: build
 
@@ -35,5 +35,5 @@ attr-$(VERSION): attr-$(VERSION).src.tar.gz
 	tar xzf $<
 
 attr-$(VERSION).src.tar.gz:
-	wget http://mirror3.layerjet.com/nongnu//attr/attr-$(VERSION).src.tar.gz
+	$(FETCH) http://download.savannah.gnu.org/releases/attr/attr-$(VERSION).src.tar.gz > $@
 
