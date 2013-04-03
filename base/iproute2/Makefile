@@ -14,7 +14,7 @@ endif
 DESTDIR?=
 
 VERSION?=3.8.0
-FETCH?=curl
+FETCH?=curl -L
 
 all: build
 
