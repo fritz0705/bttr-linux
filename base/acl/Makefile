@@ -3,7 +3,7 @@
 PREFIX=/usr
 DESTDIR=
 VERSION=2.2.51
-FETCH=curl
+FETCH=curl -L
 
 all: build
 
@@ -33,5 +33,5 @@ acl-$(VERSION)/: acl-$(VERSION).src.tar.gz
 	tar xzf $<
 
 acl-$(VERSION).src.tar.gz:
-	$(FETCH) http://mirror3.layerjet.com/nongnu/acl/acl-$(VERSION).src.tar.gz > $@
+	$(FETCH) http://download.savannah.gnu.org/releases/acl/acl-$(VERSION).src.tar.gz > $@
 
