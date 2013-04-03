@@ -35,6 +35,6 @@ distclean: clean
 libgssglue-$(VERSION).tar.gz:
 	$(FETCH) http://www.citi.umich.edu/projects/nfsv4/linux/libgssglue/libgssglue-$(VERSION).tar.gz > $@
 
-libgssglue-$(VERSION)/: libgssglue-$(VERISON).tar.gz
+libgssglue-$(VERSION)/: libgssglue-$(VERSION).tar.gz
 	tar xzf $<
 
