@@ -3,7 +3,7 @@
 PREFIX?=/usr
 DESTDIR?=
 VERSION?=0.2.2
-FETCH?=curl
+FETCH?=curl -L
 
 all: build
 
@@ -37,5 +37,5 @@ libtirpc-$(VERSION).tar.bz2:
 	$(FETCH) http://downloads.sourceforge.net/sourceforge/libtirpc/libtirpc-$(VERSION).tar.bz2 > $@
 
 libtirpc-$(VERSION)/: libtirpc-$(VERSION).tar.bz2
-	tar xzf $<
+	tar xjf $<
 
