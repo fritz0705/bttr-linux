@@ -43,7 +43,7 @@ distclean: clean
 	$(RM) util-linux-$(VERSION).tar.gz
 
 util-linux-$(VERSION).tar.gz:
-	$(FETCH) ftp://ftp.kernel.org/pub/linux/utils/util-linux/v$(VERSION)/util-linux-$(VERSION).tar.gz > $@
+	$(FETCH) ftp://ftp.kernel.org/pub/linux/utils/util-linux/v2.22/util-linux-$(VERSION).tar.gz > $@
 
 util-linux-$(VERSION)/: util-linux-$(VERSION).tar.gz
 	tar xzf $<
