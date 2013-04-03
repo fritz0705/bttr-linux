@@ -34,7 +34,7 @@ distclean: clean
 	$(RM) texinfo-$(VERSION).tar.gz
 
 texinfo-$(VERSION).tar.gz:
-	wget ftp://ftp.gnu.org/gnu/texinfo/texinfo-$(VERSION).tar.gz
+	$(FETCH) ftp://ftp.gnu.org/gnu/texinfo/texinfo-$(VERSION).tar.gz > $@
 
 texinfo-$(VERSION)/: texinfo-$(VERSION).tar.gz
 	tar xzf $<
