@@ -29,5 +29,6 @@ bootstrap: $(PACKAGES)
 
 $(PACKAGES):
 	@echo ">>> Bootstrap $@"
-	@$(MAKE) -C $@ $(TARGETS)$(if $(MAKE_LOG), 2>&1 >> $(MAKE_LOG))
+	-@$(MAKE) -C $@ $(TARGETS)$(if $(MAKE_LOG), 2>&1 >> $(MAKE_LOG)) \
+		&& echo ">>>> Succeded" || echo ">>>> Failed"
 
