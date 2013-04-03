@@ -12,11 +12,11 @@ unpack: attr-$(VERSION)/
 patch: unpack
 prepare: attr-$(VERSION)/
 	mkdir build/
-	@touch prepare
+	@touch $@
 
 configure: prepare
 	cd attr-$(VERSION) && ./configure --prefix=$(PREFIX)
-	@touch configure
+	@touch $@
 
 build: configure
 	$(MAKE) -C attr-$(VERSION)
