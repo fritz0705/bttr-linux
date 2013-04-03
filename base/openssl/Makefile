@@ -39,7 +39,7 @@ distclean: clean
 	$(RM) openssl-$(VERSION).tar.gz
 
 openssl-$(VERSION).tar.gz:
-	$(CURL) https://www.openssl.org/source/openssl-$(VERSION).tar.gz > $@
+	$(FETCH) https://www.openssl.org/source/openssl-$(VERSION).tar.gz > $@
 
 openssl-$(VERSION)/: openssl-$(VERSION).tar.gz
 	tar xzf $<
