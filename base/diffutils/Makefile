@@ -9,7 +9,7 @@ all: build
 
 fetch: diffutils-$(VERSION).tar.xz
 unpack: diffutils-$(VERSION)/
-patch: diffutils-$(VERSION)
+patch: diffutils-$(VERSION)/
 	sed -i -e '/gets is a/d' diffutils-$(VERSION)/lib/stdio.in.h
 	@touch $@
 
