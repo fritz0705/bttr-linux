@@ -33,7 +33,7 @@ distclean: clean
 	$(RM) less-$(VERSION).tar.gz
 
 less-$(VERSION).tar.gz:
-	wget ftp://ftp.gnu.org/gnu/less/less-$(VERSION).tar.gz
+	$(FETCH) ftp://ftp.gnu.org/gnu/less/less-$(VERSION).tar.gz > $@
 
 less-$(VERSION)/: less-$(VERSION).tar.gz
 	tar xzf $<
