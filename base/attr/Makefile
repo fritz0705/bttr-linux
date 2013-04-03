@@ -11,8 +11,6 @@ fetch: attr-$(VERSION).src.tar.gz
 unpack: attr-$(VERSION)/
 patch: unpack
 prepare: attr-$(VERSION)/
-	mkdir build/
-	@touch $@
 
 configure: prepare
 	cd attr-$(VERSION) && ./configure --prefix=$(PREFIX)
