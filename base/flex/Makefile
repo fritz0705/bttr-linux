@@ -7,7 +7,7 @@ FETCH?=curl
 
 all: build
 
-fetch: flex-$(VERISON).tar.gz
+fetch: flex-$(VERSION).tar.gz
 unpack: flex-$(VERSION)/
 patch: unpack
 prepare: flex-$(VERSION)/
