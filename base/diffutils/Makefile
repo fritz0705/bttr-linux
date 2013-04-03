@@ -7,7 +7,7 @@ FETCH?=curl
 
 all: build
 
-fetch: diffutils-$(VERSION).tar.gz
+fetch: diffutils-$(VERSION).tar.xz
 unpack: diffutils-$(VERSION)/
 patch: diffutils-$(VERSION)
 	sed -i -e '/gets is a/d' diffutils-$(VERSION)/lib/stdio.in.h
@@ -33,11 +33,11 @@ clean:
 	$(RM) -r diffutils-$(VERSION)/
 
 distclean: clean
-	$(RM) diffutils-$(VERSION).tar.gz
+	$(RM) diffutils-$(VERSION).tar.xz
 
-diffutils-$(VERSION).tar.gz:
-	$(FETCH) ftp://ftp.gnu.org/gnu/diffutils/diffutils-$(VERSION).tar.gz > $@
+diffutils-$(VERSION).tar.xz:
+	$(FETCH) ftp://ftp.gnu.org/gnu/diffutils/diffutils-$(VERSION).tar.xz > $@
 
-diffutils-$(VERSION)/: diffutils-$(VERSION).tar.gz
-	tar xzf $<
+diffutils-$(VERSION)/: diffutils-$(VERSION).tar.xz
+	tar xJf $<
 
