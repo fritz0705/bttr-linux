@@ -1,9 +1,9 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
-PREFIX=/usr
-DESTDIR=
-VERSION=2.23.2
-FETCH=curl
+PREFIX?=/usr
+DESTDIR?=
+VERSION?=2.23.2
+FETCH?=curl
 
 override __configure_flags = 
 

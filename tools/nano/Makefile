@@ -1,9 +1,9 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
-PREFIX=/usr
-DESTDIR=
-FETCH=curl
-VERSION=2.3.1
+PREFIX?=/usr
+DESTDIR?=
+FETCH?=curl
+VERSION?=2.3.1
 
 all: build
 

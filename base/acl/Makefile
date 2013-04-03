@@ -1,9 +1,9 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
-PREFIX=/usr
-DESTDIR=
-VERSION=2.2.51
-FETCH=curl -L
+PREFIX ?= /usr
+DESTDIR ?=
+VERSION ?= 2.2.51
+FETCH ?= curl -L
 
 all: build
 
@@ -14,10 +14,10 @@ prepare: acl-$(VERSION)/
 
 configure: prepare
 	cd acl-$(VERSION)/ && ./configure --prefix=$(PREFIX)
-	@touch configure
+	@touch $@
 
 build: configure
-	$(MAKE) -C acl-$(VERSION)
+	$(MAKE) -C acl-$(VERSION)/
 
 install: build
 	$(MAKE) -C acl-$(VERSION)/ install install-lib install-dev DIST_ROOT=$(DESTDIR)

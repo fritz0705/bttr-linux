@@ -1,11 +1,11 @@
 .PHONY: all fetch unpack patch prepare build install clean distclean
 
-PREFIX=/usr
-BINDIR=$(PREFIX)/bin
-DESTDIR=
+PREFIX?=/usr
+BINDIR?=$(PREFIX)/bin
+DESTDIR?=
 
-VERSION=0.13
-FETCH=curl
+VERSION?=0.13
+FETCH?=curl
 
 override __targets = gatling
 

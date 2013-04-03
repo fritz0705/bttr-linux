@@ -1,11 +1,11 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
-PREFIX=/usr
-SYSCONFDIR=/etc
-LOCALSTATEDIR=/var
-DESTDIR=
-VERSION=2.10.2
-FETCH=curl
+PREFIX?=/usr
+SYSCONFDIR?=/etc
+LOCALSTATEDIR?=/var
+DESTDIR?=
+VERSION?=2.10.2
+FETCH?=curl
 
 all: build
 

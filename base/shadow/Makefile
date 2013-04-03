@@ -1,15 +1,15 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
-PREFIX=/usr
+PREFIX?=/usr
 ifeq ($(PREFIX),/usr)
-	SYSCONFDIR=/etc
+	SYSCONFDIR?=/etc
 else
-	SYSCONFDIR=$(PREFIX)/etc
+	SYSCONFDIR?=$(PREFIX)/etc
 endif
-DESTDIR=
+DESTDIR?=
 
-VERSION=4.1.5.1
-FETCH=curl
+VERSION?=4.1.5.1
+FETCH?=curl
 
 all: build
 

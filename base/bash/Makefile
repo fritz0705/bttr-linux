@@ -1,14 +1,14 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
-PREFIX=/usr
-DESTDIR=
+PREFIX?=/usr
+DESTDIR?=
 ifeq ($(PREFIX),/usr)
-	BINDIR=/bin
+	BINDIR?=/bin
 else
-	BINDIR=$(PREFIX)/bin
+	BINDIR?=$(PREFIX)/bin
 endif
-VERSION=4.2
-FETCH=curl
+VERSION?=4.2
+FETCH?=curl
 
 all: build
 

@@ -1,10 +1,10 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
-PREFIX=/usr
-DESTDIR=
-LANGUAGES=c
-VERSION=4.8.0
-FETCH=curl
+PREFIX?=/usr
+DESTDIR?=
+LANGUAGES?=c
+VERSION?=4.8.0
+FETCH?=curl
 
 # Build configure flags
 override __configure_flags =

@@ -1,10 +1,10 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
-PREFIX=/usr
-DESTDIR=
-ETCDIR=/etc/zsh
-FETCH=curl
-VERSION=5.0.2
+PREFIX?=/usr
+DESTDIR?=
+ETCDIR?=/etc/zsh
+FETCH?=curl
+VERSION?=5.0.2
 
 all: build
 

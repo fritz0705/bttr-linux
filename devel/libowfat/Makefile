@@ -1,22 +1,22 @@
 .PHONY: all fetch unpack patch prepare configure build install clean distclean
 
-PREFIX=/usr
-DESTDIR=
-VERSION=0.29
-FETCH=curl
+PREFIX?=/usr
+DESTDIR?=
+VERSION?=0.29
+FETCH?=curl
 
-LIBDIR=$(PREFIX)/lib
+LIBDIR?=$(PREFIX)/lib
 
 ifeq ($(PREFIX),/)
-INCLUDEDIR=/usr/include
+INCLUDEDIR?=/usr/include
 else
-INCLUDEDIR=$(PREFIX)/include
+INCLUDEDIR?=$(PREFIX)/include
 endif
 
 ifeq ($(PREFIX),/)
-MAN3DIR=/usr/man/man3
+MAN3DIR?=/usr/man/man3
 else
-MAN3DIR=$(PREFIX)/man/man3
+MAN3DIR?=$(PREFIX)/man/man3
 endif
 
 all: build

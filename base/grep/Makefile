@@ -1,9 +1,9 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
-PREFIX=/usr
-DESTDIR=
-VERSION=2.14
-FETCH=curl
+PREFIX?=/usr
+DESTDIR?=
+VERSION?=2.14
+FETCH?=curl
 
 CONFIGURE_FLAGS = 
 ifneq ($(WITH_PCRE),yes)

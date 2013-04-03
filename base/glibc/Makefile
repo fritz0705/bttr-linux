@@ -1,15 +1,15 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
-PREFIX=/usr
-DESTDIR=
+PREFIX?=/usr
+DESTDIR?=
 
-LIBDIR:=$(PREFIX)/lib
-LIBEXECDIR:=$(PREFIX)/lib
+LIBDIR?=$(PREFIX)/lib
+LIBEXECDIR?=$(PREFIX)/lib
 
-VERSION=2.17
-KERNEL_VERSION=2.6.39
+VERSION?=2.17
+KERNEL_VERSIONs?=2.6.39
 
-FETCH=curl
+FETCH?=curl
 
 all: build
 

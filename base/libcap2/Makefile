@@ -1,9 +1,9 @@
 .PHONY: all fetch unpack patch prepare configure build install clean distclean
 
-PREFIX=/usr
-DESTDIR=
-VERSION=2.22
-FETCH=curl
+PREFIX?=/usr
+DESTDIR?=
+VERSION?=2.22
+FETCH?=curl
 
 ifeq ($(shell id -u),0)
 	RAISE_SETFCAP=yes

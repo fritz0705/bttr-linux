@@ -1,7 +1,7 @@
-DESTDIR=
+DESTDIR?=
 
-VERSION=3.8.5
-FETCH=curl
+VERSION?=3.8.5
+FETCH?=curl
 
 # Source of kernel configuration
 # 

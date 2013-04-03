@@ -1,5 +1,5 @@
-DESTDIR=
-VERSION=1
+DESTDIR?=
+VERSION?=1
 
 # Empty targets
 all:

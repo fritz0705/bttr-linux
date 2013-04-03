@@ -1,20 +1,20 @@
 .PHONY: all fetch unpack patch prepare build install clean distclean
 
-PREFIX=/usr
+PREFIX?=/usr
 ifeq ($(PREFIX),/usr)
-SBINDIR=/sbin
-CONFDIR=/etc/iproute2
-ARPDDIR=/var/lib/arpd
+SBINDIR?=/sbin
+CONFDIR?=/etc/iproute2
+ARPDDIR?=/var/lib/arpd
 else
-SBINDIR=$(PREFIX)/sbin
-CONFDIR=$(PREFIX)/etc/iproute2
-ARPDDIR=$(PREFIX)/var/lib/arpd
+SBINDIR?=$(PREFIX)/sbin
+CONFDIR?=$(PREFIX)/etc/iproute2
+ARPDDIR?=$(PREFIX)/var/lib/arpd
 endif
 
-DESTDIR=
+DESTDIR?=
 
-VERSION=3.8.0
-FETCH=curl
+VERSION?=3.8.0
+FETCH?=curl
 
 all: build
 

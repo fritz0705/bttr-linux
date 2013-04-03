@@ -1,15 +1,15 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
-PREFIX=/usr
+PREFIX?=/usr
 ifeq ($(PREFIX),/usr)
-	EXECPREFIX=
+	EXECPREFIX?=
 else
-	EXECPREFIX=$(PREFIX)
+	EXECPREFIX?=$(PREFIX)
 endif
-DESTDIR=
+DESTDIR?=
 
-VERSION=3.3.7
-FETCH=curl
+VERSION?=3.3.7
+FETCH?=curl
 
 all: build
 

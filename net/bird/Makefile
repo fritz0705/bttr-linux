@@ -1,16 +1,16 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
-PREFIX=/usr
-SYSCONFDIR=$(PREFIX)/etc
-LOCALSTATEDIR=$(PREFIX)/var
-DESTDIR=
+PREFIX?=/usr
+SYSCONFDIR?=$(PREFIX)/etc
+LOCALSTATEDIR?=$(PREFIX)/var
+DESTDIR?=
 
-VERSION=1.3.9
-FETCH=curl
+VERSION?=1.3.9
+FETCH?=curl
 
 ifeq ($(PREFIX),/usr)
-SYSCONFDIR=/etc
-LOCALSTATEDIR=/var
+SYSCONFDIR?=/etc
+LOCALSTATEDIR?=/var
 endif
 
 ifeq ($(WITH_IPV6),yes)

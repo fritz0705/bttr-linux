@@ -1,11 +1,11 @@
 .PHONY: all fetch unpack patch prepare configure build install clean distclean
 
-PREFIX=/usr
-LIBDIR=$(PREFIX)/lib
-BINDIR=$(PREFIX)/bin
-DESTDIR=
-VERSION=1.0.6
-FETCH=curl
+PREFIX?=/usr
+LIBDIR?=$(PREFIX)/lib
+BINDIR?=$(PREFIX)/bin
+DESTDIR?=
+VERSION?=1.0.6
+FETCH?=curl
 
 all: build
 

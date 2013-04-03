@@ -1,9 +1,9 @@
 .PHONY: all fetch unpack patch prepare build install clean distclean
 
-PREFIX=/usr
-DESTDIR=
-VERSION=1.0.1e
-FETCH=curl -k
+PREFIX?=/usr
+DESTDIR?=
+VERSION?=1.0.1e
+FETCH?=curl -k
 
 TARGET ?= $(shell uname -m)
 

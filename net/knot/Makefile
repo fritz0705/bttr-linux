@@ -1,16 +1,16 @@
 .PHONY: all fetch unpack patch prepare build install clean distclean
 
-PREFIX=/usr
-DESTDIR=
-VERSION=1.1.3
-FETCH=curl
+PREFIX?=/usr
+DESTDIR?=
+VERSION?=1.1.3
+FETCH?=curl
 
-SYSCONFDIR=$(PREFIX)/etc
-LOCALSTATEDIR=$(PREFIX)/var
+SYSCONFDIR?=$(PREFIX)/etc
+LOCALSTATEDIR?=$(PREFIX)/var
 
 ifeq ($(PREFIX),/usr)
-SYSCONFDIR=/etc/knot
-LOCALSTATEDIR=/var
+SYSCONFDIR?=/etc/knot
+LOCALSTATEDIR?=/var
 endif
 
 all: build

@@ -1,15 +1,15 @@
 .PHONY: all fetch unpack patch prepare build install clean distclean
 
-PREFIX=/usr
+PREFIX?=/usr
 ifeq ($(PREFIX),/usr)
-	SYSCONFDIR=/etc
+	SYSCONFDIR?=/etc
 else
-	SYSCONFDIR=$(PREFIX)/etc
+	SYSCONFDIR?=$(PREFIX)/etc
 endif
-DESTDIR=
+DESTDIR?=
 
-VERSION=2.2.02.98
-FETCH=curl
+VERSION?=2.2.02.98
+FETCH?=curl
 
 all: build
 
