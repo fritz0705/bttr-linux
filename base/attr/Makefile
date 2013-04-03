@@ -10,7 +10,7 @@ all: build
 fetch: attr-$(VERSION).src.tar.gz
 unpack: attr-$(VERSION)/
 patch: unpack
-prepare: attr-$(VERSION)
+prepare: attr-$(VERSION)/
 	mkdir build/
 	@touch prepare
 
