@@ -31,7 +31,7 @@ clean:
 distclean: clean
 	$(RM) attr-$(VERSION).src.tar.gz
 
-attr-$(VERSION): attr-$(VERSION).src.tar.gz
+attr-$(VERSION)/: attr-$(VERSION).src.tar.gz
 	tar xzf $<
 
 attr-$(VERSION).src.tar.gz:
