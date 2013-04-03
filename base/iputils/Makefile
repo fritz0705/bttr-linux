@@ -1,4 +1,4 @@
-.PHONY: all fetch unpack patch prepare build install clean distclean
+.PHONY: all fetch unpack patch prepare configure build install clean distclean
 
 PREFIX?=/usr
 DESTDIR?=
@@ -11,6 +11,7 @@ fetch: iputils-$(VERSION).tar.bz2
 unpack: iputils-$(VERSION)/
 patch: unpack
 prepare: iputils-$(VERSION)
+configure: prepare
 
 build: configure
 	$(MAKE) -C iputils-$(VERSION)
