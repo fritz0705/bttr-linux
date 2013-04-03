@@ -9,6 +9,8 @@ else
 include default.bootstrap.mk
 endif
 
+PACKAGES ?=
+
 # Set DESTDIR to temporary dir if not already set
 DESTDIR ?= $(shell mktemp -d)
 
@@ -21,9 +23,13 @@ override PACKAGES += etc/filesystem etc/config etc/pam $(PACKAGES)
 endif
 
 .PHONY: bootstrap clean
-bootstrap: $(PACKAGES)
+bootstrap: $(if $(KEEP_ORDER), | $(PACKAGES), $(PACKAGES))
 	@echo ">> Bootstrap done"
-	@echo ">>     $(DESTDIR)"
+	@echo ">> Output: $(DESTDIR)"
+
+clean: TARGETS="distclean"
+clean: | $(PACKAGES)
+	@echo ">> Cleaning done"
 
 .PHONY: $(PACKAGES)
 
