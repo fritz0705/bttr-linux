@@ -6,6 +6,7 @@ PACKAGES += base/bash
 PACKAGES += base/binutils
 PACKAGES += base/bison
 PACKAGES += base/bzip2
+PACKAGES += base/cloog
 PACKAGES += base/coreutils
 PACKAGES += base/cracklib
 PACKAGES += base/curl

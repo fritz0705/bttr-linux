@@ -1,0 +1,5 @@
+cloog-*.tar.gz
+cloog-*/
+configure
+prepare
+build/
