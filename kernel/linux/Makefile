@@ -48,7 +48,7 @@ build: configure
 
 install-headers: linux-$(VERSION)/
 	$(MAKE) -C linux-$(VERSION) headers_install
-	cp linux-$(VERSION)/usr/include/. $(DESTDIR)/usr/include
+	cp -r linux-$(VERSION)/usr/include/. $(DESTDIR)/usr/include
 
 install: install-headers build
 	install -d -m755 $(DESTDIR)/lib/modules
