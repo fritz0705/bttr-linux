@@ -44,6 +44,7 @@ endif
 
 build: configure
 	$(MAKE) -C linux-$(VERSION) all
+	$(MAKE) -C linux-$(VERSION) headers_install
 
 install: build
 	install -d -m755 $(DESTDIR)/lib/modules
@@ -51,9 +52,9 @@ install: build
 	install -d -m755 $(DESTDIR)/boot
 	$(MAKE) -C linux-$(VERSION) modules_install INSTALL_MOD_PATH=$(DESTDIR)
 	$(MAKE) -C linux-$(VERSION) firmware_install INSTALL_FW_PATH=$(DESTDIR)/lib/firmware
-	$(MAKE) -C linux-$(VERSION) headers_install INSTALL_HDR_PATH=$(DESTDIR)/usr/include/linux
-	cp linux-$(VERSION)/.config $(DESTDIR)/boot/config
-	cp linux-$(VERSION)/arch/x86/boot/bzImage $(DESTDIR)/boot/vmlinuz
+	cp linux-$(VERSION)/usr/include/. $(DESTDIR)/usr/include
+	cp linux-$(VERSION)/.config $(DESTDIR)/boot/config-$(VERSION)
+	cp linux-$(VERSION)/arch/x86/boot/bzImage $(DESTDIR)/boot/vmlinuz-$(VERSION)
 
 clean:
 	$(RM) -r linux-$(VERSION)/
