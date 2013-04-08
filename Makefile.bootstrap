@@ -18,23 +18,43 @@ TARGETS ?= build install
 
 export DESTDIR
 
+spkgnam = $(subst /,_,$(1))
+
 ifeq ($(WITH_FS),YES)
 override PACKAGES += etc/filesystem etc/config etc/pam $(PACKAGES)
 endif
 
-.PHONY: bootstrap clean
+.PHONY: bootstrap clean help
 bootstrap: $(if $(KEEP_ORDER), | $(PACKAGES), $(PACKAGES))
 	@echo "> bootstrapping done"
 
-clean: TARGETS="distclean"
+clean: PCTARGETS="distclean"
 clean: | $(PACKAGES)
 	@echo ">> Cleaning done"
+
+help:
+	@echo "Bootstrap Makefile"
+	@echo
+	@echo "Variables"
+	@echo "========="
+	@echo
+	@echo "CONFIG    Makefile to evaluate after startup, if omitted, will"
+	@echo "          evaluate default.bootstrap.mk"
+	@echo "DESTDIR   Root directory of the bootstrapped system, if omitted,"
+	@echo "          will be a temporary directory"
+	@echo "TARGETS   Targets which shall be executed, by default build and"
+	@echo "          install"
+	@echo "PACKAGES  Packages which will installed"
+	@echo "MAKE_LOG  Pattern for output files for output ofpackage build"
+	@echo "          processes, %p will replaced by the package name"
 
 .PHONY: $(PACKAGES)
 
 $(PACKAGES):
 	@echo ">> building $@ ..."
-	-@($(MAKE) -C $@ $(TARGETS) $($(subst /,_,$@)_FLAGS) \
+	@-($(MAKE) -C $@ \
+		$(if $(PCTARGETS),$(PCTARGETS),$(if $($(call spkgnam,$@)_TARGETS),$($(call spkgnam,$@)_TARGETS),$(TARGETS)))\
+		$($(call spkgnam,$@)_FLAGS) \
 		$(if $(MAKE_LOG), >> $(subst %p,$(subst /,_,$@),$(MAKE_LOG)) 2>&1)) \
 		&& (echo ">> building $@ succeeded" >&2) || (echo ">> building $@ failed" >&2)
 
