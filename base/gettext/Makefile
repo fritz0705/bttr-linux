@@ -5,6 +5,15 @@ DESTDIR?=
 VERSION?=0.18.2.1
 FETCH?=curl
 
+_cfg_flags =
+
+_cfg_flags += $(if $(WITH_LIBCROCO),,--with-included-libcroco)
+_cfg_flags += $(if $(WITH_GLIB),,--with-included-glib)
+_cfg_flags += $(if $(WITH_LIBXML2),,--with-included-libxml)
+_cfg_flags += $(if $(WITH_LIBUNISTRING),,--with-included-libunistring)
+
+override CONFIGURE_FLAGS := $(_cfg_flags) $(CONFIGURE_FLAGS)
+
 all: build
 
 fetch: gettext-$(VERSION).tar.gz
@@ -20,7 +29,8 @@ prepare: gettext-$(VERSION)/ patch
 	@touch $@
 
 configure: prepare
-	cd build && ../gettext-$(VERSION)/configure --prefix=$(PREFIX)
+	cd build && ../gettext-$(VERSION)/configure --prefix=$(PREFIX) \
+		$(CONFIGURE_FLAGS)
 	@touch $@
 
 build: configure
