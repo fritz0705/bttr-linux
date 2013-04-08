@@ -16,7 +16,7 @@ all: build
 fetch: glibc-$(VERSION).tar.gz
 unpack: glibc-$(VERSION)/
 patch: unpack
-prepare: glibc-$(VERSION)/
+prepare: | glibc-$(VERSION)/
 	mkdir build/
 	@touch $@
 
