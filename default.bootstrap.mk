@@ -1,3 +1,4 @@
+# Base system
 PACKAGES += base/acl
 PACKAGES += base/attr
 PACKAGES += base/autoconf
@@ -48,8 +49,10 @@ PACKAGES += base/pam
 PACKAGES += base/patch
 PACKAGES += base/pcre
 PACKAGES += base/perl
+
 PACKAGES += base/ppl
 base_ppl_FLAGS = VERSION=GIT
+
 PACKAGES += base/procps-ng
 PACKAGES += base/psmisc
 PACKAGES += base/readline
@@ -62,3 +65,31 @@ PACKAGES += base/util-linux
 PACKAGES += base/wget
 PACKAGES += base/xz
 PACKAGES += base/zlib
+
+# Linux kernel
+PACKAGES += kernel/linux
+ifndef WITH_KERNEL
+kernel_linux_TARGETS = install-headers
+endif
+
+# Editor
+ifeq ($(WITH_EDITOR),vi)
+PACKAGES += tools/vi
+else ifeq ($(WITH_EDITOR),vim)
+PACKAGES += tools/vim
+else ifeq ($(WITH_EDITOR),nano)
+PACKAGES += tools/nano
+endif
+
+# Systemd / eudev
+ifeq ($(WITH_UDEV),eudev)
+PACKAGES += tools/eudev
+else ifeq ($(WITH_UDEV),systemd)
+PACKAGES += tools/systemd
+endif
+
+# Clang
+ifdef WITH_CLANG
+PACKAGES += devel/clang
+endif
+
