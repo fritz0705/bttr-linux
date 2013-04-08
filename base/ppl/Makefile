@@ -26,7 +26,7 @@ build: configure
 	$(MAKE) -C build
 
 install: build
-	$(MAKE) -C build install DESTDIR=$(DESTDIR)
+	$(MAKE) -j1 -C build install DESTDIR=$(DESTDIR)
 
 clean:
 	$(RM) prepare configure
