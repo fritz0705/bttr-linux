@@ -5,6 +5,10 @@ DESTDIR?=
 VERSION?=1.0
 FETCH?=curl
 
+ifeq ($(VERSION),GIT)
+GIT_REVISION ?= master
+endif
+
 all: build
 
 fetch: ppl-$(VERSION).tar.gz
@@ -27,14 +31,26 @@ install: build
 clean:
 	$(RM) prepare configure
 	$(RM) -r build/
+ifneq ($(VERSION),GIT)
 	$(RM) -r ppl-$(VERSION)/
+endif
 
 distclean: clean
 	$(RM) ppl-$(VERSION).tar.gz
+	$(RM) -r ppl-GIT/
 
+ifeq ($(VERSION),GIT)
+.PHONY: ppl-GIT/
+ppl-GIT/:
+	[ -d $@ ] && (git --git-dir=$@/.git pull) || (git clone git://git.cs.unipr.it/ppl/ppl.git $@)
+	git --git-dir=$@/.git pull
+	git --git-dir=$@/.git checkout $(GIT_REVISION)
+	cd $@ && (autoreconf || (automake --add-missing && autoreconf))
+else
 ppl-$(VERSION).tar.gz:
 	$(FETCH) http://bugseng.com/products/ppl/download/ftp/releases/$(VERSION)/ppl-$(VERSION).tar.gz > $@
 
 ppl-$(VERSION)/: ppl-$(VERSION).tar.gz
 	tar xzf $<
+endif
 
