@@ -49,6 +49,7 @@ PACKAGES += base/patch
 PACKAGES += base/pcre
 PACKAGES += base/perl
 PACKAGES += base/ppl
+base_ppl_FLAGS = VERSION=GIT
 PACKAGES += base/procps-ng
 PACKAGES += base/psmisc
 PACKAGES += base/readline

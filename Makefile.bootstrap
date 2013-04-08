@@ -24,8 +24,7 @@ endif
 
 .PHONY: bootstrap clean
 bootstrap: $(if $(KEEP_ORDER), | $(PACKAGES), $(PACKAGES))
-	@echo ">> Bootstrap done"
-	@echo ">> Output: $(DESTDIR)"
+	@echo "> bootstrapping done"
 
 clean: TARGETS="distclean"
 clean: | $(PACKAGES)
@@ -34,8 +33,8 @@ clean: | $(PACKAGES)
 .PHONY: $(PACKAGES)
 
 $(PACKAGES):
-	@echo ">>> Bootstrap $@..."
-	-@($(MAKE) -C $@ $(TARGETS) \
+	@echo ">> building $@ ..."
+	-@($(MAKE) -C $@ $(TARGETS) $($(subst /,_,$@)_FLAGS) \
 		$(if $(MAKE_LOG), >> $(subst %p,$(subst /,_,$@),$(MAKE_LOG)) 2>&1)) \
-		&& (echo ">>>> $@ succeeded" >&2) || (echo ">>>> $@ failed" >&2)
+		&& (echo ">> building $@ succeeded" >&2) || (echo ">> building $@ failed" >&2)
 
