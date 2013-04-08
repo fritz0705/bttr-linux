@@ -35,7 +35,7 @@ clean:
 	$(RM) -r build/
 	$(RM) -r db-$(VERSION)/
 
-distclen: clean
+distclean: clean
 	$(RM) db-$(VERSION).tar.gz
 
 db-$(VERSION).tar.gz:
