@@ -10,7 +10,7 @@ all: build
 fetch: iputils-$(VERSION).tar.bz2
 unpack: iputils-$(VERSION)/
 patch: unpack
-prepare: iputils-$(VERSION)
+prepare: iputils-$(VERSION)/
 configure: prepare
 
 build: configure
