@@ -25,4 +25,7 @@ install:
 	ln -sf lib $(DESTDIR)/usr/local/lib64
 	# /etc
 	ln -sf /proc/self/mounts $(DESTDIR)/etc/mtab
+	# /run
+	install -dm755 $(DESTDIR)/run
+	ln -sf ../run $(DESTDIR)/var/run
 
