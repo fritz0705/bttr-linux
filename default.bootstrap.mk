@@ -73,6 +73,8 @@ PACKAGES += base/zlib
 PACKAGES += kernel/linux
 ifndef WITH_KERNEL
 kernel_linux_TARGETS = install-headers
+else
+PACKAGES += kernel/kmod
 endif
 
 # Editor
