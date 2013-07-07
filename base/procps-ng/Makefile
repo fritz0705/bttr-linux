@@ -16,7 +16,7 @@ all: build
 fetch: procps-ng-$(VERSION).tar.gz
 unpack: procps-procps/
 patch: unpack
-prepare: procps-procps/
+prepare: | procps-procps/
 	mkdir build/
 	@touch $@
 
