@@ -3,7 +3,7 @@
 PREFIX?=/usr
 DESTDIR?=
 
-VERSION?=1.2.7
+VERSION?=1.2.8
 FETCH?=curl
 
 all: build
