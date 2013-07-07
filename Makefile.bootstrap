@@ -12,7 +12,7 @@ endif
 PACKAGES ?=
 
 # Set DESTDIR to temporary dir if not already set
-DESTDIR ?= $(shell mktemp -d /tmp/bttr.XXXXXXX)
+DESTDIR ?= _build/
 
 TARGETS ?= build install
 
