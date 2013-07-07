@@ -1,6 +1,8 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX?=/usr
+SYSCONFDIR?=/etc
+LIBDIR=/lib
 DESTDIR?=
 VERSION?=2.34.3
 FETCH?=curl
