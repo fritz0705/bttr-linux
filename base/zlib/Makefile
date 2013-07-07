@@ -11,7 +11,7 @@ all: build
 fetch: zlib-$(VERSION).tar.gz
 unpack: zlib-$(VERSION)/
 patch: unpack
-prepare: zlib-$(VERSION)/
+prepare: | zlib-$(VERSION)/
 	mkdir build/
 	@touch $@
 
