@@ -5,7 +5,7 @@ SYSCONFDIR?=$(PREFIX)/etc
 LOCALSTATEDIR?=$(PREFIX)/var
 DESTDIR?=
 
-VERSION?=1.3.9
+VERSION?=1.3.10
 FETCH?=curl
 
 ifeq ($(PREFIX),/usr)
