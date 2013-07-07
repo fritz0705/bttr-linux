@@ -1,0 +1,5 @@
+prepare
+configure
+build/
+libbsd-*.tar.xz
+libbsd-*/
