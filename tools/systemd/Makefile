@@ -5,6 +5,8 @@ DESTDIR?=
 VERSION?=205
 FETCH?=curl
 
+override CONFIGURE_FLAGS := --prefix=$(PREFIX) $(CONFIGURE_FLAGS)
+
 all: build
 
 fetch: systemd-$(VERSION).tar.xz
