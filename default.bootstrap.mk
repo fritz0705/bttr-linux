@@ -27,7 +27,10 @@ PACKAGES += base/gmp
 PACKAGES += base/grep
 PACKAGES += base/groff
 PACKAGES += base/gzip
+
 PACKAGES += base/iproute2
+base_iproute2_FLAGS = VERSION=GIT
+
 PACKAGES += base/iputils
 PACKAGES += base/less
 PACKAGES += base/libcap2
