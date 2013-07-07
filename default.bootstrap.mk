@@ -91,6 +91,11 @@ else ifeq ($(WITH_UDEV),systemd)
 PACKAGES += tools/systemd
 endif
 
+ifdef WITH_SYSTEMD
+PACKAGES += tools/systemd devel/libgcrypt devel/glib tools/dbus
+PACKAGES += kernel/kmod
+endif
+
 # Clang
 ifdef WITH_CLANG
 PACKAGES += devel/clang
