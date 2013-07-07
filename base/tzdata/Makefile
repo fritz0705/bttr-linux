@@ -10,7 +10,7 @@ FETCH?=curl
 
 all: build
 
-fetch: tzdata$(VERSION).tar.gz
+fetch: tzdata$(VERSION).tar
 unpack: tzdata$(VERSION)/
 patch: unpack
 prepare: patch
@@ -32,10 +32,10 @@ clean:
 distclean: clean
 	$(RM) tzdata$(VERSION).tar.gz
 
-tzdata$(VERSION).tar.gz:
+tzdata$(VERSION).tar:
 	$(FETCH) http://www.iana.org/time-zones/repository/releases/tzdata$(VERSION).tar.gz > $@
 
-tzdata$(VERSION)/: tzdata$(VERSION).tar.gz
+tzdata$(VERSION)/: tzdata$(VERSION).tar
 	mkdir $@
-	cd $@ && tar xzf ../$<
+	cd $@ && tar xf ../$<
 
