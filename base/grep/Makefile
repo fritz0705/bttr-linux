@@ -35,7 +35,7 @@ clean:
 	$(RM) -r grep-$(VERSION)/
 
 distclean: clean
-	$(RM) grep-$(VERSION).tar.gz
+	$(RM) grep-$(VERSION).tar.xz
 
 grep-$(VERSION).tar.xz:
 	$(FETCH) ftp://ftp.gnu.org/gnu/grep/grep-$(VERSION).tar.xz > $@
