@@ -1,6 +1,6 @@
 DESTDIR?=
 
-VERSION?=3.8.5
+VERSION?=3.10
 FETCH?=curl -L
 
 # Source of kernel configuration
