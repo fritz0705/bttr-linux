@@ -47,6 +47,7 @@ build: configure
 	$(MAKE) -C linux-$(VERSION) headers_install
 
 install-headers: linux-$(VERSION)/
+	install -d -m755 $(DESTDIR)/usr/include
 	$(MAKE) -C linux-$(VERSION) headers_install
 	cp -r linux-$(VERSION)/usr/include/. $(DESTDIR)/usr/include
 
@@ -56,8 +57,8 @@ install: install-headers build
 	install -d -m755 $(DESTDIR)/boot
 	$(MAKE) -C linux-$(VERSION) modules_install INSTALL_MOD_PATH=$(DESTDIR)
 	$(MAKE) -C linux-$(VERSION) firmware_install INSTALL_FW_PATH=$(DESTDIR)/lib/firmware
-	cp linux-$(VERSION)/.config $(DESTDIR)/boot/config-$$(make -s -C linux-$(VERSION) kernelrelease)
-	cp linux-$(VERSION)/arch/x86/boot/bzImage $(DESTDIR)/boot/vmlinuz-$$(make -s -C linux-$(VERSION) kernelrelease)
+	install -m 444 linux-$(VERSION)/.config $(DESTDIR)/boot/config-$(VERSION)
+	install -m 444 linux-$(VERSION)/arch/$$(uname -m)/boot/bzImage $(DESTDIR)/boot/vmlinuz-$(VERSION)
 
 clean:
 	$(RM) -r linux-$(VERSION)/

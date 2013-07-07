@@ -95,7 +95,7 @@ endif
 
 ifdef WITH_SYSTEMD
 PACKAGES += tools/systemd devel/libgcrypt devel/glib tools/dbus
-PACKAGES += kernel/kmod
+PACKAGES += kernel/kmod devel/libgpg-error
 endif
 
 # Clang
