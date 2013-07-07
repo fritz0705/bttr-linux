@@ -13,7 +13,7 @@ Ports
 
 The base of BTTR Linux is this ports tree. A port was invented on BSD and describes how to build a package from source. BTTR Linux Ports are nearly the same as in BSD with the difference, that we're using GNU Make instead of pmake/BSD Make and also try to write expressive Makefiles.
 
-Any port consists of a directory and a Makefile, which is directly located in that directory. These Makefile provide several default targets, which will ensure a defined assumption:
+Each port consists of a directory and a Makefile, which is directly located in that directory. These Makefile provide several default targets, which will ensure a defined assumption:
 
 +------------+------------------------------------------------------+
 | fetch      | Ensure that any source code was fetched and no       |
@@ -55,4 +55,31 @@ Furthermore, there are also variables with special meaning:
 +---------------+---------------------------------------------------+
 | WITHOUT_xxx   | Disable feature xxx if value is "yes"             |
 +---------------+---------------------------------------------------+
+
+Bootstrapping
+-------------
+
+The bootstrapping of a BTTR Linux system is done by using the Makefile.bootstrap Makefile, which includes a configuration and builds the packages using recursive make calls.
+
+You can control the bootstrapping process by several environment variables:
+
++----------+--------------------------------------------------------+
+| CONFIG   | Makefile to evaluate after startup, if omitted, will   |
+|          | evaluate default.bootstrap.mk                          |
++----------+--------------------------------------------------------+
+| DESTDIR  | Root directory of the bootstrapped system, if omitted, |
+|          | will be a temporary directory                          |
++----------+--------------------------------------------------------+
+| TARGETS  | Targets which shall be executed, by default build and  |
+|          | install                                                |
++----------+--------------------------------------------------------+
+| PACKAGES | Packages which will installed                          |
++----------+--------------------------------------------------------+
+| MAKE_LOG | Pattern for output files for output ofpackage build    |
+|          | processes, %p will replaced by the package name        |
++----------+--------------------------------------------------------+
+
+::
+
+    make -f Makefile.bootstrap bootstrap
 
