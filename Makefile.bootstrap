@@ -12,7 +12,7 @@ endif
 PACKAGES ?=
 
 # Set DESTDIR to temporary dir if not already set
-DESTDIR ?= $(shell mktemp -d)
+DESTDIR ?= $(shell mktemp -d /tmp/bttr.XXXXXXX)
 
 TARGETS ?= build install
 
@@ -21,7 +21,10 @@ export DESTDIR
 spkgnam = $(subst /,_,$(1))
 
 ifeq ($(WITH_FS),YES)
-override PACKAGES += etc/filesystem etc/config etc/pam $(PACKAGES)
+$(PACKAGES): etc/filesystem etc/config etc/pam
+etc/config: etc/filesystem
+etc/pam: etc/filesystem
+override PACKAGES := etc/filesystem etc/config etc/pam $(PACKAGES)
 endif
 
 .PHONY: bootstrap clean help
