@@ -2,7 +2,7 @@
 
 PREFIX?=/usr
 DESTDIR?=
-VERSION?=0.18.2.1
+VERSION?=0.18.3
 FETCH?=curl
 
 _cfg_flags =
