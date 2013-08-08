@@ -2,7 +2,7 @@
 
 PREFIX?=/usr
 DESTDIR?=
-VERSION?=205
+VERSION?=206
 FETCH?=curl
 
 override CONFIGURE_FLAGS := --prefix=$(PREFIX) $(CONFIGURE_FLAGS)
