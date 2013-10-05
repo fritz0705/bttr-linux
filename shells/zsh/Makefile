@@ -9,9 +9,9 @@ VERSION?=5.0.2
 all: build
 
 fetch: zsh-$(VERSION).tar.bz2
-unpack: zsh-$(VERSION)/
+unpack: | zsh-$(VERSION)/
 patch: unpack
-prepare: zsh-$(VERSION)/
+prepare: | zsh-$(VERSION)/
 	mkdir build/
 	@touch $@
 
@@ -36,10 +36,10 @@ configure: prepare
 	@touch $@
 
 build: configure
-	$(MAKE) -C build all info
+	$(MAKE) -C build all
 
 install: build
-	$(MAKE) -C build install install.info DESTDIR=$(DESTDIR)
+	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
 	$(RM) prepare configure
