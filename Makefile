@@ -9,3 +9,7 @@ README.html: README
 
 clean:
 	$(RM) README.html
+
+distclean:
+	$(MAKE) -f Makefile.bootstrap CONFIG=any.bootstrap.mk clean
+
