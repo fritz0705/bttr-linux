@@ -3,14 +3,14 @@
 PREFIX?=/usr
 DESTDIR?=
 VERSION?=2.41
-FETCH?=curl
+FETCH?=curl -L
 
 all: build
 
 fetch: XML-Parser-$(VERSION).tar.gz
-unpack: XML-Parser-$(VERSION)/
+unpack: | XML-Parser-$(VERSION)/
 patch: unpack
-prepare: XML-Parser-$(VERSION)/
+prepare: | XML-Parser-$(VERSION)/
 
 configure: prepare
 	cd XML-Parser-$(VERSION); \
