@@ -6,11 +6,11 @@ VERSION?=2.7.5
 FETCH?=curl
 
 all: build
-
-fetch: Python-$(VERSION).tar.bz2
-unpack: Python-$(VERSION)/
+	
+fetch: Python-$(VERSION).tgz
+unpack: | Python-$(VERSION)/
 patch: unpack
-prepare: Python-$(VERSION)/
+prepare: | Python-$(VERSION)/
 	mkdir build/
 	@touch $@
 
@@ -30,8 +30,12 @@ clean:
 	$(RM) -r Python-$(VERSION)/
 
 distclean: clean
-	$(RM) Python-$(VERSION).tar.bz2
+	$(RM) Python-$(VERSION).tgz
 
-Python-$(VERSION).tar.bz2:
-	$(FETCH) http://python.org/ftp/python/$(VERSION)/Python-$(VERSION).tar.bz2 > $@
+Python-$(VERSION).tgz:
+	$(FETCH) http://python.org/ftp/python/$(VERSION)/Python-$(VERSION).tgz > $@
+
+Python-$(VERSION)/: Python-$(VERSION).tgz
+	tar xzf $<
+
 
