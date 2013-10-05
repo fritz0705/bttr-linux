@@ -5,7 +5,7 @@ DESTDIR?=
 
 TIMEZONES = africa antarctica asia australasia europe northamerica southamerica pacificnew etcetera backward systemv factory solar87 solar88 solar89
 
-VERSION?=2013b
+VERSION?=2013f
 FETCH?=curl
 
 all: build
