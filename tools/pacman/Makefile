@@ -3,7 +3,7 @@
 PREFIX ?= /usr
 DESTDIR ?=
 FETCH ?= curl
-VERSION = 4.0.3
+VERSION = 4.1.2
 
 .PHONY: fetch unpack patch prepare configure build all install clean distclean
 
