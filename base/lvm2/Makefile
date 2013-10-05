@@ -8,7 +8,7 @@ else
 endif
 DESTDIR?=
 
-VERSION?=2.2.02.98
+VERSION?=2.2.02.100
 FETCH?=curl
 
 all: build
