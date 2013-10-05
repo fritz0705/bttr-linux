@@ -2,7 +2,7 @@
 
 PREFIX?=/usr
 DESTDIR?=
-FETCH?=curl
+FETCH?=curl -L
 VERSION?=5.01
 
 all: build
@@ -10,24 +10,17 @@ all: build
 fetch: syslinux-$(VERSION).tar.xz
 unpack: syslinux-$(VERSION)/
 patch: unpack
-prepare: syslinux-$(VERSION)/
-	mkdir build/
-	@touch $@
-
+prepare: | syslinux-$(VERSION)/
 configure: prepare
-	cd build && ../syslinux-$(VERSION)/configure \
-		--prefix=$(PREFIX)
-	@touch $@
 
 build: configure
-	$(MAKE) -C build/
+	$(MAKE) -C syslinux-$(VERSION)/
 
 install: build
-	$(MAKE) -C build/ install DESTDIR=$(DESTDIR)
+	$(MAKE) -C syslinux-$(VERSION)/ install DESTDIR=$(DESTDIR)
 
 clean:
 	$(RM) prepare configure
-	$(RM) -r build/
 	$(RM) -r syslinux-$(VERSION)/
 
 distclean: clean
