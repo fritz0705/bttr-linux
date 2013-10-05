@@ -29,7 +29,7 @@ PACKAGES += base/groff
 PACKAGES += base/gzip
 
 PACKAGES += base/iproute2
-base_iproute2_FLAGS = VERSION=GIT
+base_iproute2_FLAGS = VERSION=3.11.0
 
 PACKAGES += base/iputils
 PACKAGES += base/less

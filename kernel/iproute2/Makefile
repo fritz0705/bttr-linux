@@ -13,7 +13,7 @@ endif
 
 DESTDIR?=
 
-VERSION?=3.10.0
+VERSION?=3.11.0
 FETCH?=curl -L
 
 ifeq ($(VERSION),GIT)
