@@ -2,7 +2,7 @@
 
 PREFIX?=/usr
 DESTDIR?=
-VERSION?=1.15.5
+VERSION?=2.0.0
 FETCH?=curl
 
 all: build
@@ -33,7 +33,7 @@ distclean: clean
 	$(RM) kbd-$(VERSION).tar.gz
 
 kbd-$(VERSION).tar.gz:
-	$(FETCH) http://www.kbd-project.org/download/kbd-$(VERSION).tar.gz > $@
+	$(FETCH) ftp://ftp.altlinux.org/pub/people/legion/kbd/kbd-$(VERSION).tar.gz > $@
 
 kbd-$(VERSION)/: kbd-$(VERSION).tar.gz
 	tar xzf $<
