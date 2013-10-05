@@ -5,14 +5,15 @@ DESTDIR?=
 VERSION?=208
 FETCH?=curl
 
-override CONFIGURE_FLAGS := --prefix=$(PREFIX) $(CONFIGURE_FLAGS)
+override CONFIGURE_FLAGS := --prefix=$(PREFIX) --disable-python-devel \
+	--without-python $(CONFIGURE_FLAGS)
 
 all: build
 
 fetch: systemd-$(VERSION).tar.xz
-unpack: systemd-$(VERSION)/
+unpack: | systemd-$(VERSION)/
 patch: unpack
-prepare: systemd-$(VERSION)/
+prepare: | systemd-$(VERSION)/
 	mkdir build/
 	@touch $@
 
