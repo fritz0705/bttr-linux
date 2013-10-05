@@ -1,0 +1,46 @@
+# Phony targets
+# 
+# These targets are required to be phony, because they're meta-entry points
+# of the build process.
+.PHONY: all fetch unpack patch build install clean distclean
+
+PREFIX?=/usr
+DESTDIR?=
+VERSION?=VERSION
+FETCH?=curl -L
+
+override CONFIGURE_FLAGS := --prefix=$(PREFIX) $(CONFIGURE_FLAGS)
+
+all: build
+
+fetch: PACKAGE-$(VERSION).tar.xz
+unpack: PACKAGE-$(VERSION)/
+patch: unpack
+prepare: | PACKAGE-$(VERSION)/
+	mkdir build/
+	@touch $@
+
+configure: prepare
+	cd build && ../PACKAGE-$(VERSION)/configure $(CONFIGURE_FLAGS)
+	@touch $@
+
+build: configure
+	$(MAKE) -C build
+
+install: build
+	$(MAKE) -C build install DESTDIR=$(DESTDIR)
+
+clean:
+	$(RM) -r build/
+	$(RM) configure prepare
+	$(RM) -r PACKAGE-$(VERSION)/
+
+distclean: clean
+	$(RM) PACKAGE-$(VERSION).tar.gz
+
+PACKAGE-$(VERSION)/: PACKAGE-$(VERSION).tar.xz
+	tar xaf $<
+
+PACKAGE-$(VERSION).tar.xz:
+	$(FETCH) URL > $@
+
