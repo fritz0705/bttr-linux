@@ -7,14 +7,14 @@
 PREFIX?=/usr
 DESTDIR?=
 VERSION?=VERSION
-FETCH?=curl -L
+FETCH?=curl -L --retry 3
 
 override CONFIGURE_FLAGS := --prefix=$(PREFIX) $(CONFIGURE_FLAGS)
 
 all: build
 
 fetch: PACKAGE-$(VERSION).tar.xz
-unpack: PACKAGE-$(VERSION)/
+unpack: | PACKAGE-$(VERSION)/
 patch: unpack
 prepare: | PACKAGE-$(VERSION)/
 	mkdir build/
