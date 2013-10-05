@@ -1,0 +1,4 @@
+configure
+prepare
+nasm-*.tar.xz
+nasm-*/
