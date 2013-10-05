@@ -29,11 +29,15 @@ endif
 
 .PHONY: bootstrap clean help
 bootstrap: $(if $(KEEP_ORDER), | $(PACKAGES), $(PACKAGES))
-	@echo "> bootstrapping done"
+	@echo ">> bootstrapping done"
 
 clean: PCTARGETS="distclean"
 clean: | $(PACKAGES)
-	@echo ">> Cleaning done"
+	@echo ">> cleaning done"
+
+fetch: PCTARGETS="fetch"
+fetch: $(PACKAGES)
+	@echo ">> fetching done"
 
 help:
 	@echo "Bootstrap Makefile"
@@ -53,7 +57,7 @@ help:
 
 .PHONY: $(PACKAGES)
 
-$(PACKAGES): $(DESTDIR)
+$(PACKAGES): | $(DESTDIR)
 	@echo ">> building $@ ..."
 	@-($(MAKE) -C $@ \
 		$(if $(PCTARGETS),$(PCTARGETS),$(if $($(call spkgnam,$@)_TARGETS),$($(call spkgnam,$@)_TARGETS),$(TARGETS)))\
@@ -63,3 +67,4 @@ $(PACKAGES): $(DESTDIR)
 
 $(DESTDIR):
 	mkdir -p $@
+
