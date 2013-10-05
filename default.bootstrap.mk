@@ -87,16 +87,15 @@ PACKAGES += tools/nano
 endif
 
 # Systemd / eudev
+ifdef WITH_SYSTEMD
+PACKAGES += tools/systemd devel/libgcrypt devel/glib tools/dbus
+PACKAGES += kernel/kmod devel/libgpg-error
+else
 ifeq ($(WITH_UDEV),eudev)
 PACKAGES += tools/eudev
 else ifeq ($(WITH_UDEV),systemd)
 PACKAGES += tools/systemd
 endif
-
-# systemd
-ifdef WITH_SYSTEMD
-PACKAGES += tools/systemd devel/libgcrypt devel/glib tools/dbus
-PACKAGES += kernel/kmod devel/libgpg-error
 endif
 
 # bootloader
