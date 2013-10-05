@@ -12,7 +12,7 @@ endif
 PACKAGES ?=
 
 # Set DESTDIR to temporary dir if not already set
-DESTDIR ?= _build/
+DESTDIR ?= $(realpath _build/)
 
 TARGETS ?= build install
 
@@ -53,7 +53,7 @@ help:
 
 .PHONY: $(PACKAGES)
 
-$(PACKAGES):
+$(PACKAGES): $(DESTDIR)
 	@echo ">> building $@ ..."
 	@-($(MAKE) -C $@ \
 		$(if $(PCTARGETS),$(PCTARGETS),$(if $($(call spkgnam,$@)_TARGETS),$($(call spkgnam,$@)_TARGETS),$(TARGETS)))\
@@ -61,3 +61,5 @@ $(PACKAGES):
 		$(if $(MAKE_LOG), >> $(subst %p,$(subst /,_,$@),$(MAKE_LOG)) 2>&1)) \
 		&& (echo ">> building $@ succeeded" >&2) || (echo ">> building $@ failed" >&2)
 
+$(DESTDIR):
+	mkdir -p $@
