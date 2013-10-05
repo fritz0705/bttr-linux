@@ -6,14 +6,15 @@ Back To The Roots Linux. Name pinched from `Leonard Techel <https://github.com/b
 Installation
 ------------
 
-The installation of BTTR Linux is complicated. You have to build a sane crosscompiler environment and then you have to build all base packages. This process is complicated due to misdesign in glibc and gcc, and therefore we're referring only to the `Linux from Scratch project <http://www.linuxfromscratch.org/>`_, which provides an manual describing the building of a crosscompiler toolchain. Otherwise give us some time to produce a live system.
+The installation of BTTR Linux is complicated. You have to build a sane crosscompiler environment and then you have to build all base packages. This process is complicated due to misdesign in glibc and gcc, and therefore we're referring only to the `Linux from Scratch project <http://www.linuxfromscratch.org/>`_, which provides a manual describing the building of a crosscompiler toolchain. Otherwise give us some time to produce a live system.
 
 Ports
 -----
 
-The base of BTTR Linux is this ports tree. A port was invented on BSD and describes how to build a package from source. BTTR Linux Ports are nearly the same as in BSD with the difference, that we're using GNU Make instead of pmake/BSD Make and also try to write expressive Makefiles.
-
-Each port consists of a directory and a Makefile, which is directly located in that directory. These Makefile provide several default targets, which will ensure a defined assumption:
+The base of BTTR Linux is the ports tree, which consists of a large amount of
+ports. Each package is based in a port, therefore we're using the same separation
+as BSD systems between ports and packages: Ports are the build description while
+packages are built ports (also known as binary packages).
 
 +------------+------------------------------------------------------+
 | fetch      | Ensure that any source code was fetched and no       |
@@ -55,6 +56,9 @@ Furthermore, there are also variables with special meaning:
 +---------------+---------------------------------------------------+
 | WITHOUT_xxx   | Disable feature xxx if value is "yes"             |
 +---------------+---------------------------------------------------+
+
+To allow useful packaging and version management, you should supply a Version
+file in each port. You can also add a Makefile rule to produce that Version file.
 
 Bootstrapping
 -------------
