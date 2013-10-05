@@ -5,7 +5,7 @@ BINDIR?=$(PREFIX)/bin
 DESTDIR?=
 
 VERSION?=0.13
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 override __targets = gatling
 

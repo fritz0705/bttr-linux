@@ -4,7 +4,7 @@ PREFIX?=/usr
 DESTDIR?=
 LANGUAGES?=c
 VERSION?=4.8.1
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 # Build configure flags
 override __configure_flags =
@@ -81,9 +81,9 @@ override __configure_flags += $(CONFIGURE_FLAGS)
 all: build
 
 fetch: gcc-$(VERSION).tar.gz
-unpack: gcc-$(VERSION)/
+unpack: | gcc-$(VERSION)/
 patch: unpack
-prepare: gcc-$(VERSION)/
+prepare: | gcc-$(VERSION)/
 	mkdir build/
 	@touch $@
 
@@ -93,7 +93,7 @@ configure: prepare
 		$(__configure_flags)
 	@touch $@
 
-build: configure
+build: | configure
 	$(MAKE) -C build all
 
 install: build

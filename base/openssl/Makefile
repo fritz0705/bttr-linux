@@ -3,7 +3,7 @@
 PREFIX?=/usr
 DESTDIR?=
 VERSION?=1.0.1e
-FETCH?=curl -k
+FETCH?=curl -k -L --retry 3
 
 TARGET ?= $(shell uname -m)
 

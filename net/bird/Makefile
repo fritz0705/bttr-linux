@@ -6,7 +6,7 @@ LOCALSTATEDIR?=$(PREFIX)/var
 DESTDIR?=
 
 VERSION?=1.3.10
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 ifeq ($(PREFIX),/usr)
 SYSCONFDIR?=/etc

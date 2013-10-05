@@ -3,7 +3,7 @@
 PREFIX?=/usr
 DESTDIR?=
 VERSION?=2.22
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 ifeq ($(shell id -u),0)
 	RAISE_SETFCAP=yes

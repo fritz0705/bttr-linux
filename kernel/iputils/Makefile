@@ -3,7 +3,7 @@
 PREFIX?=/usr
 DESTDIR?=
 VERSION?=s20121221
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 all: build
 

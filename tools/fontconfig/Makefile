@@ -5,7 +5,7 @@ SYSCONFDIR?=/etc
 LOCALSTATEDIR?=/var
 DESTDIR?=
 VERSION?=2.10.2
-FETCH?=curl -L
+FETCH?=curl -L --retry 3
 
 all: build
 

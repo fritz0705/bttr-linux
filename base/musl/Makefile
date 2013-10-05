@@ -2,7 +2,7 @@
 
 PREFIX ?= /usr
 DESTDIR ?=
-FETCH ?= curl
+FETCH ?= curl -L --retry 3
 VERSION ?= 0.9.11
 
 override CONFIGURE_ARGV := --prefix=$(PREFIX) $(CONFIGURE_ARGV) $(CONFIGURE_FLAGS)

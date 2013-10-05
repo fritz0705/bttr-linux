@@ -14,7 +14,7 @@ endif
 DESTDIR?=
 
 VERSION?=3.11.0
-FETCH?=curl -L
+FETCH?=curl -L --retry 3
 
 ifeq ($(VERSION),GIT)
 GIT_REVISION ?= master

@@ -3,7 +3,7 @@
 PREFIX?=/usr
 DESTDIR?=
 VERSION?=0.29
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 LIBDIR?=$(PREFIX)/lib
 

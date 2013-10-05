@@ -9,7 +9,7 @@ endif
 DESTDIR?=
 
 VERSION?=3.3.8
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 all: build
 

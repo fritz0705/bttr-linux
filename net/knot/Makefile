@@ -3,7 +3,7 @@
 PREFIX?=/usr
 DESTDIR?=
 VERSION?=1.1.3
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 SYSCONFDIR?=$(PREFIX)/etc
 LOCALSTATEDIR?=$(PREFIX)/var

@@ -3,7 +3,7 @@
 PREFIX?=/usr
 DESTDIR?=
 VERSION?=0.28
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 configure_flags =
 

@@ -9,7 +9,7 @@ endif
 DESTDIR?=
 
 VERSION?=2.2.02.100
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 all: build
 

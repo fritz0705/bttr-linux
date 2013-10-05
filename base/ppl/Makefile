@@ -3,7 +3,7 @@
 PREFIX?=/usr
 DESTDIR?=
 VERSION?=1.0
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 ifeq ($(VERSION),GIT)
 GIT_REVISION ?= master

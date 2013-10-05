@@ -3,7 +3,7 @@
 PREFIX?=/usr
 DESTDIR?=
 VERSION?=2.14
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 CONFIGURE_FLAGS = 
 ifneq ($(WITH_PCRE),yes)

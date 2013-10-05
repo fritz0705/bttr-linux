@@ -3,7 +3,7 @@
 PREFIX?=/usr
 DESTDIR?=
 VERSION?=208
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 override CONFIGURE_FLAGS := --prefix=$(PREFIX) --disable-python-devel \
 	--without-python $(CONFIGURE_FLAGS)

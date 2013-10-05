@@ -5,7 +5,7 @@ LIBDIR?=$(PREFIX)/lib
 BINDIR?=$(PREFIX)/bin
 DESTDIR?=
 VERSION?=1.0.6
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 all: build
 

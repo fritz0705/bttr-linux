@@ -3,7 +3,7 @@
 PREFIX?=/usr
 DESTDIR?=
 ETCDIR?=/etc/zsh
-FETCH?=curl
+FETCH?=curl -L --retry 3
 VERSION?=5.0.2
 
 all: build

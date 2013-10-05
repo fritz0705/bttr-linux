@@ -8,7 +8,7 @@ else
 	BINDIR?=$(PREFIX)/bin
 endif
 VERSION?=4.2
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 all: build
 

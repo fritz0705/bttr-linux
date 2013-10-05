@@ -9,7 +9,7 @@ LIBEXECDIR?=$(PREFIX)/lib
 VERSION?=2.18
 KERNEL_VERSION?=3.2
 
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 all: build
 

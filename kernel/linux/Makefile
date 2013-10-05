@@ -1,7 +1,7 @@
 DESTDIR?=
 
-VERSION?=3.10
-FETCH?=curl -L
+VERSION?=3.11
+FETCH?=curl -L --retry 3
 
 # Source of kernel configuration
 # 

@@ -3,7 +3,7 @@
 PREFIX ?= /usr
 DESTDIR ?=
 VERSION ?= 7.3
-FETCH ?= curl -L
+FETCH ?= curl -L --retry 3
 
 ifdef WITH_GUI
 ifeq ($(WITH_GUI),YES)

@@ -5,7 +5,7 @@ SYSCONFDIR?=/etc
 LIBDIR=/lib
 DESTDIR?=
 VERSION?=2.34.3
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 all: build
 

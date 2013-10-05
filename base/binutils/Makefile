@@ -3,7 +3,7 @@
 PREFIX?=/usr
 DESTDIR?=
 VERSION?=2.23.2
-FETCH?=curl
+FETCH?=curl -L --retry 3
 
 override __configure_flags = 
 
