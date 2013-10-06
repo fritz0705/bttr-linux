@@ -23,7 +23,7 @@ build: configure
 	$(MAKE) -C libcap-$(VERSION)/ all
 
 install: build
-	$(MAKE) -C libcap-$(VERSION)/ install DESTDIR=$(DESTDIR) RAISE_SETFCAP=$(RAISE_SETFCAP) prefix=$(PREFIX)
+	$(MAKE) -C libcap-$(VERSION)/ install DESTDIR=$(DESTDIR) RAISE_SETFCAP=$(RAISE_SETFCAP) prefix=$(PREFIX) lib=lib/
 
 clean:
 	$(RM) -r build/
