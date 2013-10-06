@@ -29,7 +29,7 @@ build: configure
 
 install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
-	ln -sf /usr/lib/pkgconfig $(DESTDIR)/lib/pkgconfig
+	ln -sf ../usr/lib $(DESTDIR)/lib/pkgconfig
 
 clean:
 	$(RM) prepare configure
