@@ -32,11 +32,12 @@ configure: prepare
 	@touch $@
 
 build: configure
-	$(MAKE) -C iproute2-$(VERSION) PREFIX=$(PREFIX)
+	$(MAKE) -C iproute2-$(VERSION) PREFIX=$(PREFIX) DESTDIR=""
 
 install: build
 	$(MAKE) -C iproute2-$(VERSION) DESTDIR=$(DESTDIR) \
-		SBINDIR=$(SBINDIR) CONFDIR=$(CONFDIR) ARPDDIR=$(ARPDIR) \
+		SBINDIR=$(SBINDIR) CONFDIR=$(CONFDIR) ARPDDIR=$(ARPDDIR) \
+		PREFIX=$(PREFIX) \
 		install
 
 clean:
