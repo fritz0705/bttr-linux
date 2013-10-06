@@ -12,13 +12,16 @@ endif
 PACKAGES ?=
 
 # Set DESTDIR to temporary dir if not already set
-DESTDIR ?= $(realpath _build/)
+DESTDIR ?= $(PWD)/_build/
 
 TARGETS ?= build install
 
 export DESTDIR
 
 spkgnam = $(subst /,_,$(1))
+# sfmtpkg FMT PKG_NAME
+sfmtpkg = $(
+sfmtpkg = $(subst %p,$(call spkgnam,$(2)),$(subst %P,$(2),$(1)))
 
 ifeq ($(WITH_FS),YES)
 $(PACKAGES): etc/filesystem etc/config etc/pam
@@ -54,6 +57,14 @@ help:
 	@echo "PACKAGES  Packages which will installed"
 	@echo "MAKE_LOG  Pattern for output files for output ofpackage build"
 	@echo "          processes, %p will replaced by the package name"
+	@echo
+	@echo "Current Settings"
+	@echo "================"
+	@echo "CONFIG    $(CONFIG)"
+	@echo "DESTDIR   $(DESTDIR)"
+	@echo "TARGETS   $(TARGETS)"
+	@echo "MAKE_LOG  $(MAKE_LOG)"
+	@echo "          for abc/def/ghj: $(call sfmtpkg,$(MAKE_LOG),abc/def/ghj)"
 
 .PHONY: $(PACKAGES)
 
@@ -62,7 +73,7 @@ $(PACKAGES): | $(DESTDIR)
 	@-($(MAKE) -C $@ \
 		$(if $(PCTARGETS),$(PCTARGETS),$(if $($(call spkgnam,$@)_TARGETS),$($(call spkgnam,$@)_TARGETS),$(TARGETS)))\
 		$($(call spkgnam,$@)_FLAGS) \
-		$(if $(MAKE_LOG), >> $(subst %p,$(subst /,_,$@),$(MAKE_LOG)) 2>&1)) \
+		$(if $(MAKE_LOG), >> $(call sfmtpkg,$(MAKE_LOG),$@) 2>&1)) \
 		&& (echo ">> building $@ succeeded" >&2) || (echo ">> building $@ failed" >&2)
 
 $(DESTDIR):
