@@ -67,7 +67,7 @@ help:
 
 .PHONY: $(PACKAGES)
 
-$(PACKAGES): | $(DESTDIR)
+$(PACKAGES): _prebuild
 	@echo ">> building $@ ..."
 	@-($(MAKE) -C $@ \
 		$(if $(PCTARGETS),$(PCTARGETS),$(if $($(call spkgnam,$@)_TARGETS),$($(call spkgnam,$@)_TARGETS),$(TARGETS)))\
@@ -75,6 +75,8 @@ $(PACKAGES): | $(DESTDIR)
 		$(if $(MAKE_LOG), >> $(call sfmtpkg,$(MAKE_LOG),$@) 2>&1)) \
 		&& (echo ">> building $@ succeeded" >&2) || (echo ">> building $@ failed" >&2)
 
-$(DESTDIR):
+_prebuild: | $(DESTDIR)/$(PREFIX)
+
+$(DESTDIR)/$(PREFIX):
 	mkdir -p $@
 
