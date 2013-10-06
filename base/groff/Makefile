@@ -23,7 +23,7 @@ prepare: groff-$(VERSION)/
 	@touch $@
 
 configure: prepare
-	cd build && ../groff-$(VERSION)/configure $(CONFIGURE_FLAGS)
+	cd build && ../groff-$(VERSION)/configure $(__CONFIGURE_FLAGS)
 	@touch $@
 
 build: configure
