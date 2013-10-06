@@ -20,7 +20,6 @@ export DESTDIR
 
 spkgnam = $(subst /,_,$(1))
 # sfmtpkg FMT PKG_NAME
-sfmtpkg = $(
 sfmtpkg = $(subst %p,$(call spkgnam,$(2)),$(subst %P,$(2),$(1)))
 
 ifeq ($(WITH_FS),YES)
