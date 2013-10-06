@@ -13,16 +13,15 @@ FETCH?=curl -L --retry 3
 
 all: build
 
-fetch: procps-ng-$(VERSION).tar.gz
-unpack: procps-procps/
+fetch: procps-ng-$(VERSION).tar.xz
+unpack: procps-ng-$(VERSION)/
 patch: unpack
-prepare: | procps-procps/
+prepare: | procps-ng-$(VERSION)/
 	mkdir build/
 	@touch $@
 
 configure: prepare
-	cd procps-procps && ./autogen.sh
-	cd build && ../procps-procps/configure --prefix=$(PREFIX) --exec-prefix=$(EXECPREFIX)
+	cd build && ../procps-ng-$(VERSION)/configure --prefix=$(PREFIX) --exec-prefix=$(EXECPREFIX)
 	@touch $@
 
 build: configure
@@ -34,14 +33,14 @@ install: build
 clean:
 	$(RM) prepare configure
 	$(RM) -r build/
-	$(RM) -r procps-procps/
+	$(RM) -r procps-ng-$(VERSION)/
 
 distclean: clean
-	$(RM) procps-ng-$(VERSION).tar.gz
+	$(RM) procps-ng-$(VERSION).tar.xz
 
-procps-ng-$(VERSION).tar.gz:
-	$(FETCH) http://gitorious.org/procps/procps/archive-tarball/v$(VERSION) > $@
+procps-ng-$(VERSION).tar.xz:
+	$(FETCH) http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-$(VERSION).tar.xz > $@
 
-procps-procps/: procps-ng-$(VERSION).tar.gz
-	tar xzf $<
+procps-procps/: procps-ng-$(VERSION).tar.xz
+	tar xJf $<
 
