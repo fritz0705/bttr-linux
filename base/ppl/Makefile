@@ -2,7 +2,8 @@
 
 PREFIX?=/usr
 DESTDIR?=
-VERSION?=1.0
+VERSION?=GIT
+#VERSION?=1.0
 FETCH?=curl -L --retry 3
 
 ifeq ($(VERSION),GIT)
@@ -19,7 +20,7 @@ prepare: ppl-$(VERSION)/
 	@touch $@
 
 configure: prepare
-	cd build && ../ppl-$(VERSION)/configure --prefix=$(PREFIX)
+	cd build && ../ppl-$(VERSION)/configure --prefix=$(PREFIX) --disable-documentation
 	@touch $@
 
 build: configure

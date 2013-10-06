@@ -29,7 +29,7 @@ build: configure
 	$(MAKE) -C openssl-$(VERSION) -j 1
 
 install: build
-	$(MAKE) -C openssl-$(VERSION) install INSTALL_PREFIX=$(DESTDIR)
+	$(MAKE) -C openssl-$(VERSION) install_sw INSTALL_PREFIX=$(DESTDIR)
 
 clean:
 	$(RM) configure
