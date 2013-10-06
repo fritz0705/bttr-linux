@@ -1,4 +1,4 @@
-.PHONY: all fetch unpack patch build install clean distclean
+.PHONY: all fetch unpack build install clean distclean
 
 PREFIX?=/usr
 ifeq ($(PREFIX),/usr)
@@ -15,12 +15,22 @@ all: build
 
 fetch: wget-$(VERSION).tar.gz
 unpack: wget-$(VERSION)/
-patch: unpack
-prepare: wget-$(VERSION)/
+
+patch: | wget-$(VERSION)/
+ifeq ($(VERSION),1.14)
+	patch -d wget-$(VERSION)/ -p1 < pod-fixes-1.14.patch
+endif
+	@touch $@
+
+ifeq ($(VERSION),1.14)
+patch: pod-fixes-1.14.patch
+endif
+
+prepare: patch | wget-$(VERSION)/
 	mkdir build/
 	@touch $@
 
-configure: prepare
+configure: prepare | wget-$(VERSION)/
 	cd build && ../wget-$(VERSION)/configure --prefix=$(PREFIX) \
 		--with-ssl=openssl \
 		--sysconfdir=$(SYSCONFDIR)
@@ -33,7 +43,7 @@ install: build
 	$(MAKE) -C build install DESTDIR=$(DESTDIR)
 
 clean:
-	$(RM) prepare configure
+	$(RM) prepare configure patch
 	$(RM) -r build/
 	$(RM) -r wget-$(VERSION)/
 
