@@ -20,7 +20,8 @@ build: configure
 	$(MAKE) -C bzip2-$(VERSION) bzip2 bzip2recover libbz2.a
 
 install: build
-	install -dm755 $(DESTDIR)/usr/{bin,lib,include,share/man/man1}
+	install -dm755 $(DESTDIR)/$(PREFIX)/{include,share/man/man1}
+	install -dm755 $(DESTDIR)/$(LIBDIR) $(DESTDIR)/$(BINDIR)
 
 	install -m755 bzip2-$(VERSION)/bzip2-shared $(DESTDIR)/$(BINDIR)/bzip2
 	install -m755 bzip2-$(VERSION)/bzip2recover bzip2-$(VERSION)/bzdiff bzip2-$(VERSION)/bzgrep bzip2-$(VERSION)/bzmore $(DESTDIR)/$(BINDIR)

@@ -1,6 +1,8 @@
 .PHONY: all fetch unpack patch prepare configure build install clean distclean
 
-ZONEINFO?=/usr/share/zoneinfo
+PREFIX?=/usr
+
+ZONEINFO?=$(PREFIX)/share/zoneinfo
 DESTDIR?=
 
 TIMEZONES = africa antarctica asia australasia europe northamerica southamerica pacificnew etcetera backward systemv factory solar87 solar88 solar89

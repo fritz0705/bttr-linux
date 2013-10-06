@@ -1,6 +1,13 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX?=/usr
+
+ifeq ($(PREFIX),/usr)
+SYSCONFDIR?=/etc/security
+else
+SYSCONFDIR?=$(PREFIX)/etc/security
+endif
+
 DESTDIR?=
 VERSION?=1.1.6
 FETCH?=curl -L --retry 3
@@ -22,9 +29,9 @@ build: configure
 	$(MAKE) -C build
 
 install: build
-	mkdir -p $(DESTDIR)/etc/security
+	mkdir -p $(DESTDIR)/$(SYSCONFDIR)
 	sed -i -e 's/mkdir -p $$(namespaceddir)/mkdir -p $$(DESTDIR)$$(namespaceddir)/' build/modules/pam_namespace/Makefile
-	$(MAKE) -C build install DESTDIR=$(DESTDIR) SCONFIGDIR=/etc/security
+	$(MAKE) -C build install DESTDIR=$(DESTDIR) SCONFIGDIR=$(SYSCONFDIR)
 
 clean:
 	$(RM) prepare configure

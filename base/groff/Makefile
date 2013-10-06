@@ -5,6 +5,14 @@ DESTDIR?=
 VERSION?=1.22.2
 FETCH?=curl -L --retry 3
 
+override __CONFIGURE_FLAGS := --prefix=$(PREFIX)
+ifeq ($(WITH_X11),yes)
+override __CONFIGURE_FLAGS += --with-x
+else
+override __CONFIGURE_FLAGS += --without-x
+endif
+override __CONFIGURE_FLAGS += $(CONFIGURE_FLAGS)
+
 all: build
 
 fetch: groff-$(VERSION).tar.gz
@@ -15,7 +23,7 @@ prepare: groff-$(VERSION)/
 	@touch $@
 
 configure: prepare
-	cd build && ../groff-$(VERSION)/configure --prefix=$(PREFIX)
+	cd build && ../groff-$(VERSION)/configure $(CONFIGURE_FLAGS)
 	@touch $@
 
 build: configure

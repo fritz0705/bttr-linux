@@ -20,7 +20,7 @@ prepare: patch LVM$(VERSION)/
 
 configure: prepare
 	cd LVM$(VERSION) && ./configure --prefix=$(PREFIX) --sysconfdir=$(SYSCONFDIR) \
-		--with-udev-prefix=$(UDEV_PREFIX) --enable-pkgconfig --enable-readline \
+		--with-udev-prefix=$(PREFIX) --enable-pkgconfig --enable-readline \
 		--enable-dmeventd --enable-cmdlib --enable-applib --enable-udev_sync \
 		--enable-udev_rules --enable-lvmetad
 	@touch $@
