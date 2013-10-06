@@ -3,8 +3,26 @@
 PREFIX?=/usr
 DESTDIR?=
 
+ifneq ($(PREFIX),/usr)
+UNITDIR?=$(PREFIX)/etc/systemd/system
+endif
+
 VERSION?=2.23.2
 FETCH?=curl -L --retry 3
+
+override __CONFIGURE_FLAGS = --prefix=$(PREFIX) \
+	--enable-fs-paths-extra=/usr/bin:/usr/sbin \
+	--enable-raw \
+	--enable-vipw \
+	--enable-newgrp \
+	--enable-chfn-chsh \
+	--enable-write \
+	--enable-mesg \
+	--enable-socket-activation
+ifdef UNITDIR
+override __CONFIGURE_FLAGS += --with-systemdsystemunitdir=$(UNITDIR)
+endif
+override __CONFIGURE_FLAGS += $(CONFIGURE_FLAGS)
 
 all: build
 
@@ -16,15 +34,7 @@ prepare: util-linux-$(VERSION)/
 	@touch $@
 
 configure: prepare
-	cd build && ../util-linux-$(VERSION)/configure --prefix=$(PREFIX) \
-		--enable-fs-paths-extra=/usr/bin:/usr/sbin \
-		--enable-raw \
-		--enable-vipw \
-		--enable-newgrp \
-		--enable-chfn-chsh \
-		--enable-write \
-		--enable-mesg \
-		--enable-socket-activation
+	cd build && ../util-linux-$(VERSION)/configure $(__CONFIGURE_FLAGS)
 	@touch $@
 
 build: configure
