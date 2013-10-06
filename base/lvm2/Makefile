@@ -8,6 +8,8 @@ else
 endif
 DESTDIR?=
 
+SYSCONFDIR_LVM2?=$(SYSCONFDIR)/lvm2
+
 VERSION?=2.2.02.100
 FETCH?=curl -L --retry 3
 
@@ -22,7 +24,7 @@ configure: prepare
 	cd LVM$(VERSION) && ./configure --prefix=$(PREFIX) --sysconfdir=$(SYSCONFDIR) \
 		--with-udev-prefix=$(PREFIX) --enable-pkgconfig --enable-readline \
 		--enable-dmeventd --enable-cmdlib --enable-applib --enable-udev_sync \
-		--enable-udev_rules --enable-lvmetad
+		--enable-udev_rules --enable-lvmetad --with-default-system-dir=$(SYSCONFDIR_LVM2)
 	@touch $@
 
 build: configure
