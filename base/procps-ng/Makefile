@@ -41,6 +41,6 @@ distclean: clean
 procps-ng-$(VERSION).tar.xz:
 	$(FETCH) http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-$(VERSION).tar.xz > $@
 
-procps-procps/: procps-ng-$(VERSION).tar.xz
+procps-$(VERSION)/: procps-ng-$(VERSION).tar.xz
 	tar xJf $<
 
