@@ -1,0 +1,7 @@
+configure
+prepare
+build/
+
+openssh-*.tar.gz
+openssh-*/
+
