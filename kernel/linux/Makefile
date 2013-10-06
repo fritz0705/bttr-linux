@@ -7,6 +7,11 @@ PREFIX?=/
 MODDIR?=$(PREFIX)/lib/modules
 FIRMWAREDIR?=$(PREFIX)/lib/firmware
 BOOTDIR?=$(PREFIX)/boot
+ifeq ($(PREFIX),/)
+INCLUDEDIR?=$(PREFIX)/usr/include
+else
+INCLUDEDIR?=$(PREFIX)/include
+endif
 
 # Source of kernel configuration
 # 
@@ -52,9 +57,9 @@ build: configure
 	$(MAKE) -C linux-$(VERSION) headers_install
 
 install-headers: linux-$(VERSION)/
-	install -d -m755 $(DESTDIR)/usr/include
+	install -d -m755 $(DESTDIR)/$(INCLUDEDIR)
 	$(MAKE) -C linux-$(VERSION) headers_install
-	cp -r linux-$(VERSION)/usr/include/. $(DESTDIR)/usr/include
+	cp -r linux-$(VERSION)/usr/include/. $(DESTDIR)/$(INCLUDEDIR)
 
 install: install-headers build
 	install -d -m755 $(DESTDIR)/$(MODDIR)
