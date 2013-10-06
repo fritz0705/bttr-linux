@@ -1,0 +1,6 @@
+prepare
+configure
+build/
+
+check-*/
+check-*.tar.gz
