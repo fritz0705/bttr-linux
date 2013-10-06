@@ -1,0 +1,6 @@
+prepare
+configure
+build/
+
+libedit-*/
+libedit-*.tar.gz
