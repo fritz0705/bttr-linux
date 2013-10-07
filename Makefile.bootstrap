@@ -11,6 +11,8 @@ endif
 
 PACKAGES ?=
 
+ACTION ?= building
+
 # Set DESTDIR to temporary dir if not already set
 DESTDIR ?= $(PWD)/_build/
 
@@ -32,17 +34,22 @@ etc/pam: etc/filesystem
 override PACKAGES := etc/filesystem etc/config etc/pam $(PACKAGES)
 endif
 
-.PHONY: bootstrap clean help
+.PHONY: bootstrap clean help fetch list
 bootstrap: $(if $(KEEP_ORDER), | $(PACKAGES), $(PACKAGES))
 	@echo ">> bootstrapping done"
 
 clean: PCTARGETS="distclean"
+clean: override ACTION="cleaning"
 clean: | $(PACKAGES)
 	@echo ">> cleaning done"
 
 fetch: PCTARGETS="fetch"
+fetch: override ACTION="fetching"
 fetch: $(PACKAGES)
 	@echo ">> fetching done"
+
+list:
+	@echo $(PACKAGES) | tr '[:space:]' '\n' | sort
 
 help:
 	@echo "Bootstrap Makefile"
@@ -72,7 +79,7 @@ help:
 
 # FIXME Rewrite this target
 $(PACKAGES): _prebuild
-	@echo ">> building $@ ..."
+	@echo ">> $(ACTION) $@ ..."
 ifdef MAKE_LOG
 	@mkdir -p $(dir $(call sfmtpkg,$(MAKE_LOG),$@))
 	@touch $(call sfmtpkg,$(MAKE_LOG),$@)
@@ -81,7 +88,7 @@ endif
 		$(if $(PCTARGETS),$(PCTARGETS),$(if $($(call spkgnam,$@)_TARGETS),$($(call spkgnam,$@)_TARGETS),$(TARGETS)))\
 		$($(call spkgnam,$@)_FLAGS) \
 		$(if $(MAKE_LOG), >> $(call sfmtpkg,$(MAKE_LOG),$@) 2>&1)) \
-		&& (echo ">> building $@ succeeded" >&2) || (echo ">> building $@ failed" >&2)
+		&& (echo ">> $(ACTION) $@ succeeded" >&2) || (echo ">> $(ACTION) $@ failed" >&2)
 
 _prebuild: | $(DESTDIR)/$(PREFIX)
 
