@@ -73,6 +73,10 @@ help:
 # FIXME Rewrite this target
 $(PACKAGES): _prebuild
 	@echo ">> building $@ ..."
+ifdef MAKE_LOG
+	@mkdir -p $(dir $(call sfmtpkg,$(MAKE_LOG),$@))
+	@touch $(call sfmtpkg,$(MAKE_LOG),$@)
+endif
 	@-($(MAKE) -C $@ \
 		$(if $(PCTARGETS),$(PCTARGETS),$(if $($(call spkgnam,$@)_TARGETS),$($(call spkgnam,$@)_TARGETS),$(TARGETS)))\
 		$($(call spkgnam,$@)_FLAGS) \
@@ -82,5 +86,5 @@ $(PACKAGES): _prebuild
 _prebuild: | $(DESTDIR)/$(PREFIX)
 
 $(DESTDIR)/$(PREFIX):
-	mkdir -p $@
+	@mkdir -p $@
 
