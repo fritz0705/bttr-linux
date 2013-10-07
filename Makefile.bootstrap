@@ -18,10 +18,13 @@ TARGETS ?= build install
 
 export DESTDIR
 
+# Internal helper macros
+# spkgnam PKGNAME => PKGNAME_SANITIZED
 spkgnam = $(subst /,_,$(1))
-# sfmtpkg FMT PKG_NAME
+# sfmtpkg PATTERN PKGNAME => VALUE
 sfmtpkg = $(subst %p,$(call spkgnam,$(2)),$(subst %P,$(2),$(1)))
 
+# XXX This should not be part of Makefile.bootstrap
 ifeq ($(WITH_FS),YES)
 $(PACKAGES): etc/filesystem etc/config etc/pam
 etc/config: etc/filesystem
@@ -67,6 +70,7 @@ help:
 
 .PHONY: $(PACKAGES)
 
+# FIXME Rewrite this target
 $(PACKAGES): _prebuild
 	@echo ">> building $@ ..."
 	@-($(MAKE) -C $@ \
