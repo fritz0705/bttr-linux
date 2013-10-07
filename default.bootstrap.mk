@@ -18,11 +18,9 @@ PACKAGES += base/file
 PACKAGES += base/findutils
 PACKAGES += base/flex
 PACKAGES += base/gawk
-PACKAGES += base/gcc
 PACKAGES += base/gdbm
 PACKAGES += base/gettext
 PACKAGES += base/git
-PACKAGES += base/glibc
 PACKAGES += base/gmp
 PACKAGES += base/grep
 PACKAGES += base/groff
@@ -105,8 +103,7 @@ else ifeq ($(WITH_BOOTLOADER),syslinux)
 PACKAGES += tools/syslinux
 endif
 
-# Clang
-ifdef WITH_CLANG
-PACKAGES += devel/clang
-endif
+$(PACKAGES): base/gcc base/glibc
+base/gcc: base/glibc
+PACKAGES += base/gcc base/glibc
 
