@@ -2,3 +2,4 @@ build/
 configure
 m4-*
 prepare
+patch

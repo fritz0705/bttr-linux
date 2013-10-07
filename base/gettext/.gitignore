@@ -2,3 +2,4 @@ build/
 configure
 gettext-*
 prepare
+patch

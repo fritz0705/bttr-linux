@@ -2,4 +2,4 @@ build/
 configure
 prepare
 tzdata*/
-tzdata*.tar.gz
+tzdata*.tar
