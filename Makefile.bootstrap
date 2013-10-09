@@ -29,14 +29,6 @@ spkgnam = $(subst /,_,$(1))
 # sfmtpkg PATTERN PKGNAME => VALUE
 sfmtpkg = $(subst %p,$(call spkgnam,$(2)),$(subst %P,$(2),$(1)))
 
-# XXX This should not be part of Makefile.bootstrap
-ifeq ($(WITH_FS),YES)
-$(PACKAGES): etc/filesystem etc/config etc/pam
-etc/config: etc/filesystem
-etc/pam: etc/filesystem
-override PACKAGES := etc/filesystem etc/config etc/pam $(PACKAGES)
-endif
-
 .PHONY: bootstrap clean help fetch list
 bootstrap: $(PACKAGES)
 	@echo ">> bootstrapping done"

@@ -107,3 +107,10 @@ $(PACKAGES): base/gcc base/glibc
 base/gcc: base/glibc
 PACKAGES += base/gcc base/glibc
 
+ifeq ($(WITH_FS),YES)
+$(PACKAGES): etc/filesystem etc/config etc/pam
+etc/config: etc/filesystem
+etc/pam: etc/filesystem
+override PACKAGES := etc/filesystem etc/config etc/pam $(PACKAGES)
+endif
+
