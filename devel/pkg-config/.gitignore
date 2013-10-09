@@ -3,4 +3,4 @@ configure
 pkg-config-*
 prepare
 Version
-Depends
+
