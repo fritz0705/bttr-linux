@@ -2,6 +2,9 @@
 # 
 # Usage: make -f Makefile.bootstrap
 
+# realpkg macro
+realpkg = $(subst $(realpath .)/,,$(realpath $(1)))
+
 # Include configuration if present
 ifdef CONFIG
 include $(CONFIG)
@@ -76,6 +79,17 @@ help:
 	@echo "          for abc/def/ghj: $(call sfmtpkg,$(MAKE_LOG),abc/def/ghj)"
 
 .PHONY: $(PACKAGES)
+
+# Build dependency tree
+
+define package_dep_template
+# $$(shell $(MAKE) -C $(1) Depends >/dev/null 2>&1)
+ifneq ($(realpath $(1)/Depends),)
+$(1): $$(shell cat $(1)/Depends 2>/dev/null)
+endif
+endef
+
+$(foreach pkg,$(PACKAGES),$(eval $(call package_dep_template,$(pkg))))
 
 # FIXME Rewrite this target
 $(PACKAGES): _prebuild
