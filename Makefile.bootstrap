@@ -35,12 +35,12 @@ override PACKAGES := etc/filesystem etc/config etc/pam $(PACKAGES)
 endif
 
 .PHONY: bootstrap clean help fetch list
-bootstrap: $(if $(KEEP_ORDER), | $(PACKAGES), $(PACKAGES))
+bootstrap: $(PACKAGES)
 	@echo ">> bootstrapping done"
 
 clean: PCTARGETS="distclean"
 clean: override ACTION="cleaning"
-clean: | $(PACKAGES)
+clean: $(PACKAGES)
 	@echo ">> cleaning done"
 
 fetch: PCTARGETS="fetch"
