@@ -66,6 +66,7 @@ PACKAGES += base/util-linux
 PACKAGES += base/wget
 PACKAGES += base/xz
 PACKAGES += base/zlib
+PACKAGES += base/isl
 
 # Linux kernel
 PACKAGES += kernel/linux

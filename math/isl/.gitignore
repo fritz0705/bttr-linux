@@ -1,0 +1,6 @@
+isl-*.tar.bz2
+isl-*/
+
+prepare
+configure
+build/
