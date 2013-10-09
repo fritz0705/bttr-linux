@@ -38,5 +38,5 @@ isl-$(VERSION)/: isl-$(VERSION).tar.bz2
 	tar xaf $<
 
 isl-$(VERSION).tar.bz2:
-	$(FETCH) ftp://ftp.linux.student.kuleuven.be/pub/people/skimo/isl/isl-$(VERSION).tar.bz2
+	$(FETCH) http://isl.gforge.inria.fr/isl-$(VERSION).tar.gz > $@
 
