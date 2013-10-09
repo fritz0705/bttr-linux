@@ -39,3 +39,8 @@ libtirpc-$(VERSION).tar.bz2:
 libtirpc-$(VERSION)/: libtirpc-$(VERSION).tar.bz2
 	tar xjf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

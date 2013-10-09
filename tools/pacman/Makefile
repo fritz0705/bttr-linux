@@ -58,3 +58,8 @@ clean:
 distclean: clean
 	$(RM) pacman-$(VERSION).tar.gz
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

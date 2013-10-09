@@ -82,3 +82,8 @@ linux-$(VERSION).tar.bz2:
 linux-$(VERSION)/: linux-$(VERSION).tar.bz2
 	tar xjf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

@@ -2,3 +2,5 @@ build/
 configure
 make-*
 prepare
+Version
+Depends

@@ -39,3 +39,8 @@ texinfo-$(VERSION).tar.gz:
 texinfo-$(VERSION)/: texinfo-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

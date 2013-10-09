@@ -2,3 +2,5 @@ build/
 configure
 gzip-*
 prepare
+Version
+Depends

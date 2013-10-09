@@ -47,3 +47,8 @@ coreutils-$(VERSION).tar.xz:
 coreutils-$(VERSION)/: coreutils-$(VERSION).tar.xz
 	tar xJf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

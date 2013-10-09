@@ -37,3 +37,8 @@ mpc-$(VERSION).tar.gz:
 
 mpc-$(VERSION)/: mpc-$(VERSION).tar.gz
 	tar xzf $<
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

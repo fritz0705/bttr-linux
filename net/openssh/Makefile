@@ -59,3 +59,8 @@ openssh-$(VERSION)/: openssh-$(VERSION).tar.gz
 openssh-$(VERSION).tar.gz:
 	$(FETCH) ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-$(VERSION).tar.gz > $@
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

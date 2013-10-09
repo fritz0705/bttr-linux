@@ -41,3 +41,8 @@ diffutils-$(VERSION).tar.xz:
 diffutils-$(VERSION)/: diffutils-$(VERSION).tar.xz
 	tar xJf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

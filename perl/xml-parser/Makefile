@@ -36,3 +36,8 @@ XML-Parser-$(VERSION).tar.gz:
 XML-Parser-$(VERSION)/: XML-Parser-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

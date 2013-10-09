@@ -55,3 +55,8 @@ ppl-$(VERSION)/: ppl-$(VERSION).tar.gz
 	tar xzf $<
 endif
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

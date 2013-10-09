@@ -47,3 +47,8 @@ fontconfig-$(VERSION).tar.bz2:
 fontconfig-$(VERSION)/: fontconfig-$(VERSION).tar.bz2
 	tar xjf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

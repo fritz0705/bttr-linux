@@ -42,3 +42,8 @@ ncurses-$(VERSION).tar.gz:
 ncurses-$(VERSION)/: ncurses-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

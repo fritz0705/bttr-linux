@@ -2,3 +2,5 @@ build/
 configure
 dbus-*
 prepare
+Version
+Depends

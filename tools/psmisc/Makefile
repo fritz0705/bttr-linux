@@ -38,3 +38,8 @@ psmisc-$(VERSION).tar.gz:
 psmisc-$(VERSION)/: psmisc-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

@@ -38,3 +38,8 @@ libarchive-$(VERSION).tar.gz:
 libarchive-$(VERSION)/: libarchive-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

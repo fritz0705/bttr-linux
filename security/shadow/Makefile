@@ -53,3 +53,8 @@ shadow-$(VERSION).tar.gz:
 shadow-$(VERSION)/: shadow-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

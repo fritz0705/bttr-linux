@@ -32,3 +32,8 @@ syslinux-$(VERSION).tar.xz:
 syslinux-$(VERSION)/: syslinux-$(VERSION).tar.xz
 	tar xJf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

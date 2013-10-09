@@ -38,3 +38,8 @@ libssh2-$(VERSION).tar.gz:
 libssh2-$(VERSION)/: libssh2-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

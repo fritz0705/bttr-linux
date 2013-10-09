@@ -37,3 +37,8 @@ nasm-$(VERSION)/: nasm-$(VERSION).tar.xz
 nasm-$(VERSION).tar.xz:
 	$(FETCH) http://www.nasm.us/pub/nasm/releasebuilds/$(VERSION)/nasm-$(VERSION).tar.xz > $@
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

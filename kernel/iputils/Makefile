@@ -32,3 +32,8 @@ iputils-$(VERSION).tar.bz2:
 iputils-$(VERSION)/: iputils-$(VERSION).tar.bz2
 	tar xjf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

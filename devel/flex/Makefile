@@ -37,3 +37,8 @@ flex-$(VERSION).tar.gz:
 
 flex-$(VERSION)/: flex-$(VERSION).tar.gz
 	tar xzf $<
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

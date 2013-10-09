@@ -38,3 +38,8 @@ cloog-$(VERSION).tar.gz:
 cloog-$(VERSION)/: cloog-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

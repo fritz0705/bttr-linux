@@ -31,3 +31,8 @@ ex-$(VERSION).tar.bz2:
 ex-$(VERSION)/: ex-$(VERSION).tar.bz2
 	tar xjf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

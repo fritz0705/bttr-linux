@@ -37,3 +37,8 @@ libgpg-error-$(VERSION).tar.bz2:
 
 libgpg-error-$(VERSION)/: libgpg-error-$(VERSION).tar.bz2
 	tar xjf $<
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

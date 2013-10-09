@@ -2,3 +2,5 @@ build/
 configure
 prepare
 zlib-*
+Version
+Depends

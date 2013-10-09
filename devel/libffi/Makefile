@@ -38,3 +38,8 @@ libffi-$(VERSION).tar.gz:
 libffi-$(VERSION)/: libffi-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

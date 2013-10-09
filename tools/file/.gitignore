@@ -2,3 +2,5 @@ build/
 configure
 file-*
 prepare
+Version
+Depends

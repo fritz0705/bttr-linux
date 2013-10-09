@@ -59,3 +59,8 @@ binutils-$(VERSION).tar.gz:
 binutils-$(VERSION)/: binutils-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

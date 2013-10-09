@@ -46,3 +46,8 @@ groff-$(VERSION).tar.gz:
 groff-$(VERSION)/: groff-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

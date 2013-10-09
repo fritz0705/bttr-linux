@@ -73,3 +73,8 @@ gatling-$(VERSION).tar.bz2:
 gatling-$(VERSION)/: gatling-$(VERSION).tar.bz2
 	tar xjf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

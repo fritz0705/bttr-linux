@@ -40,3 +40,8 @@ pcre-$(VERSION).tar.gz:
 pcre-$(VERSION)/: pcre-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

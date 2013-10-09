@@ -40,3 +40,8 @@ mpfr-$(VERSION).tar.gz:
 mpfr-$(VERSION)/: mpfr-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

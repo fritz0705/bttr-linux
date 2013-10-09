@@ -3,3 +3,5 @@ kmod-*/
 prepare
 configure
 build/
+Version
+Depends

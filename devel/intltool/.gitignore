@@ -2,3 +2,5 @@ build/
 configure
 intltool-*
 prepare
+Version
+Depends

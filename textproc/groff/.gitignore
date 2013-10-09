@@ -2,3 +2,5 @@ build/
 configure
 groff-*
 prepare
+Version
+Depends

@@ -35,3 +35,8 @@ dhcpcd-$(VERSION).tar.bz2:
 dhcpcd-$(VERSION)/: dhcpcd-$(VERSION).tar.bz2
 	tar xjf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

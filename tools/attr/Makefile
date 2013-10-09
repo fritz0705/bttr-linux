@@ -35,3 +35,8 @@ attr-$(VERSION)/: attr-$(VERSION).src.tar.gz
 attr-$(VERSION).src.tar.gz:
 	$(FETCH) http://download.savannah.gnu.org/releases/attr/attr-$(VERSION).src.tar.gz > $@
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

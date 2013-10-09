@@ -3,3 +3,5 @@ configure
 prepare
 tzdata*/
 tzdata*.tar
+Version
+Depends

@@ -41,3 +41,8 @@ tzdata$(VERSION)/: tzdata$(VERSION).tar
 	mkdir $@
 	cd $@ && tar xf ../$<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

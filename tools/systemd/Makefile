@@ -41,3 +41,8 @@ systemd-$(VERSION)/: systemd-$(VERSION).tar.xz
 systemd-$(VERSION).tar.xz:
 	$(FETCH) http://www.freedesktop.org/software/systemd/systemd-$(VERSION).tar.xz > $@
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

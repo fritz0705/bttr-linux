@@ -40,3 +40,8 @@ kmod-$(VERSION)/: kmod-$(VERSION).tar.xz
 kmod-$(VERSION).tar.xz:
 	$(FETCH) https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-$(VERSION).tar.xz > $@
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

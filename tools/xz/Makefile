@@ -38,3 +38,8 @@ xz-$(VERSION).tar.gz:
 xz-$(VERSION)/: xz-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

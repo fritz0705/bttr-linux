@@ -38,3 +38,8 @@ readline-$(VERSION).tar.gz:
 readline-$(VERSION)/: readline-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

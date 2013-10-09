@@ -2,3 +2,5 @@ build/
 configure
 grep-*
 prepare
+Version
+Depends

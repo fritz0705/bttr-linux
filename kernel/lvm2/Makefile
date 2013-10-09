@@ -46,3 +46,8 @@ LVM$(VERSION).tgz:
 LVM$(VERSION)/: LVM$(VERSION).tgz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

@@ -40,3 +40,8 @@ libedit-$(VERSION)/: libedit-$(VERSION).tar.gz
 libedit-$(VERSION).tar.gz:
 	$(FETCH) http://www.thrysoee.dk/editline/libedit-$(VERSION).tar.gz > $@
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

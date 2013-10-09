@@ -2,3 +2,5 @@ build/
 configure
 git-*
 prepare
+Version
+Depends

@@ -3,3 +3,5 @@ configure
 build/
 Python-*/
 Python-*.tgz
+Version
+Depends

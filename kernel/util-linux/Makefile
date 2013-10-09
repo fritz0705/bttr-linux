@@ -58,3 +58,8 @@ util-linux-$(VERSION).tar.gz:
 util-linux-$(VERSION)/: util-linux-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

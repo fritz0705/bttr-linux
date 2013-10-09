@@ -38,3 +38,8 @@ findutils-$(VERSION).tar.gz:
 findutils-$(VERSION)/: findutils-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

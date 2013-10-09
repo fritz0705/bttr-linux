@@ -116,3 +116,8 @@ gcc-$(VERSION).tar.gz:
 gcc-$(VERSION)/: gcc-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

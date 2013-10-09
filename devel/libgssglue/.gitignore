@@ -2,3 +2,5 @@ build/
 configure
 libgssglue-*
 prepare
+Version
+Depends

@@ -41,3 +41,8 @@ m4-$(VERSION).tar.gz:
 m4-$(VERSION)/: m4-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

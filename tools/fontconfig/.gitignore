@@ -2,3 +2,5 @@ build/
 configure
 fontconfig-*
 prepare
+Version
+Depends

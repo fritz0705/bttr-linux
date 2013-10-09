@@ -42,3 +42,8 @@ glib-$(VERSION).tar.xz:
 glib-$(VERSION)/: glib-$(VERSION).tar.xz
 	tar xJf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

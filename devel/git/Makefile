@@ -31,3 +31,8 @@ git-$(VERSION).tar.gz:
 git-$(VERSION)/: git-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

@@ -2,3 +2,5 @@ prepare
 configure
 build/
 acl-*
+Version
+Depends

@@ -41,3 +41,8 @@ sudo-$(VERSION).tar.gz:
 sudo-$(VERSION)/: sudo-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

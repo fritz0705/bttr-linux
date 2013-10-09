@@ -39,3 +39,8 @@ zlib-$(VERSION).tar.gz:
 zlib-$(VERSION)/: zlib-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

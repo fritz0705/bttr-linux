@@ -53,3 +53,8 @@ gettext-$(VERSION).tar.gz:
 gettext-$(VERSION)/: gettext-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

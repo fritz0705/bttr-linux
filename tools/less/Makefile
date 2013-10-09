@@ -38,3 +38,8 @@ less-$(VERSION).tar.gz:
 less-$(VERSION)/: less-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

@@ -40,3 +40,8 @@ perl-$(VERSION).tar.gz:
 perl-$(VERSION)/: perl-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

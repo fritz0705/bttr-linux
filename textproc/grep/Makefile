@@ -43,3 +43,8 @@ grep-$(VERSION).tar.xz:
 grep-$(VERSION)/: grep-$(VERSION).tar.xz
 	tar xJf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

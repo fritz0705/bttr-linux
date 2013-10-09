@@ -3,3 +3,5 @@ configure
 build/
 userspace-rcu-*/
 userspace-rcu-*.tar.bz2
+Version
+Depends

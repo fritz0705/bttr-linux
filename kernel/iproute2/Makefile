@@ -64,3 +64,8 @@ iproute2-$(VERSION)/: iproute2-$(VERSION).tar.gz
 	tar xzf $<
 endif
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

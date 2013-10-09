@@ -3,3 +3,5 @@ configure
 prepare
 patch
 wget-*
+Version
+Depends

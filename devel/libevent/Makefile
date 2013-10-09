@@ -38,3 +38,8 @@ libevent-$(VERSION).tar.gz:
 libevent-$(VERSION)/: libevent-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

@@ -55,3 +55,8 @@ zsh-$(VERSION).tar.bz2:
 zsh-$(VERSION)/: zsh-$(VERSION).tar.bz2
 	tar xjf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

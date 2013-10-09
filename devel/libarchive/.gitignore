@@ -3,3 +3,5 @@ configure
 build
 libarchive-*.tar.gz
 libarchive-*/
+Version
+Depends

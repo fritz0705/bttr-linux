@@ -2,3 +2,5 @@ build/
 configure
 coreutils-*
 prepare
+Version
+Depends

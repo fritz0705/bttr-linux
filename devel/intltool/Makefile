@@ -38,3 +38,8 @@ intltool-$(VERSION).tar.gz:
 intltool-$(VERSION)/: intltool-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

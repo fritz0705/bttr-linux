@@ -53,3 +53,8 @@ glibc-$(VERSION).tar.gz:
 glibc-$(VERSION)/: glibc-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

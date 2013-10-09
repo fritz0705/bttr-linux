@@ -2,3 +2,5 @@ automake-*
 build/
 configure
 prepare
+Version
+Depends

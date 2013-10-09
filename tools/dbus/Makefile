@@ -38,3 +38,8 @@ dbus-$(VERSION).tar.gz:
 dbus-$(VERSION)/: dbus-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

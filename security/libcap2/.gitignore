@@ -3,3 +3,5 @@ configure
 libcap-*
 libcap2_*
 prepare
+Version
+Depends

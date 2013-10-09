@@ -44,3 +44,8 @@ openssl-$(VERSION).tar.gz:
 openssl-$(VERSION)/: openssl-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

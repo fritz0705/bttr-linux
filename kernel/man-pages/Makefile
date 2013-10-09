@@ -29,3 +29,8 @@ man-pages-$(VERSION).tar.gz:
 man-pages-$(VERSION)/: man-pages-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

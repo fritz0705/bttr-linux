@@ -39,3 +39,8 @@ libcap2_$(VERSION).orig.tar.gz:
 libcap-$(VERSION)/: libcap2_$(VERSION).orig.tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

@@ -2,3 +2,5 @@ build/
 configure
 prepare
 texinfo-*
+Version
+Depends

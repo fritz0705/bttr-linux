@@ -38,3 +38,8 @@ freetype-$(VERSION).tar.bz2:
 freetype-$(VERSION)/: freetype-$(VERSION).tar.bz2
 	tar xjf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

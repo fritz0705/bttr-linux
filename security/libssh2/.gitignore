@@ -2,3 +2,5 @@ build/
 configure
 libssh2-*
 prepare
+Version
+Depends

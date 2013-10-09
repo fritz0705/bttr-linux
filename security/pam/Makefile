@@ -47,3 +47,8 @@ Linux-PAM-$(VERSION).tar.gz:
 Linux-PAM-$(VERSION)/: Linux-PAM-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

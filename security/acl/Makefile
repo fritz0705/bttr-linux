@@ -35,3 +35,8 @@ acl-$(VERSION)/: acl-$(VERSION).src.tar.gz
 acl-$(VERSION).src.tar.gz:
 	$(FETCH) http://download.savannah.gnu.org/releases/acl/acl-$(VERSION).src.tar.gz > $@
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

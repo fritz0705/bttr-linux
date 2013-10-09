@@ -22,3 +22,8 @@ install:
 		src/system-services \
 		src/other
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

@@ -19,3 +19,8 @@ include install-$(ARCH).mk
 install-$(ARCH).mk:
 	$(error Unknown architecture $(ARCH))
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

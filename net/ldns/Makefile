@@ -40,3 +40,8 @@ ldns-$(VERSION)/: ldns-$(VERSION).tar.gz
 ldns-$(VERSION).tar.gz:
 	$(FETCH) http://www.nlnetlabs.nl/downloads/ldns/ldns-$(VERSION).tar.gz > $@
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

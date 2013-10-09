@@ -38,3 +38,8 @@ bison-$(VERSION).tar.gz:
 bison-$(VERSION)/: bison-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

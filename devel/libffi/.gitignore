@@ -2,3 +2,5 @@ build/
 configure
 libffi-*
 prepare
+Version
+Depends

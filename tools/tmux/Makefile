@@ -38,3 +38,8 @@ tmux-$(VERSION).tar.gz:
 tmux-$(VERSION)/: tmux-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

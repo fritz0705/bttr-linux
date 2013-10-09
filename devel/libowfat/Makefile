@@ -49,3 +49,8 @@ libowfat-$(VERSION).tar.bz2:
 libowfat-$(VERSION)/: libowfat-$(VERSION).tar.bz2
 	tar xjf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

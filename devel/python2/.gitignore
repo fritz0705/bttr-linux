@@ -2,3 +2,5 @@ build/
 configure
 prepare
 Python-*
+Version
+Depends

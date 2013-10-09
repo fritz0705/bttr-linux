@@ -37,3 +37,8 @@ libidn-$(VERSION).tar.gz:
 
 libidn-$(VERSION)/: libidn-$(VERSION).tar.gz
 	tar xzf $<
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

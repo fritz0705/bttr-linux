@@ -35,3 +35,8 @@ install:
 	install -m600 src/shadow $(DESTDIR)/etc
 	install -m600 src/crypttab $(DESTDIR)/etc
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

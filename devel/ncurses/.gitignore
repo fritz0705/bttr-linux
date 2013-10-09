@@ -2,3 +2,5 @@ build/
 configure
 ncurses-*
 prepare
+Version
+Depends

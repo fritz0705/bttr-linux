@@ -39,3 +39,8 @@ cracklib-$(VERSION).tar.gz:
 cracklib-$(VERSION)/: cracklib-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

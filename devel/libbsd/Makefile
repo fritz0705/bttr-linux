@@ -38,3 +38,8 @@ libbsd-$(VERSION).tar.xz:
 libbsd-$(VERSION)/: libbsd-$(VERSION).tar.xz
 	tar xJf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

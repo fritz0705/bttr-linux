@@ -50,3 +50,8 @@ bird-$(VERSION).tar.gz:
 bird-$(VERSION)/: bird-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

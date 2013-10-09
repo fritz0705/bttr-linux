@@ -56,3 +56,8 @@ wget-$(VERSION).tar.gz:
 wget-$(VERSION)/: wget-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

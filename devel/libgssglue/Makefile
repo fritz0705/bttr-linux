@@ -38,3 +38,8 @@ libgssglue-$(VERSION).tar.gz:
 libgssglue-$(VERSION)/: libgssglue-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

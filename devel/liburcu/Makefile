@@ -38,3 +38,8 @@ userspace-rcu-$(VERSION)/: userspace-rcu-$(VERSION).tar.bz2
 userspace-rcu-$(VERSION).tar.bz2:
 	$(FETCH) http://lttng.org/files/urcu/userspace-rcu-$(VERSION).tar.bz2 > $@
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

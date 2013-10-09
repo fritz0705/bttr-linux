@@ -3,3 +3,5 @@ configure
 prepare
 tar-*
 patch
+Version
+Depends

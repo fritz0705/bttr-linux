@@ -6,7 +6,7 @@ SYSTEMD_PREFIX?=/usr
 PREFIX?=/usr
 BINDIR?=$(PREFIX)/bin
 DESTDIR?=
-VERSION?=VERSION
+VERSION?=1
 
 SSHD_PATH?=$(BINDIR)/sshd
 
@@ -35,4 +35,9 @@ clean:
 	$(RM) sshd.service
 
 distclean: clean
+
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
 

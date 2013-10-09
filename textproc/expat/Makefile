@@ -38,3 +38,8 @@ expat-$(VERSION).tar.gz:
 expat-$(VERSION)/: expat-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

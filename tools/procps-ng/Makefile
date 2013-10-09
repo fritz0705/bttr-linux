@@ -44,3 +44,8 @@ procps-ng-$(VERSION).tar.xz:
 procps-ng-$(VERSION)/: procps-ng-$(VERSION).tar.xz
 	tar xJf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

@@ -45,3 +45,8 @@ bash-$(VERSION).tar.gz:
 bash-$(VERSION)/: bash-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

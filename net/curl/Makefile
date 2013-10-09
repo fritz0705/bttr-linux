@@ -46,3 +46,8 @@ curl-$(VERSION).tar.gz:
 curl-$(VERSION)/: curl-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

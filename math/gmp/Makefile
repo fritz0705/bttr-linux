@@ -39,3 +39,8 @@ gmp-$(VERSION).tar.bz2:
 gmp-$(VERSION)/: gmp-$(VERSION).tar.bz2
 	tar xjf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

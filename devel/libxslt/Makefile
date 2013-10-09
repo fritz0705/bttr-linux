@@ -38,3 +38,8 @@ libxslt-$(VERSION).tar.gz:
 libxslt-$(VERSION)/: libxslt-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

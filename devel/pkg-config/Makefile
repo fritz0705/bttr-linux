@@ -45,3 +45,8 @@ pkg-config-$(VERSION).tar.gz:
 pkg-config-$(VERSION)/: pkg-config-$(VERSION).tar.gz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

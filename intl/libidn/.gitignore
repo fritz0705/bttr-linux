@@ -2,3 +2,5 @@ build/
 configure
 libidn-*
 prepare
+Version
+Depends

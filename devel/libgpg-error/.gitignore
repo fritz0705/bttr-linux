@@ -2,3 +2,5 @@ build/
 configure
 libgpg-error-*
 prepare
+Version
+Depends

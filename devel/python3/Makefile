@@ -38,3 +38,8 @@ Python-$(VERSION).tgz:
 Python-$(VERSION)/: Python-$(VERSION).tgz
 	tar xzf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

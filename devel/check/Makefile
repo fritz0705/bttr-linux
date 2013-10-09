@@ -41,3 +41,8 @@ check-$(VERSION).tar.gz:
 	$(FETCH) http://downloads.sourceforge.net/sourceforge/check/check-$(VERSION).tar.gz > $@
 
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

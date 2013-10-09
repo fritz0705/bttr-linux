@@ -55,3 +55,8 @@ vim-$(VERSION)/: vim-$(VERSION).tar.bz2
 vim-$(VERSION).tar.bz2:
 	$(FETCH) ftp://ftp.vim.org/pub/vim/unix/vim-$(VERSION).tar.bz2 > $@
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

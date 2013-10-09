@@ -39,3 +39,8 @@ libgcrypt-$(VERSION).tar.bz2:
 libgcrypt-$(VERSION)/: libgcrypt-$(VERSION).tar.bz2
 	tar xjf $<
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+

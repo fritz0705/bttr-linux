@@ -54,3 +54,8 @@ clean:
 distclean: clean
 	$(RM) musl-$(VERSION).tar.gz
 
+
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+
