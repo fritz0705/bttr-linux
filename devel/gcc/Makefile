@@ -46,6 +46,7 @@ else ifeq ($(LIBC),newlib)
 override __configure_flags += --with-newlib
 else ifeq ($(LIBC),avrlibc)
 override __configure_flags += --with-avrlibc
+else ifeq ($(LIBC),musl)
 else
 $(error libc $(LIBC) is not supported)
 endif
