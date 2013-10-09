@@ -1,0 +1,4 @@
+tools/coreutils
+devel/gdbm
+devel/db
+shells/bash

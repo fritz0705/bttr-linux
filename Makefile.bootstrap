@@ -84,7 +84,7 @@ help:
 
 define package_dep_template
 ifneq ($(realpath $(1)/Depends),)
-_deps := $$(shell cat $(1)/Depends 2>/dev/null)
+_deps := $$(shell cat $(1)/Depends 2>/dev/null | tr -s '[:space:]' ' ')
 _deps := $$(foreach dep,$$(_deps),$$(call realpkg,$$(dep)))
 $(1): $$(_deps)
 endif

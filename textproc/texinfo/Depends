@@ -1,0 +1,5 @@
+perl/perl
+tools/findutils
+shells/bash
+tools/gzip
+devel/ncurses
