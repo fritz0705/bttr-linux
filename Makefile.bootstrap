@@ -83,9 +83,15 @@ help:
 # Build dependency tree
 
 define package_dep_template
-# $$(shell $(MAKE) -C $(1) Depends >/dev/null 2>&1)
 ifneq ($(realpath $(1)/Depends),)
-$(1): $$(shell cat $(1)/Depends 2>/dev/null)
+_deps := $$(shell cat $(1)/Depends 2>/dev/null)
+_deps := $$(foreach dep,$$(_deps),$$(call realpkg,$$(dep)))
+$(1): $$(_deps)
+endif
+_realpkg = $(call realpkg,$(1))
+ifneq ($$(_realpkg),$(1))
+.PHONY: $$(_realpkg)
+$$(_realpkg): $(1)
 endif
 endef
 
