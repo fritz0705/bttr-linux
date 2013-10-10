@@ -40,3 +40,7 @@ isl-$(VERSION)/: isl-$(VERSION).tar.bz2
 isl-$(VERSION).tar.bz2:
 	$(FETCH) http://isl.gforge.inria.fr/isl-$(VERSION).tar.gz > $@
 
+.PHONY: Version
+Version:
+	@echo $(VERSION) > $@
+
