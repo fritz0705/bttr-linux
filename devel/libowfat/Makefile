@@ -41,7 +41,7 @@ clean:
 	$(RM) -r libowfat-$(VERSION)/
 
 distclean: clean
-	$(RM) libowfat-$(VERSION).tar.gz
+	$(RM) libowfat-$(VERSION).tar.bz2
 
 libowfat-$(VERSION).tar.bz2:
 	$(FETCH) http://dl.fefe.de/libowfat-$(VERSION).tar.bz2 > $@

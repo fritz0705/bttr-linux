@@ -30,7 +30,7 @@ clean:
 	$(RM) -r userspace-rcu-$(VERSION)/
 
 distclean: clean
-	$(RM) userspace-rcu-$(VERSION)/
+	$(RM) userspace-rcu-$(VERSION).tar.bz2
 
 userspace-rcu-$(VERSION)/: userspace-rcu-$(VERSION).tar.bz2
 	tar xjf $<

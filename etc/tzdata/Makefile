@@ -32,7 +32,7 @@ clean:
 	$(RM) -r tzdata$(VERSION)/
 
 distclean: clean
-	$(RM) tzdata$(VERSION).tar.gz
+	$(RM) tzdata$(VERSION).tar
 
 tzdata$(VERSION).tar:
 	$(FETCH) http://www.iana.org/time-zones/repository/releases/tzdata$(VERSION).tar.gz > $@

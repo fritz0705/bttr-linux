@@ -33,7 +33,7 @@ clean:
 	$(RM) -r systemd-$(VERSION)/
 
 distclean: clean
-	$(RM) systemd-$(VERSION).tar.gz
+	$(RM) systemd-$(VERSION).tar.xz
 
 systemd-$(VERSION)/: systemd-$(VERSION).tar.xz
 	tar xJf $<
