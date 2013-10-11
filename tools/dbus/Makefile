@@ -1,21 +1,34 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX?=/usr
+ifeq ($(PREFIX),/usr)
+SYSCONFDIR?=/etc
+else
+SYSCONFDIR?=$(PREFIX)/etc
+endif
+ifeq ($(PREFIX),/usr)
+LOCALSTATEDIR?=/var
+else
+LOCALSTATEDIR?=$(PREFIX)/var
+endif
 DESTDIR?=
 VERSION?=1.6.8
 FETCH?=curl -L --retry 3
 
 all: build
 
+override __CONFIGURE_FLAGS := --prefix=$(PREFIX) --sysconfdir=$(SYSCONFDIR) \
+	--localstatedir=$(LOCALSTATEDIR) $(CONFIGURE_FLAGS)
+
 fetch: dbus-$(VERSION).tar.gz
-unpack: dbus-$(VERSION)/
+unpack: | dbus-$(VERSION)/
 patch: unpack
-prepare: dbus-$(VERSION)/
+prepare: | dbus-$(VERSION)/
 	mkdir build/
 	@touch $@
 
 configure: prepare
-	cd build && ../dbus-$(VERSION)/configure --prefix=$(PREFIX)
+	cd build && ../dbus-$(VERSION)/configure $(__CONFIGURE_FLAGS)
 	@touch $@
 
 build: configure
