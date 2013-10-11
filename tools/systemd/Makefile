@@ -1,12 +1,23 @@
 .PHONY: all fetch unpack patch build install clean distclean
 
 PREFIX?=/usr
+ifeq ($(PREFIX),/usr)
+SYSCONFDIR?=/etc
+else
+SYSCONFDIR?=$(PREFIX)/etc
+endif
+ifeq ($(PREFIX),/usr)
+LOCALSTATEDIR?=/var
+else
+LOCALSTATEDIR?=$(PREFIX)/var
+endif
 DESTDIR?=
 VERSION?=208
 FETCH?=curl -L --retry 3
 
-override CONFIGURE_FLAGS := --prefix=$(PREFIX) --disable-python-devel \
-	--without-python $(CONFIGURE_FLAGS)
+override __CONFIGURE_FLAGS := --prefix=$(PREFIX) --sysconfdir=$(SYSCONFDIR) \
+	--localstatedir=$(LOCALSTATEDIR) --disable-python-devel --without-python \
+	$(CONFIGURE_FLAGS)
 
 all: build
 
@@ -18,7 +29,7 @@ prepare: | systemd-$(VERSION)/
 	@touch $@
 
 configure: prepare
-	cd build && ../systemd-$(VERSION)/configure $(CONFIGURE_FLAGS)
+	cd build && ../systemd-$(VERSION)/configure $(__CONFIGURE_FLAGS)
 	@touch $@
 
 build: configure
