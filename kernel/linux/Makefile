@@ -87,3 +87,27 @@ linux-$(VERSION)/: linux-$(VERSION).tar.bz2
 Version:
 	@echo $(VERSION) > $@
 
+.PHONY: help
+help:
+	@echo "kernel/linux port help"
+	@echo 
+	@echo "The kernel/linux port contains a complete build system for the Linux"
+	@echo "kernel."
+	@echo
+	@echo "Targets"
+	@echo "======="
+	@echo
+	@echo "build             Build kernel from source"
+	@echo "install-headers   Install kernel headers"
+	@echo "install           Install kernel binary, headers, firmware and modules"
+	@echo
+	@echo "Variables"
+	@echo "========="
+	@echo
+	@echo "KCONFIG           Source of kernel config. Possible values are"
+	@echo "                  defconfig for default configuration, procfs for"
+	@echo "                  current kernel configuration, interactive for"
+	@echo "                  interactive kernel configuration or file for loading"
+	@echo "                  configuration from file."
+	@echo "KCONFIG_FILE      Source file for kernel configuration"
+
