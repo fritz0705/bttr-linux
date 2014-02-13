@@ -1,5 +1,9 @@
+# Build description for GCC (GNU Compiler Collection)
+
 .PHONY: all fetch unpack patch build install clean distclean
 
+# By default you want an installation in /usr, otherwise this will break
+# your system.
 PREFIX?=/usr
 DESTDIR?=
 LANGUAGES?=c
