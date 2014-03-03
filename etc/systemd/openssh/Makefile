@@ -25,11 +25,11 @@ sshd.service: sshd.service.m4
 sshd@.service: sshd@.service.m4
 	m4 -D__SSHD_PATH__=$(SSHD_PATH) $< > $@
 
-build: sshd.service
+build: sshd.service sshd@.service
 
 install: build
 	install -dm755 $(UNIT_PATH)
-	install -m644 sshd.service $(UNIT_PATH)/
+	install -m644 sshd@.service sshd.socket sshd.service $(UNIT_PATH)/
 
 clean:
 	$(RM) sshd.service
